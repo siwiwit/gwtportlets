@@ -1,0 +1,117 @@
+<LayoutPanel styleName="" limitMaximize="false">
+  <widgets>
+    <LayoutPanel styleName="" limitMaximize="false">
+      <widgets>
+        <LayoutPanel styleName="" limitMaximize="false">
+          <widgets>
+            <TitlePanel styleName="portlet-title" title="GWT Portlets Demo" titleAuto="false" refresh="false" configure="false" edit="true" maximize="true" limitMaximize="true">
+              <widgets>
+                <WebAppContentPortlet styleName="gwt-HTML" path="about.html"/>
+              </widgets>
+              <constraints>
+                <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="auto"/>
+              </constraints>
+              <layout class="RowLayout" column="false" spacing="4"/>
+            </TitlePanel>
+            <LayoutPanel styleName="" limitMaximize="false">
+              <widgets>
+                <TitlePanel styleName="portlet-title" title="Free Memory (JSP)" titleAuto="false" refresh="true" configure="false" edit="true" maximize="true" limitMaximize="true">
+                  <widgets>
+                    <WebAppContentPortlet styleName="gwt-HTML" path="free_memory.jsp"/>
+                  </widgets>
+                  <constraints>
+                    <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="auto"/>
+                  </constraints>
+                  <layout class="RowLayout" column="false" spacing="4"/>
+                </TitlePanel>
+                <TitlePanel styleName="portlet-title" title="Title" titleAuto="true" refresh="true" configure="true" edit="false" maximize="true" limitMaximize="true">
+                  <widgets>
+                    <HelloWorldPortlet styleName=""/>
+                  </widgets>
+                  <constraints>
+                    <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+                  </constraints>
+                  <layout class="RowLayout" column="false" spacing="4"/>
+                </TitlePanel>
+              </widgets>
+              <constraints>
+                <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+                <RowLayout-Constraints size="60.0" weight="0.0" maxSize="0" overflow="hidden"/>
+              </constraints>
+              <layout class="RowLayout" column="true" spacing="8"/>
+            </LayoutPanel>
+            <TitlePanel styleName="portlet-title" title="Title" titleAuto="true" refresh="true" configure="true" edit="false" maximize="true" limitMaximize="true">
+              <widgets>
+                <FreeMemoryPortlet styleName="" chartType="gom"/>
+              </widgets>
+              <constraints>
+                <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+              </constraints>
+              <layout class="RowLayout" column="false" spacing="4"/>
+            </TitlePanel>
+          </widgets>
+          <constraints>
+            <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+            <RowLayout-Constraints size="210.0" weight="0.0" maxSize="0" overflow="hidden"/>
+            <RowLayout-Constraints size="450.0" weight="0.0" maxSize="0" overflow="hidden"/>
+          </constraints>
+          <layout class="RowLayout" column="false" spacing="8"/>
+        </LayoutPanel>
+        <LayoutPanel styleName="" limitMaximize="false">
+          <widgets>
+            <LayoutPanel styleName="" limitMaximize="false">
+              <widgets>
+                <TitlePanel styleName="portlet-title" title="Wikipedia Search (Google Gadget)" titleAuto="false" refresh="true" configure="true" edit="false" maximize="true" limitMaximize="true">
+                  <widgets>
+                    <GoogleGadgetPortlet styleName="" url="http://www.gmodules.com/ig/ifr?url=http://www.labpixies.com/campaigns/wiki/wiki.xml&amp;up_language=en&amp;up_source=wikipedia&amp;up_last_searches=none&amp;synd=open&amp;title=__MSG_title__&amp;lang=all&amp;country=ALL&amp;border=http://www.gmodules.com/ig/images/&amp;output=html"/>
+                  </widgets>
+                  <constraints>
+                    <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+                  </constraints>
+                  <layout class="RowLayout" column="false" spacing="4"/>
+                </TitlePanel>
+                <TitlePanel styleName="portlet-title" title="Widgets" titleAuto="false" refresh="true" configure="false" edit="false" maximize="true" limitMaximize="true">
+                  <widgets>
+                    <WebAppContentPortlet styleName="gwt-HTML" path="widgets.html"/>
+                  </widgets>
+                  <constraints>
+                    <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="auto"/>
+                  </constraints>
+                  <layout class="RowLayout" column="false" spacing="4"/>
+                </TitlePanel>
+              </widgets>
+              <constraints>
+                <RowLayout-Constraints size="180.0" weight="0.0" maxSize="0" overflow="hidden"/>
+                <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+              </constraints>
+              <layout class="RowLayout" column="true" spacing="4"/>
+            </LayoutPanel>
+            <TitlePanel styleName="portlet-title" title="Title" titleAuto="true" refresh="false" configure="false" edit="false" maximize="true" limitMaximize="true">
+              <widgets>
+                <SourceBrowserPortlet styleName="" filename="main.client.ui.HelloWorldPortlet"/>
+              </widgets>
+              <constraints>
+                <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+              </constraints>
+              <layout class="RowLayout" column="false" spacing="4"/>
+            </TitlePanel>
+          </widgets>
+          <constraints>
+            <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+            <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+          </constraints>
+          <layout class="RowLayout" column="false" spacing="8"/>
+        </LayoutPanel>
+      </widgets>
+      <constraints>
+        <RowLayout-Constraints size="270.0" weight="0.0" maxSize="0" overflow="hidden"/>
+        <RowLayout-Constraints size="0.0" weight="2.0" maxSize="0" overflow="hidden"/>
+      </constraints>
+      <layout class="RowLayout" column="true" spacing="8"/>
+    </LayoutPanel>
+  </widgets>
+  <constraints>
+    <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+  </constraints>
+  <layout class="RowLayout" column="true" spacing="4"/>
+</LayoutPanel>

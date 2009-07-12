@@ -1,0 +1,18 @@
+<pre>
+&lt;%@ page contentType="text/html;charset=UTF-8" language="java" %&gt;
+
+&lt;%
+    int freeK = (int)(Runtime.getRuntime().freeMemory() &gt;&gt; 10);
+    int totK = (int)(Runtime.getRuntime().totalMemory() &gt;&gt; 10);
+    int freeP = (int)(freeK * 100.0 / totK + 0.5);
+    String chartUrl = "http://chart.apis.google.com/chart?cht=gom&chd=t:" +
+            freeP + "&chs=200x100";
+
+%&gt;
+
+&lt;p&gt;This is a WebAppContentPortlet displaying HTML provided by a JSP page.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="&lt;%=chartUrl%&gt;" alt="Google Chart" width="200" height="100"&gt;&lt;/p&gt;
+
+&lt;p&gt;Free memory: &lt;%=freeK%&gt; / &lt;%=totK%&gt; KB &lt;/p&gt;
+</pre>

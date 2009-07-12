@@ -1,0 +1,168 @@
+<!--
+  ~ GWT Portlets Framework (http://www.gwtportlets.org/)
+  ~ Copyright 2009 Business Systems Group (Africa)
+  ~
+  ~ This file is part of GWT Portlets.
+  ~
+  ~ GWT Portlets is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Lesser General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ GWT Portlets is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ along with GWT Portlets.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<!--
+
+GWT Portlets is packaged with binaries i.e. there is a gwt-portlets.jar in
+the root of the project.
+
+Running the demos:
+
+Create a file called build.properties in the root of this project by copying
+and customizing build.properties.sample. This indicates the locations of your
+GWT installation and of Tomcat.
+
+Then run "ant" (no args) to copy build.properties and required jar files to
+the demos.
+
+Each demo has its own build.xml.
+
+Build instructions:
+
+Run "ant -p" in the root of this project to see available targets.
+
+-->
+<project name="gwt-portlets" default="copy-files-to-demos" basedir=".">
+
+    <property file="build.properties" />
+    <property name="release" value="0.0"/>
+    <property name="GWT.HOME" value=""/>
+    <property name="classes" value="build/classes"/>
+
+    <!-- jars from lib that are copied to each demo -->
+    <property name="lib.jars" value="**/log4j*.jar,**/xmlpull*.jar,**/xpp3*.jar,**/xstream*.jar"/>
+
+    <path id="cp">
+        <fileset dir="lib-build" includes="*.jar"/>
+        <fileset dir="lib" includes="${lib.jars}"/>
+        <fileset dir="${GWT.HOME}" includes="gwt-user.jar,gwt-servlet.jar,gwt-dev*.jar"/>
+    </path>
+
+    <tstamp/>
+
+    <target name="clean" description="Nuke all generated files">
+        <delete dir="build"/>
+        <delete dir=".gwt-tmp"/>
+        <delete dir="." includes="gwt-portlets.jar"/>
+        <delete dir="demos" includes="**/gwt-portlets.jar,${lib.jars}"/>
+        <ant dir="demos/main" target="clean"/>
+    </target>
+
+    <target name="compile" depends="check-props">
+        <mkdir dir="${classes}"/>
+        <javac srcdir="src" destdir="${classes}" debug="true" source="1.5"
+               target="1.5" classpathref="cp"/>
+        <copy todir="${classes}" verbose="false">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="jar" depends="compile"
+            description="Create gwt-portlets.jar and updates demos">
+        <jar destfile="gwt-portlets.jar">
+            <fileset dir="${classes}"/>
+            <fileset dir="src" includes="**/*.java"/>
+        </jar>
+    </target>
+
+    <target name="copy-files-to-demos" description="Copy jar and other files to demos">
+        <copy todir="demos/main" file="build.properties"/>
+        <copy todir="demos/main/war/WEB-INF/lib">
+            <fileset dir="." includes="gwt-portlets.jar"/>
+            <fileset dir="lib" includes="${lib.jars}"/>
+        </copy>
+    </target>
+
+    <target name="run" description="Run main demo in hosted mode"
+            depends="jar,copy-files-to-demos">
+        <ant dir="demos/main" target="run" inheritAll="false"/>
+    </target>
+
+    <target name="deploy" description="Deploy main demo to Tomcat"
+            depends="jar,copy-files-to-demos">
+        <ant dir="demos/main" target="deploy" inheritAll="false"/>
+    </target>
+
+    <target name="javadoc" description="Generate build/javadoc.zip">
+        <javadoc packagenames="org.gwtportlets.portlet.*"
+                sourcepath="src"
+                destdir="build/javadoc"
+                use="true" classpathref="cp">
+            <header><![CDATA[GWT Portlets Framework ${release}<br><a href="http://www.gwtportlets.org">www.gwtportlets.org</a>]]></header>
+            <bottom><![CDATA[<i>Copyright &#169; 2009 <a href="http://www.bsg.co.za/web/guest/software_solutions">BSG(Africa)</a>
+- Released under <a href="http://www.gwtportlets.org/license">LGPLv3 license</a> - Generated ${TODAY}</i>]]></bottom>
+        </javadoc>
+        <zip destfile="build/javadoc.zip" basedir="build" includes="javadoc/**"/>
+    </target>
+
+    <target name="java2html" description="Generate HTML of src into demos/main"> 
+        <taskdef name="java2html" classname="com.java2html.Java2HTMLTask"
+                 classpathref="cp"/>
+        <property name="html.src.dir" value="demos/main/exploded/src"/>
+        <mkdir dir="${html.src.dir}"/>
+        <java2html destination="${html.src.dir}" header="false" footer="false">
+            <fileset dir="src" includes="**/*.java"/>
+            <fileset dir="demos/main/src" includes="**/*.java"/>
+        </java2html>
+        <replace dir="${html.src.dir}">
+            <replacetoken><![CDATA[</BODY>]]></replacetoken>
+            <replacevalue><![CDATA[<BR>
+                <p style="font-size:12px;color:#666666">
+                // Part of <a href="http://www.gwtportlets.org">GWT Portlets</a> @RELEASE@
+                - Copyright &#169; 2009 <a href="http://www.bsg.co.za/web/guest/software_solutions">BSG(Africa)</a>
+                - Released under <a href="http://www.gwtportlets.org/license">LGPLv3 license</a>
+                </p></BODY>]]></replacevalue>
+            <replacefilter token="@RELEASE@" value="${release}"/>
+        </replace>
+    </target>
+
+    <target name="dist" description="Create the download bundle"
+            depends="clean, jar">
+        <property name="dist" value="gwt-portlets-${release}"/>
+        <mkdir dir="build/${dist}"/>
+        <copy todir="build/${dist}">
+            <fileset dir="."
+                includes="gwt-portlets.jar,etc/**,lib/**,lib-build/**,src/**,demos/**,*.xml,*.txt,*.sample"
+                excludes="**/build.properties"/>
+        </copy>
+        <fixcrlf srcdir="build/${dist}" eol="crlf"
+                 includes="**/*.txt,**/*.java,**/*.properties,**/*.jsp,**/*.html,**/*.css"/>
+        <zip destfile="build/${dist}.zip" basedir="build" includes="${dist}/**"/>
+    </target>
+
+    <target name="check-props">
+        <available property="build.properties.exists" file="build.properties"/>
+        <fail unless="build.properties.exists">
+build.properties does not exist - please copy build.properties.sample
+to build.properties and edit it to match your environment
+        </fail>
+        <fail message="GWT.HOME not set in build.properties">
+            <condition>
+                <equals arg1="${GWT.HOME}" arg2=""/>
+            </condition>
+        </fail>
+        <available property="GWT.HOME.exists" file="${GWT.HOME}"/>
+        <fail unless="GWT.HOME.exists"
+              message="GWT.HOME does not exist: ${GWT.HOME}"/>
+    </target>
+
+</project>

@@ -1,0 +1,492 @@
+BODY {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.portlet-page {
+}
+
+.portlet-page-title {
+    font-size: 18px;
+    line-height: 29px;
+    font-weight: bold;
+    padding-left: 8px;
+    padding-top: 1px;
+    color: #004a8f;
+}
+
+TR.portlet-shadow-north TD,
+TR.portlet-shadow-south TD {
+    background-image: url( "img/portlet-shadow.png" );
+    height: 4px;
+}
+
+TR.portlet-shadow-middle TD {
+    background-image: url( "img/portlet-shadow-sides.png" );
+}
+
+.portlet-menu {
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+.portlet-menu A {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 20px;
+    padding-left: 4px;
+    padding-right: 4px;
+    color: #1f4f8f;
+}
+
+.portlet-menu A:hover {
+    text-decoration: underline;
+    background-color: #dae7f6;
+    color: #1f4f8f;
+}
+
+.portlet-menu-sub {
+    background-color: #f1f3f6;
+    border-top: 1px solid #8ea6c5;
+    border-left: 1px solid #8ea6c5;
+    border-right: 1px solid #8ea6c5;
+}
+
+.portlet-menu-sub A {
+    display: block;
+    font-size: 11px;
+    line-height: 20px;
+    padding-left: 8px;
+    padding-right: 8px;
+    text-decoration: none;
+    border-bottom: 1px solid #cccccc;
+    color: #222222;
+    _width: 100%; /* underscore makes this only show up on IE */
+}
+
+.portlet-menu-sub A:hover {
+    text-decoration: none;
+    background-color: #dae7f6;
+    color: #000000;
+}
+
+.portlet-toolbutton {
+    background-image: url( "img/portlet-toolbuttons-blue.gif" );
+    border: 0;
+    padding: 0;
+    display: inline;
+}
+
+BUTTON.portlet-button {
+    line-height: 20px;
+    font-size: 11px;
+    padding: 0 2px 0 2px;
+    border: 0;
+    margin: 0px 2px 0px 2px;
+    color: #000000;
+    background: transparent url("img/portlet-buttons.gif") repeat-y;
+}
+
+BUTTON.portlet-button-disabled {
+    color: #cac7b8;
+}
+
+.portlet-dialog {
+}
+
+.portlet-dialog-sides-bg {
+    background-repeat: repeat-y;
+}
+
+.portlet-dialog-header-bg-inner {
+    padding-top: 4px;
+}
+
+.portlet-dialog-title {
+    cursor: move;
+}
+
+.portlet-dialog-content {
+    padding-top: 4px;
+}
+
+.portlet-dialog-buttonbar {
+    padding-top: 4px;
+    text-align: right;
+}
+
+.portlet-dialog-buttonbar BUTTON {
+    margin-left: 4px;
+}
+
+.portlet-dialog-content-body {
+    background-color: #f1f3f6;
+    padding: 0;
+}
+
+.portlet-dialog-content-wrapper {
+    padding: 4px;
+}
+
+.portlet-title {
+}
+
+.portlet-title-maximized {
+}
+
+.portlet-title-header {
+}
+
+.portlet-title-text,
+.portlet-dialog-title {
+    color: #1f4f8f;
+    font-family: arial,helvetica,sans-serif;
+    font-size: 12px;
+    line-height: 19px;
+    font-weight: bold;
+    text-align: left;
+    padding-right: 5px;
+    padding-left: 2px;
+    white-space: nowrap;
+}
+
+.portlet-title-body {
+    background-color: #ffffff;
+    border-top: none;
+    padding: 4px;
+}
+
+.portlet-dialog-blocker,
+.portlet-loading-blocker {
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+    background-color: #ffffff;
+}
+
+.portlet-loading_32 {
+    background-image: url("img/portlet-loading-32x32.gif");
+}
+
+.portlet-loading_48 {
+    background-image: url("img/portlet-loading-48x48.gif");
+}
+
+.portlet-loading_64 {
+    background-image: url("img/portlet-loading-64x64.gif");
+}
+
+.portlet-loading_96 {
+    background-image: url("img/portlet-loading-96x96.gif");
+}
+
+.portlet-loading_128 {
+    background-image: url("img/portlet-loading-128x128.gif");
+}
+
+.portlet-loading_192 {
+    background-image: url("img/portlet-loading-192x192.gif");
+}
+
+.portlet-move-animation {
+    border: 2px solid #1f4f8f;
+}
+
+.portlet-untitled {
+    background-color: #ffffff;
+    border: 1px solid #99bbe8;
+    padding: 4px;
+}
+
+.portlet-borderless {
+    background-color: #ffffff;
+    padding: 5px;
+}
+
+.portlet-badwidget {
+    white-space: pre;
+    color: #ff0000;
+    border: 1px solid #ff0000;
+    padding: 4px;
+}
+
+.portlet-placeholder {
+    background-color: #ffffcc;
+    border: 1px solid #ffff55;
+    font-style: italic;
+    text-align: center;
+    color: #333333;
+}
+
+.portlet-ed-zindex {
+    z-index: 30015;   
+}
+
+.portlet-ed-menu .gwt-MenuItem {
+    font-size: 11px;
+    line-height: 13px;
+    font-family: arial,helvetica,sans-serif;
+    cursor: pointer;
+    padding: 1px 4px 1px 4px;
+}
+
+.portlet-ed-overlay {
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    background-color: #ffffff;
+    z-index: 30000;
+}
+
+.portlet-ed-overlay-raised {
+    z-index: 30009;
+    cursor: move;
+}
+
+.portlet-ed-drop-indicator {
+    border: 4px dotted #ff0000;
+    z-index: 30010;
+    overflow: hidden;
+    cursor: move;
+}
+
+.portlet-ed-held-indicator {
+    border: 4px dotted #0000ff;
+    z-index: 30010;
+    overflow: hidden;
+}
+
+.portlet-ed-resizer {
+    z-index: 30005;
+    overflow: visible;
+}
+
+.portlet-ed-resizer-inner {
+    border-top: 2px solid #0000ff;
+    border-left: 2px solid #0000ff;
+    border-bottom: 2px solid #0000ff;
+    border-right: none;
+    cursor: move;
+}
+
+.portlet-ed-resizer-inner-bottom {
+    border-bottom: none;
+    border-right: 2px solid #0000ff;
+}
+
+.portlet-ed-bar {
+    background-color: #0000ff;
+    cursor: e-resize;
+    overflow: hidden;
+    z-index: 30006;
+    border-right: 1px solid #8888ff;
+}
+
+.portlet-ed-bar-bottom {
+    cursor: s-resize;
+    border-right: none;
+    border-bottom: 1px solid #8888ff;
+}
+
+.portlet-ed-info {
+    float: right;
+    margin-right: 4px;
+    margin-top: 4px;
+    border: 1px solid #4444ff;
+    background-color: #cccccc;
+    color: #000000;
+    padding: 1px 2px 1px 2px;
+    border-left: 1px solid #4444ff;
+    border-right: 1px solid #4444ff;
+    text-align: center;
+    font-size: 12px;
+    font-family: arial,helvetica,sans-serif;
+    font-weight: normal;
+    line-height: 12px;
+}
+
+.portlet-ed-empty-indicator {
+    z-index: 30005;
+    overflow: hidden;
+    border: 2px dotted #0000ff;
+    cursor: default;
+}
+
+.portlet-ed-dialog {
+    z-index: 30020;
+}
+
+TABLE.portlet-form {
+    border-collapse: collapse;
+}
+
+TABLE.portlet-form * {
+    font-size: 11px;
+    line-height: 13px;
+    font-family: arial,helvetica,sans-serif;
+    font-weight: normal;
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+TABLE.portlet-form BUTTON.portlet-button {
+    padding: 0 2px 0 2px;
+    margin: 0;
+}
+
+TABLE.portlet-form TD {
+    padding: 2px;
+}
+
+TABLE.portlet-form TD.portlet-form-first {
+    padding-left: 0;
+}
+
+TABLE.portlet-form TD.portlet-form-last {
+    padding-right: 0;
+}
+
+TR.portlet-form-first TD {
+    padding-top: 0;
+}
+
+TR.portlet-form-last TD {
+    padding-bottom: 0;
+}
+
+TABLE.portlet-form .gwt-CheckBox LABEL {
+    margin-left: 2px;
+    color: #666666;
+}
+
+TD.portlet-form-label {
+    text-align: right;
+    color: #666666;
+}
+
+TD.portlet-form-field {
+    color: #000000;
+}
+
+TD.portlet-form-caption {
+    color: #666666;
+}
+
+TD.portlet-form-left {
+    text-align: left;
+}
+
+TD.portlet-form-center {
+    text-align: center;
+}
+
+TD.portlet-form-right {
+    text-align: right;
+}
+
+TD.portlet-form-wrap,
+TD.portlet-form-wrap * {
+    white-space: normal;
+}
+
+TABLE.portlet-form INPUT.portlet-ed-error {
+    color: #ff0000;
+}
+
+.portlet-ed-control {
+    z-index: 30013;
+}
+
+.portlet-ed-control DIV.portlet-dialog-content-body {
+    border: 0;
+}
+
+DIV.portlet-ed-control-level {
+    float: left;
+    margin-right: 4px;
+}
+
+DIV.portlet-ed-control-level BUTTON.portlet-button-selected {
+    font-weight: bold;
+    color: #0000ff;
+    font-size: 13px;
+}
+
+DIV.portlet-ed-control-left {
+    float: left;
+}
+
+.portlet-ed-control-message {
+    font-size: 11px;
+    line-height: 12px;
+    text-align: center;
+    margin-left: 8px;
+    margin-right: 4px;
+}
+
+DIV.portlet-ed-control-right {
+    float: right;
+}
+
+.portlet-ed-label {
+    white-space: normal;
+    margin-left: 4px;
+}
+
+.portlet-ed-description {
+    color: #888888;
+    white-space: normal;
+    margin-left: 12px;
+    font-style: italic;
+}
+
+/* BlueGradient theme */
+
+.portlet-dialog-header-bg,
+.portlet-dialog-footer-bg {
+    background-image: url( "img/portlet-dialog-bluegradient.png" );
+}
+
+.portlet-dialog-sides-bg {
+    background-image: url( "img/portlet-dialog-sides-bluegradient.png" );
+}
+
+.portlet-title-header-bg {
+    background-image: url( "img/portlet-caption-bluegradient.gif" );
+}
+
+.portlet-dialog-content {
+    background-color: #f0f2ef;
+}
+
+.portlet-dialog-content-body {
+    border: 1px solid #bfd2e3;
+}
+
+.portlet-dialog-buttonbar {
+    background-color: #f0f2ef;
+}
+
+.portlet-title-body {
+    border-left: 1px solid #c1d4e8;
+    border-right: 1px solid #c1d4e8;
+    border-bottom: 1px solid #c1d4e8;
+}
+
+.portlet-section-header {
+}
+
+.portlet-section-title {
+    color: #716E6D;
+    font-size: 12px;
+    font-weight: bold;
+    border-bottom: 1px solid #99bbe8;
+    display: inline;
+}
+
+.portlet-section-main {
+    padding-top: 4px;
+    padding-left: 4px;
+}

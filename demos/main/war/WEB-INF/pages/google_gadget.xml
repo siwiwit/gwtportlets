@@ -1,0 +1,81 @@
+<LayoutPanel styleName="" limitMaximize="false">
+  <widgets>
+    <LayoutPanel styleName="" limitMaximize="false">
+      <widgets>
+        <LayoutPanel styleName="" limitMaximize="false">
+          <widgets>
+            <TitlePanel styleName="portlet-title" title="Google Gadgets &amp; External Sites" titleAuto="false" refresh="false" configure="false" edit="false" maximize="true" limitMaximize="true">
+              <widgets>
+                <WebAppContentPortlet styleName="gwt-HTML" path="about_google_gadgets.html"/>
+              </widgets>
+              <constraints>
+                <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+              </constraints>
+              <layout class="RowLayout" column="false" spacing="4"/>
+            </TitlePanel>
+            <LayoutPanel styleName="" limitMaximize="false">
+              <widgets>
+                <TitlePanel styleName="portlet-title" title="The Server Side (Google Gadget)" titleAuto="false" refresh="true" configure="true" edit="false" maximize="true" limitMaximize="true">
+                  <widgets>
+                    <GoogleGadgetPortlet styleName="" url="http://www.gmodules.com/ig/ifr?url=http://customrss.googlepages.com/customrss.xml&amp;up_rssurl=http://www.theserverside.com/rss/theserverside-rss2.xml&amp;up_title=CustomRSS&amp;up_titleurl=http://customrss.googlepages.com&amp;up_num_entries=10&amp;up_linkaction=showdescription&amp;up_background=ffffff&amp;up_border=CFC58E&amp;up_round=1&amp;up_fontfamily=Arial&amp;up_fontsize=8pt&amp;up_openfontsize=8pt&amp;up_itempadding=3px&amp;up_bullet=arrows&amp;up_custicon=Overrides favicon.ico&amp;up_boxicon=1&amp;up_opacity=20&amp;up_itemlinkcolor=333333&amp;up_itemlinkweight=Normal&amp;up_itemlinkdecoration=None&amp;up_vlinkcolor=C7CFA8&amp;up_vlinkweight=Normal&amp;up_vlinkdecoration=None&amp;up_showdate=1&amp;up_datecolor=9F9F9F&amp;up_tcolor=0000A0&amp;up_thighlight=dae7f6&amp;up_desclinkcolor=1B5790&amp;up_color=000000&amp;up_dback=FFFFFF&amp;up_dborder=a2c1ea&amp;up_desclinkweight=Normal&amp;up_desclinkdecoration=None&amp;synd=open&amp;title=__UP_title__&amp;border=#ffffff|3px,1px solid #999999&amp;output=html"/>
+                  </widgets>
+                  <constraints>
+                    <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+                  </constraints>
+                  <layout class="RowLayout" column="false" spacing="4"/>
+                </TitlePanel>
+                <TitlePanel styleName="portlet-title" title="Weather CTN (Google Gadget)" titleAuto="false" refresh="true" configure="true" edit="false" maximize="true" limitMaximize="true">
+                  <widgets>
+                    <GoogleGadgetPortlet styleName="" url="http://www.gmodules.com/ig/ifr?url=http://www.notkewl.com/myWeather/myWeather.xml&amp;up_paikka=SFXX0010&amp;up_merkki=1&amp;synd=open&amp;title=myWeather&amp;border=#ffffff|3px,1px solid #999999&amp;output=html"/>
+                  </widgets>
+                  <constraints>
+                    <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+                  </constraints>
+                  <layout class="RowLayout" column="false" spacing="4"/>
+                </TitlePanel>
+              </widgets>
+              <constraints>
+                <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="auto"/>
+                <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="auto"/>
+              </constraints>
+              <layout class="RowLayout" column="false" spacing="4"/>
+            </LayoutPanel>
+            <TitlePanel styleName="portlet-title" title="www.google.com" titleAuto="false" refresh="true" configure="true" edit="false" maximize="true" limitMaximize="true">
+              <widgets>
+                <GoogleGadgetPortlet styleName="" url="http://www.google.com"/>
+              </widgets>
+              <constraints>
+                <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+              </constraints>
+              <layout class="RowLayout" column="false" spacing="4"/>
+            </TitlePanel>
+          </widgets>
+          <constraints>
+            <RowLayout-Constraints size="0.0" weight="0.5" maxSize="0" overflow="auto"/>
+            <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+            <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="auto"/>
+          </constraints>
+          <layout class="RowLayout" column="true" spacing="4"/>
+        </LayoutPanel>
+        <TitlePanel styleName="portlet-title" title="Title" titleAuto="true" refresh="false" configure="false" edit="false" maximize="true" limitMaximize="true">
+          <widgets>
+            <SourceBrowserPortlet styleName="" filename="main.client.ui.GoogleGadgetPortlet"/>
+          </widgets>
+          <constraints>
+            <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+          </constraints>
+          <layout class="RowLayout" column="false" spacing="4"/>
+        </TitlePanel>
+      </widgets>
+      <constraints>
+        <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+        <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="auto"/>
+      </constraints>
+      <layout class="RowLayout" column="false" spacing="4"/>
+    </LayoutPanel>
+  </widgets>
+  <constraints>
+    <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+  </constraints>
+  <layout class="RowLayout" column="true" spacing="4"/>
+</LayoutPanel>

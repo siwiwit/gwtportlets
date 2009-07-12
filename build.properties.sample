@@ -1,0 +1,8 @@
+# Copy this to build.properties and edit to match your environment
+
+GWT.HOME=/usr/local/gwt-linux-1.5.3
+TOMCAT.HOME=/usr/local/apache-tomcat-5.5.26
+
+GWTCOMPILER.STYLE=PRETTY
+
+release=0.0

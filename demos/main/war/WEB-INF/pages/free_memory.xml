@@ -1,0 +1,53 @@
+<LayoutPanel styleName="" limitMaximize="false">
+  <widgets>
+    <LayoutPanel styleName="" limitMaximize="false">
+      <widgets>
+        <LayoutPanel styleName="" limitMaximize="false">
+          <widgets>
+            <TitlePanel styleName="portlet-title" title="Title" titleAuto="true" refresh="true" configure="true" edit="false" maximize="true" limitMaximize="true">
+              <widgets>
+                <FreeMemoryPortlet styleName="" chartType="gom"/>
+              </widgets>
+              <constraints>
+                <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+              </constraints>
+              <layout class="RowLayout" column="false" spacing="4"/>
+            </TitlePanel>
+            <TitlePanel styleName="portlet-title" title="Title" titleAuto="true" refresh="false" configure="false" edit="false" maximize="true" limitMaximize="true">
+              <widgets>
+                <SourceBrowserPortlet styleName="" filename="main.server.FreeMemoryDataProvider"/>
+              </widgets>
+              <constraints>
+                <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+              </constraints>
+              <layout class="RowLayout" column="false" spacing="4"/>
+            </TitlePanel>
+          </widgets>
+          <constraints>
+            <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+            <RowLayout-Constraints size="0.0" weight="1.5" maxSize="0" overflow="auto"/>
+          </constraints>
+          <layout class="RowLayout" column="true" spacing="4"/>
+        </LayoutPanel>
+        <TitlePanel styleName="portlet-title" title="Title" titleAuto="true" refresh="false" configure="false" edit="false" maximize="true" limitMaximize="true">
+          <widgets>
+            <SourceBrowserPortlet styleName="" filename="main.client.ui.FreeMemoryPortlet"/>
+          </widgets>
+          <constraints>
+            <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+          </constraints>
+          <layout class="RowLayout" column="false" spacing="4"/>
+        </TitlePanel>
+      </widgets>
+      <constraints>
+        <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+        <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="auto"/>
+      </constraints>
+      <layout class="RowLayout" column="false" spacing="4"/>
+    </LayoutPanel>
+  </widgets>
+  <constraints>
+    <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+  </constraints>
+  <layout class="RowLayout" column="true" spacing="4"/>
+</LayoutPanel>

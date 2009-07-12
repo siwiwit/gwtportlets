@@ -1,0 +1,27 @@
+<LayoutPanel styleName="" limitMaximize="false">
+  <widgets>
+    <TitlePanel styleName="portlet-title" title="Title" titleAuto="true" refresh="true" configure="true" edit="true" maximize="true" limitMaximize="true">
+      <widgets>
+        <RowLayoutPortlet styleName=""/>
+      </widgets>
+      <constraints>
+        <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+      </constraints>
+      <layout class="RowLayout" column="false" spacing="4"/>
+    </TitlePanel>
+    <TitlePanel styleName="portlet-title" title="Title" titleAuto="true" refresh="true" configure="false" edit="false" maximize="true" limitMaximize="true">
+      <widgets>
+        <SourceBrowserPortlet styleName="" filename="main.client.ui.RowLayoutPortlet"/>
+      </widgets>
+      <constraints>
+        <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+      </constraints>
+      <layout class="RowLayout" column="false" spacing="4"/>
+    </TitlePanel>
+  </widgets>
+  <constraints>
+    <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+    <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+  </constraints>
+  <layout class="RowLayout" column="false" spacing="8"/>
+</LayoutPanel>
