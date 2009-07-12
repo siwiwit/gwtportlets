@@ -1,0 +1,53 @@
+BODY *,
+TD {
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 15px;
+}
+
+P {
+    margin-bottom: 4px;
+}
+
+PRE,
+PRE A,
+PRE FONT {
+    font-family: monospace;
+    font-size: 11px;
+}
+
+.header {
+    background-image: url("img/header_bg_8x57.gif");
+}
+
+.portlet-menu {
+    padding-left: 4px;
+}
+
+.portlet-page {
+    padding: 4px;
+}
+
+.portlet-page-title {
+    font-size: 18px;
+    line-height: 29px;
+    font-weight: bold;
+    padding-left: 8px;
+    padding-top: 1px;
+    color: #004a8f;
+}
+
+.footer {
+    background-image: url("img/footer_bg_8x20.gif");
+    text-align: center;
+}
+
+.footer * {
+    color: #999999;
+}
+
+.thing {
+    background-color: #f1f3f6;
+    border: 2px solid #cccccc;
+    padding: 4px;
+}

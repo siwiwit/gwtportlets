@@ -1,0 +1,63 @@
+<LayoutPanel styleName="" limitMaximize="false">
+  <widgets>
+    <LayoutPanel styleName="" limitMaximize="false">
+      <widgets>
+        <LayoutPanel styleName="" limitMaximize="false">
+          <widgets>
+            <TitlePanel styleName="portlet-title" title="Web App Content Portlet" titleAuto="false" refresh="true" configure="false" edit="false" maximize="true" limitMaximize="true">
+              <widgets>
+                <WebAppContentPortlet styleName="gwt-HTML" path="free_memory.jsp"/>
+              </widgets>
+              <constraints>
+                <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+              </constraints>
+              <layout class="RowLayout" column="false" spacing="4"/>
+            </TitlePanel>
+            <TitlePanel styleName="portlet-title" title="Source for free_memory.jsp" titleAuto="false" refresh="true" configure="false" edit="false" maximize="true" limitMaximize="true">
+              <widgets>
+                <WebAppContentPortlet styleName="gwt-HTML" path="free_memory_jsp.html"/>
+              </widgets>
+              <constraints>
+                <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+              </constraints>
+              <layout class="RowLayout" column="false" spacing="4"/>
+            </TitlePanel>
+            <TitlePanel styleName="portlet-title" title="Title" titleAuto="true" refresh="true" configure="true" edit="true" maximize="true" limitMaximize="true">
+              <widgets>
+                <SourceBrowserPortlet styleName="" filename="org.gwtportlets.portlet.server.WebAppContentDataProvider"/>
+              </widgets>
+              <constraints>
+                <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="auto"/>
+              </constraints>
+              <layout class="RowLayout" column="false" spacing="4"/>
+            </TitlePanel>
+          </widgets>
+          <constraints>
+            <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+            <RowLayout-Constraints size="0.0" weight="1.5" maxSize="0" overflow="hidden"/>
+            <RowLayout-Constraints size="0.0" weight="1.5" maxSize="0" overflow="hidden"/>
+          </constraints>
+          <layout class="RowLayout" column="true" spacing="4"/>
+        </LayoutPanel>
+        <TitlePanel styleName="portlet-title" title="Title" titleAuto="true" refresh="false" configure="false" edit="false" maximize="true" limitMaximize="true">
+          <widgets>
+            <SourceBrowserPortlet styleName="" filename="org.gwtportlets.portlet.client.ui.WebAppContentPortlet"/>
+          </widgets>
+          <constraints>
+            <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+          </constraints>
+          <layout class="RowLayout" column="false" spacing="4"/>
+        </TitlePanel>
+      </widgets>
+      <constraints>
+        <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+        <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="auto"/>
+      </constraints>
+      <layout class="RowLayout" column="false" spacing="4"/>
+    </LayoutPanel>
+  </widgets>
+  <constraints>
+    <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+  </constraints>
+  <layout class="RowLayout" column="true" spacing="4"/>
+</LayoutPanel>

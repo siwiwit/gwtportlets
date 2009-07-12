@@ -1,0 +1,45 @@
+<LayoutPanel styleName="" limitMaximize="false">
+  <widgets>
+    <LayoutPanel styleName="header" limitMaximize="false">
+      <widgets>
+        <LayoutPanel styleName="" limitMaximize="false">
+          <widgets>
+            <LayoutPanel styleName="" limitMaximize="false">
+              <widgets>
+                <PageTitlePortlet/>
+                <ThemeListPortlet styleName="portlet-form"/>
+                <SpacerPortlet styleName=""/>
+              </widgets>
+              <constraints>
+                <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="auto"/>
+                <RowLayout-Constraints size="150.0" weight="0.0" maxSize="0" overflow="auto"/>
+                <RowLayout-Constraints size="20.0" weight="0.0" maxSize="0" overflow="hidden"/>
+              </constraints>
+              <layout class="RowLayout" column="false" spacing="4"/>
+            </LayoutPanel>
+            <MenuPortlet styleName="portlet-menu" path="menu.html" vertical="false"/>
+          </widgets>
+          <constraints>
+            <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+            <RowLayout-Constraints size="24.0" weight="0.0" maxSize="0" overflow="auto"/>
+          </constraints>
+          <layout class="RowLayout" column="true" spacing="0"/>
+        </LayoutPanel>
+        <WebAppContentPortlet styleName="gwt-HTML" path="logo.html"/>
+      </widgets>
+      <constraints>
+        <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+        <RowLayout-Constraints size="68.0" weight="0.0" maxSize="0" overflow="hidden"/>
+      </constraints>
+      <layout class="RowLayout" column="false" spacing="0"/>
+    </LayoutPanel>
+    <PagePortlet styleName="portlet-page" appTitle="GWT Portlets Demo" prefix="GWT Portlets Demo: "/>
+    <WebAppContentPortlet styleName="footer" path="footer.html"/>
+  </widgets>
+  <constraints>
+    <RowLayout-Constraints size="57.0" weight="0.0" maxSize="0" overflow="hidden"/>
+    <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+    <RowLayout-Constraints size="20.0" weight="0.0" maxSize="0" overflow="hidden"/>
+  </constraints>
+  <layout class="RowLayout" column="true" spacing="0"/>
+</LayoutPanel>

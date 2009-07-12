@@ -1,0 +1,30 @@
+.portlet-dialog-header-bg,
+.portlet-dialog-footer-bg {
+    background-image: url( "img/portlet-dialog-green.png" );
+}
+
+.portlet-dialog-sides-bg {
+    background-image: url( "img/portlet-dialog-sides-green.png" );
+}
+
+.portlet-title-header-bg {
+    background-image: url( "img/portlet-caption-green.gif" );
+}
+
+.portlet-dialog-content {
+    background-color: #edf1ef;
+}
+
+.portlet-dialog-content-body {
+    border: 1px solid #c4d1cb;
+}
+
+.portlet-dialog-buttonbar {
+    background-color: #edf1ef;
+}
+
+.portlet-title-body {
+    border-left: 1px solid #c4d1cb;
+    border-right: 1px solid #c4d1cb;
+    border-bottom: 1px solid #c4d1cb;
+}

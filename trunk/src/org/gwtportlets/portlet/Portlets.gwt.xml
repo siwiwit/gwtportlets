@@ -1,0 +1,49 @@
+<!--
+  ~ GWT Portlets Framework (http://www.gwtportlets.org/)
+  ~ Copyright 2009 Business Systems Group (Africa)
+  ~
+  ~ This file is part of GWT Portlets.
+  ~
+  ~ GWT Portlets is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Lesser General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ GWT Portlets is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ along with GWT Portlets.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<module>
+    <inherits name="com.google.gwt.user.User"/>
+    <inherits name="com.google.gwt.http.HTTP"/>
+
+    <stylesheet src="gwt-portlets.css"/>    
+
+    <define-property name="layout.perf" values="disabled,enabled"/>
+    <set-property name="layout.perf" value="disabled"/>
+
+    <replace-with class="org.gwtportlets.portlet.client.impl.LDOMImplIE6">
+        <when-type-is class="org.gwtportlets.portlet.client.impl.LDOMImpl"/>
+        <when-property-is name="user.agent" value="ie6" />
+    </replace-with>
+
+    <replace-with class="org.gwtportlets.portlet.client.impl.LDOMImplSafari">
+        <when-type-is class="org.gwtportlets.portlet.client.impl.LDOMImpl"/>
+        <when-property-is name="user.agent" value="safari" />
+    </replace-with>
+
+    <replace-with class="org.gwtportlets.portlet.client.impl.LayoutPerfImplEnabled">
+        <when-type-is class="org.gwtportlets.portlet.client.impl.LayoutPerfImpl"/>
+        <when-property-is name="layout.perf" value="enabled" />
+    </replace-with>
+
+    <generate-with class="org.gwtportlets.portlet.rebind.WidgetFactoryHelperGenerator">
+        <when-type-assignable class="org.gwtportlets.portlet.client.impl.WidgetFactoryHelper" />
+    </generate-with>
+
+</module>
