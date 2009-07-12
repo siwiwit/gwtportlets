@@ -442,7 +442,7 @@ public class TitlePanel extends ContainerPortlet implements AppEventListener  {
      * Dispatch an event.
      */
     protected void onChanged() {
-        EventManager.get().broadcast(this, new WidgetConfigChangeEvent(this));
+        EventManager.get().broadcast(new WidgetConfigChangeEvent(this));
     }    
 
     protected boolean isMaximized() {

@@ -20,16 +20,18 @@
 
 package org.gwtportlets.portlet.client.event;
 
+import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
-import org.gwtportlets.portlet.client.layout.Container;
 import org.gwtportlets.portlet.client.layout.LayoutUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EventObject;
+import java.util.Iterator;
 
 /**
- * Singleton to boardcast events to container trees.
+ * Singleton to boardcast events to widget trees.
  */
 public class EventManager {
 
@@ -78,18 +80,18 @@ public class EventManager {
     }
 
     /**
-     * Send the event to all widgets implementing AppEventListener in the tree,
-     * depth first, starting at the topmost container of the tree containing w
-     * in child index order. Does not send the event to its source.
+     * Send the event to all widgets implementing AppEventListener
+     * starting at the RootPanel in depth first order. Does not send the event
+     * to its source.
      *
      * @see AppEventListener#onAppEvent
      * @see org.gwtportlets.portlet.client.layout.LayoutUtil#getTopmostContainer
      */
-    public void broadcast(Widget w, EventObject ev) {
+    public void broadcast(EventObject ev) {
         for (int i = listeners.length - 1; i >= 0; i--) {
             listeners[i].onAppEvent(ev);
         }
-        broadcastDown((Widget)LayoutUtil.getTopmostContainer(w), ev);
+        broadcastDown(RootPanel.get(), ev);
     }
 
     /**
@@ -119,11 +121,10 @@ public class EventManager {
         if (root != ev.getSource() && root instanceof AppEventListener) {
             ((AppEventListener)root).onAppEvent(ev);
         }
-        if (root instanceof Container) {
-            Container c = (Container)root;
-            int n = c.getWidgetCount();
-            for (int i = 0; i < n; i++) {
-                broadcastDown(c.getWidget(i), ev);
+        if (root instanceof HasWidgets) {
+            Iterator<Widget> i = ((HasWidgets)root).iterator();
+            while (i.hasNext()) {
+                broadcastDown(i.next(), ev);
             }
         }
     }

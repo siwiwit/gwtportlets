@@ -127,7 +127,7 @@ public class MenuPortlet extends WebAppContentPortlet {
      * clicked. Broadcast a CommandEvent so other widgets can react if needed.
      */
     protected void onMenuItemClick(Widget sender, Element e, String method) {
-        EventManager.get().broadcast(this, new CommandEvent(this, method));
+        EventManager.get().broadcast(new CommandEvent(this, method));
     }
 
     /**

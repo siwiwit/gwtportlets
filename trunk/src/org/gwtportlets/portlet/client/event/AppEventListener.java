@@ -26,7 +26,7 @@ import java.util.EventObject;
 /**
  * Widgets that implement this will receive broadcast application events.
  *
- * @see EventManager#broadcast(com.google.gwt.user.client.ui.Widget, java.util.EventObject)
+ * @see EventManager#broadcast(java.util.EventObject)
  * @see EventManager#broadcastUp(com.google.gwt.user.client.ui.Widget, java.util.EventObject)  
  */
 public interface AppEventListener extends EventListener {
