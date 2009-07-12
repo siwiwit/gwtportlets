@@ -39,11 +39,11 @@ Build instructions:
 Run "ant -p" in the root of this project to see available targets.
 
 -->
-<project name="gwt-portlets" default="copy-files-to-demos" basedir=".">
+<project name="gwtportlets" default="copy-files-to-demos" basedir=".">
 
     <property file="build.properties" />
     <property name="release" value="0.0"/>
-    <property name="GWT.HOME" value=""/>
+    <property name="gwt.sdk" value=""/>
     <property name="classes" value="build/classes"/>
 
     <!-- jars from lib that are copied to each demo -->
@@ -52,20 +52,19 @@ Run "ant -p" in the root of this project to see available targets.
     <path id="cp">
         <fileset dir="lib-build" includes="*.jar"/>
         <fileset dir="lib" includes="${lib.jars}"/>
-        <fileset dir="${GWT.HOME}" includes="gwt-user.jar,gwt-servlet.jar,gwt-dev*.jar"/>
+        <fileset dir="${gwt.sdk}" includes="gwt-user.jar,gwt-servlet.jar,gwt-dev*.jar"/>
     </path>
 
     <tstamp/>
 
     <target name="clean" description="Nuke all generated files">
         <delete dir="build"/>
-        <delete dir=".gwt-tmp"/>
         <delete dir="." includes="gwt-portlets.jar"/>
         <delete dir="demos" includes="**/gwt-portlets.jar,${lib.jars}"/>
-        <ant dir="demos/main" target="clean"/>
+        <ant dir="demos/main" target="clean" inheritall="false"/>
     </target>
 
-    <target name="compile" depends="check-props">
+    <target name="javac" depends="check-props">
         <mkdir dir="${classes}"/>
         <javac srcdir="src" destdir="${classes}" debug="true" source="1.5"
                target="1.5" classpathref="cp"/>
@@ -76,7 +75,7 @@ Run "ant -p" in the root of this project to see available targets.
         </copy>
     </target>
 
-    <target name="jar" depends="compile"
+    <target name="jar" depends="javac"
             description="Create gwt-portlets.jar and updates demos">
         <jar destfile="gwt-portlets.jar">
             <fileset dir="${classes}"/>
@@ -92,9 +91,9 @@ Run "ant -p" in the root of this project to see available targets.
         </copy>
     </target>
 
-    <target name="run" description="Run main demo in hosted mode"
+    <target name="hosted" description="Run main demo in hosted mode"
             depends="jar,copy-files-to-demos">
-        <ant dir="demos/main" target="run" inheritAll="false"/>
+        <ant dir="demos/main" target="hosted" inheritAll="false"/>
     </target>
 
     <target name="deploy" description="Deploy main demo to Tomcat"
@@ -117,7 +116,7 @@ Run "ant -p" in the root of this project to see available targets.
     <target name="java2html" description="Generate HTML of src into demos/main"> 
         <taskdef name="java2html" classname="com.java2html.Java2HTMLTask"
                  classpathref="cp"/>
-        <property name="html.src.dir" value="demos/main/exploded/src"/>
+        <property name="html.src.dir" value="demos/main/war/src"/>
         <mkdir dir="${html.src.dir}"/>
         <java2html destination="${html.src.dir}" header="false" footer="false">
             <fileset dir="src" includes="**/*.java"/>
@@ -155,14 +154,14 @@ Run "ant -p" in the root of this project to see available targets.
 build.properties does not exist - please copy build.properties.sample
 to build.properties and edit it to match your environment
         </fail>
-        <fail message="GWT.HOME not set in build.properties">
+        <fail message="gwt.sdk not set in build.properties">
             <condition>
-                <equals arg1="${GWT.HOME}" arg2=""/>
+                <equals arg1="${gwt.sdk}" arg2=""/>
             </condition>
         </fail>
-        <available property="GWT.HOME.exists" file="${GWT.HOME}"/>
-        <fail unless="GWT.HOME.exists"
-              message="GWT.HOME does not exist: ${GWT.HOME}"/>
+        <available property="gwt.sdk.exists" file="${gwt.sdk}"/>
+        <fail unless="gwt.sdk.exists"
+              message="gwt.sdk does not exist: ${gwt.sdk}"/>
     </target>
 
 </project>

@@ -29,28 +29,25 @@ by copying and customizing build.properties.sample. Then run "ant" (no args)
 in the root of the distribution to copy build.properties and required jar
 files to all the demos.
 
-For this demo:
-
-Change run "ant -p" from the demo directory (demos/main) to see available
-targets.
+Run "ant -p" from the demo directory to see available targets.
 
 -->
-<project name="main" default="compile" basedir=".">
+<project name="main" default="gwtc" basedir=".">
 
     <property file="build.properties"/>
 
-    <property name="GWT.HOME" value=""/>
-    <property name="GWTCOMPILER.STYLE" value="PRETTY"/>
+    <property name="gwt.sdk" value=""/>
+    <property name="gwtc.style" value="PRETTY"/>
 
     <path id="cp">
         <fileset dir="war/WEB-INF/lib" includes="*.jar"/>
-        <fileset dir="${GWT.HOME}" includes="gwt-user.jar,gwt-servlet.jar"/>
+        <fileset dir="${gwt.sdk}" includes="gwt-user.jar,gwt-servlet.jar"/>
     </path>
 
-    <path id="gwt-dev-cp">
+    <path id="dev-cp">
         <pathelement path="src"/>
         <path refid="cp"/>
-        <fileset dir="${GWT.HOME}" includes="gwt-dev*.jar"/>
+        <fileset dir="${gwt.sdk}" includes="gwt-dev*.jar"/>
     </path>
 
     <property name="classes" value="war/WEB-INF/classes"/>
@@ -60,66 +57,41 @@ targets.
     <target name="clean" description="Nuke all generated files">
         <delete dir="${classes}"/>
         <delete dir="war/main"/>
+        <delete dir="war/src"/>
         <delete dir="war/WEB-INF/lib" includes="gwt-servlet.jar"/>
-        <delete dir="build"/>
-        <delete dir=".gwt-cache"/>
-        <delete dir=".gwt-tmp"/>
-        <delete dir="main.Demo"/>
-        <delete dir="gencode"/>
         <delete file="main.war"/>
     </target>
 
-    <target name="compile-java" depends="check-props">
+    <target name="javac" depends="check-props">
         <mkdir dir="${classes}"/>
         <copy todir="war/WEB-INF/lib">
-            <fileset dir="${GWT.HOME}" includes="gwt-servlet.jar"/>
+            <fileset dir="${gwt.sdk}" includes="gwt-servlet.jar"/>
         </copy>
-        <javac srcdir="src" destdir="${classes}" debug="true"
-               classpathref="cp"/>
-        <copy todir="${classes}" verbose="false">
-            <fileset dir="src">
-                <exclude name="**/*.java"/>
-            </fileset>
+        <javac srcdir="src" destdir="${classes}" debug="true" classpathref="cp"/>
+        <copy todir="${classes}">
+            <fileset dir="src" excludes="**/*.java"/>
         </copy>
     </target>
 
-    <target name="compile-gwt" depends="compile-java,check-if-gwt-compile-needed"
-            unless="skip.gwt">
-        <java fork="true" failonerror="true" classpathref="gwt-dev-cp"
+    <target name="gwtc" depends="javac,check-if-gwtc-needed" unless="skip.gwtc">
+        <java fork="true" failonerror="true" classpathref="dev-cp"
                 classname="com.google.gwt.dev.Compiler" maxmemory="128m">
             <jvmarg value="-Xss16M"/>
             <arg value="-style"/>
-            <arg value="${GWTCOMPILER.STYLE}"/>
-            <!--<arg value="-gen"/>-->
-            <!--<arg value="build"/>-->
-            <!--<arg value="-out"/>-->
-            <!--<arg value="build"/>-->
+            <arg value="${gwtc.style}"/>
             <arg value="main.Main"/>
         </java>
     </target>
 
-    <target name="compile" depends="compile-gwt,compile-java"
-            description="Compile sources">
-    </target>
-
-    <target name="deploy" description="Deploy demo to Tomcat" depends="compile">
-        <copy file="main.xml" overwrite="true"
-                todir="${TOMCAT.HOME}/conf/Catalina/localhost">
-            <filterset>
-                <filter token="DOCBASE" value="${basedir}/war"/>
-            </filterset>
-        </copy>
-    </target>
-
-    <target name="run" description="Run demo in hosted mode" depends="compile-java">
-        <java fork="true" failonerror="true" classpathref="gwt-dev-cp"
-              classname="com.google.gwt.dev.HostedMode">
+    <target name="hosted" description="Run demo in hosted mode" depends="javac">
+        <java fork="true" failonerror="true" classpathref="dev-cp"
+                classname="com.google.gwt.dev.HostedMode">
             <arg value="-noserver"/>
             <arg value="-port"/>
             <arg value="8080"/>
-            <arg value="http://127.0.0.1:8080/main/"/>
-            <arg value="-whitelist"/>
-            <arg value="^http://127[.]0[.]0[.]1:8080"/>
+            <arg value="-startupUrl"/>
+            <arg value="main/Demo.html"/>
+            <arg value="main.Main"/>
             <jvmarg value="-Xdebug"/>
             <jvmarg value="-Xnoagent"/>
             <jvmarg value="-Djava.compiler=NONE"/>
@@ -129,11 +101,20 @@ targets.
         </java>
     </target>
 
-    <target name="war" depends="compile" description="Create main.war">
+    <target name="deploy" description="Deploy demo to Tomcat" depends="gwtc">
+        <copy file="main.xml" overwrite="true"
+                todir="${tomcat.home}/conf/Catalina/localhost">
+            <filterset>
+                <filter token="DOCBASE" value="${basedir}/war"/>
+            </filterset>
+        </copy>
+    </target>
+
+    <target name="war" depends="gwtc" description="Create main.war">
         <war destfile="main.war" basedir="war"/>
     </target>
 
-    <target name="check-if-gwt-compile-needed" unless="skip.gwt">
+    <target name="check-if-gwtc-needed" unless="skip.gwtc">
         <dependset>
             <srcfileset dir="war/WEB-INF/lib" includes="*.jar"/>
             <srcfileset dir="src/main">
@@ -142,7 +123,7 @@ targets.
             </srcfileset>
             <targetfileset dir="war" includes="main/main.nocache.js"/>
         </dependset>
-        <available property="skip.gwt" file="war/main/main.nocache.js"/>
+        <available property="skip.gwtc" file="war/main/main.nocache.js"/>
     </target>
 
     <target name="check-props">
@@ -151,14 +132,14 @@ targets.
 ${build.properties} does not exist - please copy build.properties.sample
 to build.properties and edit it to match your environment
         </fail>
-        <fail message="GWT.HOME not set in build.properties">
+        <fail message="gwt.sdk not set in build.properties">
             <condition>
-                <equals arg1="${GWT.HOME}" arg2=""/>
+                <equals arg1="${gwt.sdk}" arg2=""/>
             </condition>
         </fail>
-        <available property="GWT.HOME.exists" file="${GWT.HOME}"/>
-        <fail unless="GWT.HOME.exists"
-              message="GWT.HOME does not exist: ${GWT.HOME}"/>
+        <available property="gwt.sdk.exists" file="${gwt.sdk}"/>
+        <fail unless="gwt.sdk.exists"
+              message="gwt.sdk does not exist: ${gwt.sdk}"/>
     </target>
 
 </project>
