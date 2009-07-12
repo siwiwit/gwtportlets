@@ -128,7 +128,7 @@ public class Demo implements EntryPoint, HistoryListener {
         // The PagePortlet uses this event to change the widget tree in the
         // 'content area' of the application and to display the gear icon
         // for editable pages
-        EventManager.get().broadcast(clientAreaPanel, pce);
+        EventManager.get().broadcast(pce);
     }
 
     /**

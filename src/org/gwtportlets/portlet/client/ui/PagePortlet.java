@@ -131,7 +131,7 @@ public class PagePortlet extends ContainerPortlet implements AppEventListener {
             Window.setTitle(windowTitle);
             currentTitle = title;
         }
-        EventManager.get().broadcast(this, new PageTitleChangeEvent(this, title));
+        EventManager.get().broadcast(new PageTitleChangeEvent(this, title));
     }
 
     public void boundsUpdated() {
