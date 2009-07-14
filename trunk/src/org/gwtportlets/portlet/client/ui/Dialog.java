@@ -71,15 +71,15 @@ public class Dialog extends PopupPanel {
     private SyncToClientArea maxSync;
 
     private final ToolButton closeButton = new ToolButton(ToolButton.CLOSE, "Close",
-            new ClickListener() {
-        public void onClick(Widget sender) {
+            new ClickHandler() {
+        public void onClick(ClickEvent event) {
             onCloseClick();
         }
     });
 
     private final ToolButton maxButton = new ToolButton(ToolButton.MAXIMIZE, "Maximize",
-            new ClickListener() {
-        public void onClick(Widget sender) {
+            new ClickHandler() {
+        public void onClick(ClickEvent event) {
             onMaximizeClick();
         }
     });

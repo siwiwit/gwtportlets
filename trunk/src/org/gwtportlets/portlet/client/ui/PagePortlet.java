@@ -99,8 +99,8 @@ public class PagePortlet extends ContainerPortlet implements AppEventListener {
         if (pageChange.isEditable()) {
             if (edit == null) {
                 edit = new ToolButton(ToolButton.CONFIGURE, "Edit page",
-                        new ClickListener() {
-                    public void onClick(Widget sender) {
+                        new ClickHandler() {
+                    public void onClick(ClickEvent event) {
                         onEditPage();
                     }
                 });

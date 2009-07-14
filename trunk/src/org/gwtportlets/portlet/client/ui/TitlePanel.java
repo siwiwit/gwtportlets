@@ -211,8 +211,8 @@ public class TitlePanel extends ContainerPortlet implements AppEventListener  {
 
     protected ToolButton createRefresh() {
         return new ToolButton(ToolButton.REFRESH, "Refresh",
-                new ClickListener() {
-            public void onClick(Widget sender) {
+                new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 refresh();
             }
         });
@@ -220,24 +220,24 @@ public class TitlePanel extends ContainerPortlet implements AppEventListener  {
 
     protected ToolButton createConfigure() {
         return new ToolButton(ToolButton.CONFIGURE, "Configure",
-                new ClickListener() {
-            public void onClick(Widget sender) {
+                new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 onConfigureClick();
             }
         });
     }
 
     protected ToolButton createMaximize() {
-        return new ToolButton(ToolButton.MAXIMIZE, "Maximize", new ClickListener() {
-            public void onClick(Widget sender) {
+        return new ToolButton(ToolButton.MAXIMIZE, "Maximize", new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 maximize();
             }
         });
     }
 
     protected ToolButton createRestore() {
-        return new ToolButton(ToolButton.RESTORE, "Restore", new ClickListener() {
-            public void onClick(Widget sender) {
+        return new ToolButton(ToolButton.RESTORE, "Restore", new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 restore();
             }
         });
