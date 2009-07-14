@@ -30,6 +30,8 @@ import org.gwtportlets.portlet.client.layout.ContainerFactory;
 import org.gwtportlets.portlet.client.util.FormBuilder;
 import org.gwtportlets.portlet.client.WidgetFactory;
 import com.google.gwt.user.client.ui.*;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
 
 import java.util.EventObject;
 
@@ -204,8 +206,8 @@ public class SectionPanel extends ContainerPortlet implements AppEventListener {
             setWidget(b.getForm());
 
             final Factory original = new Factory(panel);
-            addButton(new CssButton("Revert", new ClickListener() {
-                public void onClick(Widget sender) {
+            addButton(new CssButton("Revert", new ClickHandler() {
+                public void onClick(ClickEvent event) {
                     original.refreshSettings(panel);
                     panel.update();
                     updateControls();

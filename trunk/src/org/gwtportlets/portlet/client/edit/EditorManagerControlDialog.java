@@ -20,13 +20,15 @@
 
 package org.gwtportlets.portlet.client.edit;
 
-import com.google.gwt.user.client.Window;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
 import org.gwtportlets.portlet.client.layout.LDOM;
-import org.gwtportlets.portlet.client.util.Rectangle;
 import org.gwtportlets.portlet.client.ui.CssButton;
 import org.gwtportlets.portlet.client.ui.Dialog;
+import org.gwtportlets.portlet.client.util.Rectangle;
 
 /**
  * Displays the current edit depth etc for the editor manager.
@@ -44,9 +46,9 @@ public class EditorManagerControlDialog extends Dialog {
     private String defaultTooltip = "Drag the thick edge of each widget " +
         "to resize, click for menus";
 
-    private ClickListener levelClickListener= new ClickListener() {
-        public void onClick(Widget sender) {
-            Button b = (Button)sender;
+    private ClickHandler levelClickListener= new ClickHandler() {
+        public void onClick(ClickEvent event) {
+            Button b = (Button)event.getSource();
             b.setFocus(false);
             manager.setEditDepth(Integer.parseInt(b.getText()) - 1);
         }
@@ -157,7 +159,7 @@ public class EditorManagerControlDialog extends Dialog {
      * @see #endOperation() 
      */
     public void beginOperation(String htmlMsg, String tooltip,
-            boolean hideLevel, ClickListener onCancel) {
+            boolean hideLevel, ClickHandler onCancel) {
         message.setHTML(htmlMsg);
         message.setTitle(tooltip);
 

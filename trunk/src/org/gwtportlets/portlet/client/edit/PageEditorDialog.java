@@ -20,6 +20,8 @@
 
 package org.gwtportlets.portlet.client.edit;
 
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.*;
@@ -50,18 +52,18 @@ public class PageEditorDialog extends Dialog
     }
 
     protected Button createCloseButton() {
-        Button close = new CssButton("Close", new ClickListener() {
-            public void onClick(Widget sender) {
+        Button close = new CssButton("Close", new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 hide();
             }
         });
         close.setTitle("Close the dialog");
-        return close;                
+        return close;
     }
 
     protected Button createRevertButton() {
-        Button revert = new CssButton("Revert", new ClickListener() {
-            public void onClick(Widget sender) {
+        Button revert = new CssButton("Revert", new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 revert();
             }
         });

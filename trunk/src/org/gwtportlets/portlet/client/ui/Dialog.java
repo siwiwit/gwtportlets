@@ -23,6 +23,8 @@ package org.gwtportlets.portlet.client.ui;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
 import org.gwtportlets.portlet.client.event.AppEventListener;
 import org.gwtportlets.portlet.client.layout.DeckLayout;
 import org.gwtportlets.portlet.client.layout.LDOM;
@@ -403,8 +405,8 @@ public class Dialog extends PopupPanel {
      * Add a button that hides the dialog when clicked.
      */
     public CssButton addCloseButton(String html) {
-        CssButton b = new CssButton(html, new ClickListener() {
-            public void onClick(Widget sender) {
+        CssButton b = new CssButton(html, new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 hide();
             }
         });

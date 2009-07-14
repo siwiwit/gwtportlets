@@ -22,6 +22,8 @@ package org.gwtportlets.portlet.client.ui;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
 import org.gwtportlets.portlet.client.WidgetFactory;
 import org.gwtportlets.portlet.client.event.*;
 import org.gwtportlets.portlet.client.layout.*;
@@ -174,8 +176,8 @@ public class PagePortlet extends ContainerPortlet implements AppEventListener {
         dlg.setText("Configure " + getWidgetName());
         dlg.setWidget(b.getForm());
 
-        dlg.addButton(new CssButton("OK", new ClickListener() {
-            public void onClick(Widget sender) {
+        dlg.addButton(new CssButton("OK", new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 dlg.hide();
                 PagePortlet.this.appTitle = appTitle.getText();
                 PagePortlet.this.prefix = prefix.getText();
