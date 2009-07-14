@@ -20,10 +20,12 @@
 
 package org.gwtportlets.portlet.client.ui;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.*;
-import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.Image;
 import org.gwtportlets.portlet.client.layout.HasMaximumSize;
 import org.gwtportlets.portlet.client.layout.LDOM;
 
@@ -33,7 +35,7 @@ import org.gwtportlets.portlet.client.layout.LDOM;
  * its image index and button size obtained from the theme.
  */
 public class ToolButton extends PositionAwareComposite
-        implements HasMaximumSize, SourcesClickEvents, SourcesMouseEvents {
+        implements HasMaximumSize, HasClickHandlers, HasMouseOverHandlers {
 
     public static final int REFRESH = 0;
     public static final int MINIMIZE = 1;
@@ -47,25 +49,22 @@ public class ToolButton extends PositionAwareComposite
     private int height;
     private boolean enabled = true;
 
-    private Image img = new Image(GWT.getModuleBaseURL() + "clear.cache.gif");
-
     public ToolButton(int imageIndex) {
-        initWidget(img);
+        initWidget(new Image(GWT.getModuleBaseURL() + "clear.cache.gif"));
         setStyleName("portlet-toolbutton");
         Theme.get().updateToolButton(this);
         setImageIndex(imageIndex);
         updateImage(false);
-        sinkEvents(Event.MOUSEEVENTS);
     }
 
     public ToolButton() {
         this(REFRESH);
     }
 
-    public ToolButton(int imageIndex, String tooltip, ClickListener clickListener) {
+    public ToolButton(int imageIndex, String tooltip, ClickHandler clickHandler) {
         this(imageIndex);
         setTitle(tooltip);
-        addClickListener(clickListener);
+        addClickHandler(clickHandler);
     }
 
     private void updateImage(boolean hover) {
@@ -135,19 +134,11 @@ public class ToolButton extends PositionAwareComposite
         }
     }
 
-    public void addClickListener(ClickListener listener) {
-        img.addClickListener(listener);
+    public HandlerRegistration addClickHandler(ClickHandler handler) {
+        return addDomHandler(handler, ClickEvent.getType());
     }
 
-    public void removeClickListener(ClickListener listener) {
-        img.removeClickListener(listener);
-    }
-
-    public void addMouseListener(MouseListener listener) {
-        img.addMouseListener(listener);
-    }
-
-    public void removeMouseListener(MouseListener listener) {
-        img.removeMouseListener(listener);
+    public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
+        return addDomHandler(handler, MouseOverEvent.getType());
     }
 }
