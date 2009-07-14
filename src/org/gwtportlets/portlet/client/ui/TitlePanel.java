@@ -22,6 +22,8 @@ package org.gwtportlets.portlet.client.ui;
 
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
 import org.gwtportlets.portlet.client.*;
 import org.gwtportlets.portlet.client.edit.SelectWidgetFactoryDialog;
 import org.gwtportlets.portlet.client.event.AppEventListener;
@@ -366,20 +368,20 @@ public class TitlePanel extends ContainerPortlet implements AppEventListener  {
         dlg.setText("Configure");
         dlg.setWidget(new HTML("<div style=\"padding:4px\">Would you like to configure " +
                 p.getWidgetName() + " or replace it with another widget?</div>"));
-        dlg.addButton(new CssButton("Configure", new ClickListener() {
-            public void onClick(Widget sender) {
+        dlg.addButton(new CssButton("Configure", new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 dlg.hide();
                 p.configure();
             }
         }, "Configure " + p.getWidgetName()));
-        dlg.addButton(new CssButton("Replace", new ClickListener() {
-            public void onClick(Widget sender) {
+        dlg.addButton(new CssButton("Replace", new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 dlg.hide();
                 showChooseWidgetDialog();
             }
         }, "Replace with another widget"));
-        dlg.addButton(new CssButton("Cancel", new ClickListener() {
-            public void onClick(Widget sender) {
+        dlg.addButton(new CssButton("Cancel", new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 dlg.hide();
             }
         }));

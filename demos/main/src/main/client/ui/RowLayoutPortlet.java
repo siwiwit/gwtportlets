@@ -22,6 +22,8 @@ package main.client.ui;
 
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.ui.*;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
 import org.gwtportlets.portlet.client.WidgetFactory;
 import org.gwtportlets.portlet.client.util.FormBuilder;
 import org.gwtportlets.portlet.client.edit.row.RowConstraintsDialog;
@@ -77,15 +79,15 @@ public class RowLayoutPortlet extends Portlet {
         demoList.addItem("Border Layout");
         demoList.setSelectedIndex(0);
 
-        Button add = new CssButton("Add Widget", new ClickListener() {
-            public void onClick(Widget sender) {
+        Button add = new CssButton("Add Widget", new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 target.add(new Thing("Widget-" + (target.getWidgetCount() + 1)));
                 target.layout();
             }
         }, "Add a new widget to the layout");
 
-        final Button go = new CssButton("Go", new ClickListener() {
-            public void onClick(Widget sender) {
+        final Button go = new CssButton("Go", new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 go();
             }
         }, "Reset the layout to the selected state");
@@ -171,14 +173,14 @@ public class RowLayoutPortlet extends Portlet {
             
             setStyleName("thing");
 
-            Button edit = new CssButton("Edit", new ClickListener() {
-                public void onClick(Widget sender) {
+            Button edit = new CssButton("Edit", new ClickHandler() {
+                public void onClick(ClickEvent event) {
                     new RowConstraintsDialog(getParentContainer(), Thing.this).display();
                 }
             }, "Edit constraints");
 
-            Button delete = new CssButton("Delete", new ClickListener() {
-                public void onClick(Widget sender) {
+            Button delete = new CssButton("Delete", new ClickHandler() {
+                public void onClick(ClickEvent event) {
                     Container p = getParentContainer();
                     p.remove(Thing.this);
                     p.layout();

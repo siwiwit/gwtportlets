@@ -21,6 +21,8 @@
 package org.gwtportlets.portlet.client.edit;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
@@ -28,7 +30,6 @@ import org.gwtportlets.portlet.client.WidgetFactory;
 import org.gwtportlets.portlet.client.WidgetFactoryProvider;
 import org.gwtportlets.portlet.client.WidgetRefreshHandler;
 import org.gwtportlets.portlet.client.edit.row.RowLayoutEditor;
-import org.gwtportlets.portlet.client.edit.PageEditorDialog;
 import org.gwtportlets.portlet.client.layout.*;
 import org.gwtportlets.portlet.client.ui.*;
 import org.gwtportlets.portlet.client.util.Rectangle;
@@ -98,8 +99,8 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
         }
     };
 
-    private final ClickListener discardHeldWidget = new ClickListener() {
-        public void onClick(Widget sender) {
+    private final ClickHandler discardHeldWidget = new ClickHandler() {
+        public void onClick(ClickEvent event) {
             discardHeldWidget();
         }
     };

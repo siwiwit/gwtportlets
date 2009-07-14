@@ -20,9 +20,10 @@
 
 package org.gwtportlets.portlet.client.edit;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.*;
 import org.gwtportlets.portlet.client.WidgetFactoryMetaData;
-import org.gwtportlets.portlet.client.edit.PageEditorDialog;
 import org.gwtportlets.portlet.client.ui.CssButton;
 
 import java.util.Collections;
@@ -73,16 +74,16 @@ public class SelectWidgetFactoryDialog extends PageEditorDialog {
             cat.addItem(createItem(d));
         }
 
-        final Button ok = new CssButton("OK", new ClickListener() {
-            public void onClick(Widget sender) {
+        final Button ok = new CssButton("OK", new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 okPressed = true;
                 hide();
             }
         });
         ok.setEnabled(false);
 
-        Button cancel = new CssButton("Cancel", new ClickListener() {
-            public void onClick(Widget sender) {
+        Button cancel = new CssButton("Cancel", new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 hide();
             }
         });

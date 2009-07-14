@@ -22,6 +22,8 @@ package main.client.ui;
 
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.*;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
 import org.gwtportlets.portlet.client.DoNotSendToServer;
 import org.gwtportlets.portlet.client.WidgetFactory;
 import org.gwtportlets.portlet.client.util.FormBuilder;
@@ -92,8 +94,8 @@ public class FreeMemoryPortlet extends Portlet {
         dlg.setWidget(b.getForm());
 
         final WidgetFactory wf = createWidgetFactory();
-        dlg.addButton(new CssButton("Revert", new ClickListener() {
-            public void onClick(Widget sender) {
+        dlg.addButton(new CssButton("Revert", new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 wf.refresh(FreeMemoryPortlet.this);
                 selectChartType(type);
             }

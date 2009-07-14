@@ -20,10 +20,10 @@
 
 package org.gwtportlets.portlet.client.ui;
 
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import org.gwtportlets.portlet.client.layout.LDOM;
 
 /**
@@ -57,13 +57,13 @@ public class CssButton extends Button {
         init();
     }
 
-    public CssButton(String html, ClickListener listener) {
-        super(html, listener);
+    public CssButton(String html, ClickHandler handler) {
+        super(html, handler);
         init();
     }
 
-    public CssButton(String html, ClickListener listener, String title) {
-        super(html, listener);
+    public CssButton(String html, ClickHandler handler, String title) {
+        super(html, handler);
         init();
         setTitle(title);
     }

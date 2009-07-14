@@ -24,6 +24,8 @@ import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
 import org.gwtportlets.portlet.client.WidgetFactory;
 import org.gwtportlets.portlet.client.util.FormBuilder;
 import org.gwtportlets.portlet.client.event.EventManager;
@@ -110,8 +112,8 @@ public class MenuPortlet extends WebAppContentPortlet {
         dlg.setText("Configure " + getWidgetName());
         dlg.setWidget(b.getForm());
 
-        dlg.addButton(new CssButton("OK", new ClickListener() {
-            public void onClick(Widget sender) {
+        dlg.addButton(new CssButton("OK", new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 dlg.hide();
                 setPath(path.getText().trim());
                 setVertical(vertical.isChecked());

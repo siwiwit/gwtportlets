@@ -26,6 +26,8 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
 import org.gwtportlets.portlet.client.DoNotPersist;
 import org.gwtportlets.portlet.client.DoNotSendToServer;
 import org.gwtportlets.portlet.client.WidgetFactory;
@@ -55,14 +57,14 @@ public class SourceBrowserPortlet extends Portlet {
     private List<String> history = new ArrayList<String>();
     private int historyPos;
 
-    private Button back = new CssButton("Back", new ClickListener() {
-        public void onClick(Widget sender) {
+    private Button back = new CssButton("Back", new ClickHandler() {
+        public void onClick(ClickEvent event) {
             navigateTo(history.get(historyPos - 1));
         }
     }, "Navigate to the previous file");
 
-    private Button forward = new CssButton("Fwd", new ClickListener() {
-        public void onClick(Widget sender) {
+    private Button forward = new CssButton("Fwd", new ClickHandler() {
+        public void onClick(ClickEvent event) {
             navigateTo(history.get(historyPos + 1));
         }
     }, "Navigate to the next file");
@@ -71,14 +73,14 @@ public class SourceBrowserPortlet extends Portlet {
         LayoutPanel panel = new LayoutPanel();
         initWidget(panel);
 
-        Button classes = new CssButton("Classes", new ClickListener() {
-            public void onClick(Widget sender) {
+        Button classes = new CssButton("Classes", new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 navigateTo("AllClasses.html");
             }
         }, "Show class list");
 
-        Button packages = new CssButton("Packages", new ClickListener() {
-            public void onClick(Widget sender) {
+        Button packages = new CssButton("Packages", new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 navigateTo("packages.html");
             }
         }, "Show package list");
