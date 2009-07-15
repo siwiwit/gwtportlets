@@ -30,9 +30,8 @@ import org.gwtportlets.portlet.client.layout.LDOM;
 
 /**
  * Positions a widget to fill the browsers client area. Call
- * {@link Window#addWindowResizeListener } with an instance of this class
- * to automatically resize the widget when the browser client area size
- * changes.
+ * {@link #addResizeHandler()} to start automatically resizing the widget when
+ * the browser client area size changes.
  */
 public class SyncToClientArea implements ResizeHandler {
 
