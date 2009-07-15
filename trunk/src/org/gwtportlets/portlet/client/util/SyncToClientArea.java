@@ -20,9 +20,11 @@
 
 package org.gwtportlets.portlet.client.util;
 
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.WindowResizeListener;
 import com.google.gwt.user.client.ui.Widget;
 import org.gwtportlets.portlet.client.layout.LDOM;
 
@@ -32,16 +34,17 @@ import org.gwtportlets.portlet.client.layout.LDOM;
  * to automatically resize the widget when the browser client area size
  * changes.
  */
-public class SyncToClientArea implements WindowResizeListener {
+public class SyncToClientArea implements ResizeHandler {
 
     private final Widget widget;
     private Timer timer;
+    private HandlerRegistration handlerRegistration;
 
     public SyncToClientArea(Widget widget) {
         this.widget = widget;
     }
 
-    public void onWindowResized(int width, int height) {
+    public void onResize(ResizeEvent event) {
         if (timer != null) {
             timer.cancel();
         } else {
@@ -68,4 +71,21 @@ public class SyncToClientArea implements WindowResizeListener {
         LDOM.setBounds(widget, 0, 0, w, h);
     }
 
+    /**
+     * Start listening for window resize events.
+     */
+    public void addResizeHandler() {
+        removeResizeHandler();
+        handlerRegistration = Window.addResizeHandler(this);
+    }
+
+    /**
+     * Stop listening for window resize events.
+     */
+    public void removeResizeHandler() {
+        if (handlerRegistration != null) {
+            handlerRegistration.removeHandler();
+            handlerRegistration = null;
+        }
+    }
 }

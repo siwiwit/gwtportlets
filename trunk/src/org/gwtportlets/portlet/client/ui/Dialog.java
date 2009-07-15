@@ -195,7 +195,7 @@ public class Dialog extends PopupPanel {
             blocker.setStyleName(getStylePrimaryName() + "-blocker");
             blockerSync = new SyncToClientArea(blocker);
             blockerSync.resizeWidget();
-            Window.addWindowResizeListener(blockerSync);
+            blockerSync.addResizeHandler();
             RootPanel.get().add(blocker);
         }
         super.show();
@@ -260,13 +260,13 @@ public class Dialog extends PopupPanel {
     protected void onDetach() {
         super.onDetach();
         if (blocker != null) {
-            Window.removeWindowResizeListener(blockerSync);
+            blockerSync.removeResizeHandler();
             RootPanel.get().remove(blocker);
             blocker = null;
             blockerSync = null;
         }
         if (maxSync != null) {
-            Window.removeWindowResizeListener(maxSync);
+            maxSync.removeResizeHandler();
             maxSync = null;
         }
     }
@@ -438,7 +438,7 @@ public class Dialog extends PopupPanel {
     protected void toggleMaximized() {
         if (isMaximized()) {
             updateMaximizeButton(true);
-            Window.removeWindowResizeListener(maxSync);
+            maxSync.removeResizeHandler();
             maxSync = null;
             setBounds(originalBounds);
             originalBounds = null;
@@ -456,7 +456,7 @@ public class Dialog extends PopupPanel {
                     setBounds(getMaximizeBounds());
                 }
             };
-            Window.addWindowResizeListener(maxSync);
+            maxSync.addResizeHandler();
             maxSync.resizeWidget();
         }
     }

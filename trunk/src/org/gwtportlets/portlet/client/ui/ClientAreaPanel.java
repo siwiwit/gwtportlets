@@ -22,9 +22,9 @@ package org.gwtportlets.portlet.client.ui;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
-import org.gwtportlets.portlet.client.util.SyncToClientArea;
-import org.gwtportlets.portlet.client.layout.RowLayout;
 import org.gwtportlets.portlet.client.layout.Layout;
+import org.gwtportlets.portlet.client.layout.RowLayout;
+import org.gwtportlets.portlet.client.util.SyncToClientArea;
 
 /**
  * This panel takes up the whole browser client area and redoes its layout
@@ -47,11 +47,11 @@ public class ClientAreaPanel extends RefreshPanel {
 
     protected void onLoad() {
         sync.resizeWidget();
-        Window.addWindowResizeListener(sync);
+        sync.addResizeHandler();
     }
 
     protected void onUnload() {
-        Window.removeWindowResizeListener(sync);
+        sync.removeResizeHandler();
     }
     
 }
