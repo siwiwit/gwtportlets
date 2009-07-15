@@ -280,7 +280,7 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
         previousRoot = null;
         RootPanel.get().add(overlay);
         sync.resizeWidget();
-        Window.addWindowResizeListener(sync);
+        sync.addResizeHandler();
         setEditDepth(editDepth);
         this.pageName = pageName;
         save.setTitle(pageName == null ? "Save" : "Save '" + pageName + "'");
@@ -295,7 +295,7 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
             hideIndicator(dropIndicator);
             disposeEditorsEtc();
             if (overlay.isAttached()) {
-                Window.removeWindowResizeListener(sync);
+                sync.removeResizeHandler();
                 RootPanel.get().remove(overlay);
             }
             status.hide();
