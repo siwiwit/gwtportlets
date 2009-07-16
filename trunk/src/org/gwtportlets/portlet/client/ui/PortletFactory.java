@@ -23,7 +23,7 @@ package org.gwtportlets.portlet.client.ui;
 import org.gwtportlets.portlet.client.AbstractWidgetFactory;
 import org.gwtportlets.portlet.client.layout.LayoutUtil;
 
-/**                                                                                 r
+/**                                                                                 
  * Base factory for {@link org.gwtportlets.portlet.client.ui.Portlet}'s.
  */
 public abstract class PortletFactory<T extends Portlet>

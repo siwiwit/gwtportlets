@@ -21,7 +21,7 @@
 package org.gwtportlets.portlet.client.util;
 
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.ChangeListener;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -40,28 +40,28 @@ public class MoveAnimation {
     private float step = 0.199f;
     private Timer timer;
     private boolean detachOnComplete;
-    private ChangeListener changeListener;
+    private AsyncCallback<Void> callback;
 
     public static final String STYLE_MOVE_ANIMATION = "portlet-move-animation";
 
     public MoveAnimation(Widget from, Widget to,
-            ChangeListener changeListener) {
-        this(LDOM.getBounds(from), LDOM.getBounds(to), changeListener);
+            AsyncCallback<Void> callback) {
+        this(LDOM.getBounds(from), LDOM.getBounds(to), callback);
     }
 
     public MoveAnimation(Rectangle from, Rectangle to,
-            ChangeListener changeListener) {
-        this(new HTML(), from, to, changeListener);
+            AsyncCallback<Void> callback) {
+        this(new HTML(), from, to, callback);
         widget.setStyleName(STYLE_MOVE_ANIMATION);
         detachOnComplete = true;
     }
 
     public MoveAnimation(Widget widget, Rectangle from, Rectangle to,
-            ChangeListener changeListener) {
+            AsyncCallback<Void> callback) {
         this.widget = widget;
         this.from = from;
         this.to = to;
-        this.changeListener = changeListener;
+        this.callback = callback;
     }
 
     public void start() {
@@ -95,8 +95,8 @@ public class MoveAnimation {
         if (widget.isAttached()) {
             LDOM.setBounds(widget, r.x, r.y, r.width, r.height);
         }
-        if (done && changeListener != null) {
-            changeListener.onChange(null);
+        if (done && callback != null) {
+            callback.onSuccess(null);
         }
     }
 
