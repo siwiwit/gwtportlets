@@ -23,6 +23,7 @@ package org.gwtportlets.portlet.client.edit.row;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import org.gwtportlets.portlet.client.util.Rectangle;
 import org.gwtportlets.portlet.client.layout.LayoutConstraints;
 import org.gwtportlets.portlet.client.layout.RowLayout;
@@ -162,9 +163,9 @@ public class RowLayoutEditor implements LayoutEditor {
         return true;
     }
 
-    public void editLayout(PopupListener popupListener) {
+    public void editLayout(CloseHandler closeHandler) {
         RowContainerDialog dlg = new RowContainerDialog(container);
-        dlg.addPopupListener(popupListener);
+        dlg.addCloseHandler(closeHandler);
         dlg.display();
     }
 
@@ -173,12 +174,12 @@ public class RowLayoutEditor implements LayoutEditor {
     }
 
     public void editConstraints(Widget widget, ChangeListener changeListener,
-            PopupListener popupListener) {
+            CloseHandler closeHandler) {
         RowConstraintsDialog dlg = new RowConstraintsDialog(container, widget);
         if (changeListener != null) {
             dlg.addChangeListener(changeListener);
         }
-        dlg.addPopupListener(popupListener);
+        dlg.addCloseHandler(closeHandler);
         dlg.display();
     }
 

@@ -24,8 +24,10 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.user.client.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
@@ -90,8 +92,9 @@ public abstract class PageEditor implements EventPreview, LayoutHandler {
 
     private static final String STYLE_RAISED = "raised";
 
-    private final PopupListener editDialogClosed = new PopupListener() {
-        public void onPopupClosed(PopupPanel sender, boolean autoClosed) {
+    private final CloseHandler editDialogClosed = new CloseHandler() {
+        public void onClose(CloseEvent closeEvent) {
+            Object sender = closeEvent.getSource();
             if (sender instanceof PageEditorDialog
                     && !((PageEditorDialog)sender).isDirty()) {
                 discardUndo();
@@ -1378,7 +1381,7 @@ public abstract class PageEditor implements EventPreview, LayoutHandler {
         hideAllResizers();
         moveIndicator(heldIndicator, w);
         beginUndo("Edit " + getWidgetDescription(w));
-        dlg.addPopupListener(editDialogClosed);
+        dlg.addCloseHandler(editDialogClosed);
         dlg.display();
     }
 

@@ -20,12 +20,14 @@
 
 package org.gwtportlets.portlet.client.edit;
 
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.HasFocus;
+import com.google.gwt.user.client.ui.Widget;
 import org.gwtportlets.portlet.client.layout.LDOM;
-import org.gwtportlets.portlet.client.util.Rectangle;
-import org.gwtportlets.portlet.client.util.FormBuilder;
-import org.gwtportlets.portlet.client.edit.PageEditorDialog;
 import org.gwtportlets.portlet.client.ui.LayoutPanel;
+import org.gwtportlets.portlet.client.util.FormBuilder;
+import org.gwtportlets.portlet.client.util.Rectangle;
 
 /**
  * Dialog to edit settings for a LayoutPanel.

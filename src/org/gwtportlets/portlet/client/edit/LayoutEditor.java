@@ -20,10 +20,10 @@
 
 package org.gwtportlets.portlet.client.edit;
 
-import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.PopupListener;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.ChangeListener;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import org.gwtportlets.portlet.client.layout.Container;
 import org.gwtportlets.portlet.client.layout.LayoutConstraints;
 import org.gwtportlets.portlet.client.util.Rectangle;
@@ -53,30 +53,30 @@ public interface LayoutEditor {
     /**
      * Can the layout itself be edited ?
      *
-     * @see #editLayout(PopupListener)
+     * @see #editLayout(com.google.gwt.event.logical.shared.CloseHandler)
      */
     public boolean isEditLayout();
 
     /**
-     * Edit layout settings and invoke popupListener.onPopupClosed when
+     * Edit layout settings and invoke closeHandler.onClose when
      * done.
      */
-    public void editLayout(PopupListener popupListener);
+    public void editLayout(CloseHandler closeHandler);
 
     /**
      * Can constraints be edited for widget?
      *
-     * @see #editConstraints(Widget, ChangeListener, PopupListener)
+     * @see #editConstraints(com.google.gwt.user.client.ui.Widget,com.google.gwt.user.client.ui.ChangeListener,com.google.gwt.event.logical.shared.CloseHandler)
      */
     public boolean isEditConstraints(Widget widget);
 
     /**
-     * Edit constraints for widget and invoke popupListener.onPopupClosed when
+     * Edit constraints for widget and invoke closeHandler.onClose when
      * done. If changeListener is not null then call it whenever the
      * constraints are modified.
      */
     public void editConstraints(Widget widget, ChangeListener changeListener,
-            PopupListener popupListener);
+            CloseHandler closeHandler);
 
     /**
      * Add menu options for the widget to bar. Note that if widget is null
