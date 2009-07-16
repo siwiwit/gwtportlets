@@ -23,7 +23,7 @@ package org.gwtportlets.portlet.client.edit;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.HasFocus;
+import com.google.gwt.user.client.ui.Focusable;
 import org.gwtportlets.portlet.client.layout.LDOM;
 import org.gwtportlets.portlet.client.ui.LayoutPanel;
 import org.gwtportlets.portlet.client.util.FormBuilder;
@@ -80,7 +80,7 @@ public class LayoutPanelDialog extends PageEditorDialog {
         setVisible(true);
     }
 
-    protected HasFocus getFirstFocusWidget() {
+    protected Focusable getFirstFocusWidget() {
         return limitMaximize;
     }
 

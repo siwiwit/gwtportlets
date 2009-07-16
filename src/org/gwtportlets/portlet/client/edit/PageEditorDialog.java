@@ -92,7 +92,7 @@ public class PageEditorDialog extends Dialog
     protected void onLoad() {
         DeferredCommand.addCommand(new Command() {
             public void execute() {
-                HasFocus w = getFirstFocusWidget();
+                Focusable w = getFirstFocusWidget();
                 if (w != null) {
                     w.setFocus(true);
                 }
@@ -104,7 +104,7 @@ public class PageEditorDialog extends Dialog
      * Get the widget that should receive focus when the dialog is displayed
      * or null if none.
      */
-    protected HasFocus getFirstFocusWidget() {
+    protected Focusable getFirstFocusWidget() {
         return null;
     }
 

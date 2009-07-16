@@ -36,10 +36,9 @@ public class LayoutEvent extends GwtEvent<LayoutHandler> {
      *
      * @param source the source of the handlers
      */
-    public static <I> void fire(HasLayoutHandlers source) {
+    public static void fire(HasLayoutHandlers source) {
         if (TYPE != null) {
-            LayoutEvent event = new LayoutEvent();
-            source.fireEvent(event);
+            source.fireEvent(new LayoutEvent());
         }
     }
 
