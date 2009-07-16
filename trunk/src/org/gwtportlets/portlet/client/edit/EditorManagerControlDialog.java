@@ -94,8 +94,9 @@ public class EditorManagerControlDialog extends Dialog {
         setPixelSize(WIDTH, HEIGHT);
     }
 
-    public boolean onEventPreview(Event event) {
-        return manager.onEventPreview(event) && super.onEventPreview(event);
+    protected void onPreviewNativeEvent(Event.NativePreviewEvent event) {
+        super.onPreviewNativeEvent(event);
+        manager.onPreviewNativeEvent(event);
     }
 
     public void onCloseClick() {
