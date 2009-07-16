@@ -49,7 +49,7 @@ import java.util.List;
  * Manages editing the layouts for a tree of containers. Extend this and
  * implement savePage. 
  */
-public abstract class PageEditor implements EventPreview, LayoutHandler {
+public abstract class PageEditor implements Event.NativePreviewHandler, LayoutHandler {
 
     private final LayoutPanel overlay = new LayoutPanel();
     private final SyncToClientArea sync = new SyncToClientArea(overlay);
@@ -566,37 +566,37 @@ public abstract class PageEditor implements EventPreview, LayoutHandler {
      * Use preview for our global actions so they work even when the mouse is
      * over our resizers and other widgets.
      */
-    public boolean onEventPreview(Event ev) {
-        switch (DOM.eventGetType(ev)) {
+    public void onPreviewNativeEvent(Event.NativePreviewEvent event) {
+        NativeEvent ev = event.getNativeEvent();
+        switch (Event.getTypeInt(ev.getType())) {
 
             case Event.ONMOUSEWHEEL:
-                MouseWheelVelocity v = new MouseWheelVelocity(ev);
-                onMouseWheel(v);
-                return false;
+                onMouseWheel(ev.getMouseWheelVelocityY());
+                event.cancel();
+                break;
 
             case Event.ONKEYPRESS:
-                int key = DOM.eventGetKeyCode(ev);
+                int key = ev.getKeyCode();
                 if (key == 27) {
                     onEscPressed();
-                } else if (DOM.eventGetCtrlKey(ev)) {
+                } else if (ev.getCtrlKey()) {
                     if (key == 'z') {
                         undoStack.undo();
-                    } else if (key == 'Z' && DOM.eventGetShiftKey(ev)) {
+                    } else if (key == 'Z' && ev.getShiftKey()) {
                         undoStack.redo();
                     }
                 }
-                return false;
-            
+                event.cancel();
+                break;
         }
-        return true;
     }
 
     /**
      * The mouse wheel was moved.
      */
-    private void onMouseWheel(MouseWheelVelocity v) {
+    private void onMouseWheel(int deltaY) {
         if (status.isLevelVisible()) {
-            setEditDepth(v.isNorth() ? editDepth - 1 : editDepth + 1);
+            setEditDepth(deltaY < 0 ? editDepth - 1 : editDepth + 1);
         }
     }
 
@@ -1232,8 +1232,8 @@ public abstract class PageEditor implements EventPreview, LayoutHandler {
         hideMenu();
         new WidgetZIndexer().start();
         menuPopup = new PopupPanel(false);
-        menuPopup.addPopupListener(new PopupListener() {
-            public void onPopupClosed(PopupPanel sender, boolean autoClosed) {
+        menuPopup.addCloseHandler(new CloseHandler<PopupPanel>() {
+            public void onClose(CloseEvent<PopupPanel> event) {
                 menuPopup = null;
             }
         });
@@ -1411,8 +1411,8 @@ public abstract class PageEditor implements EventPreview, LayoutHandler {
     protected void createWidget(Widget replacing, final AsyncCallback cb) {
         final SelectWidgetFactoryDialog dlg = new SelectWidgetFactoryDialog(
                 LayoutUtil.getWidgetFactoryList());
-        dlg.addPopupListener(new PopupListener() {
-            public void onPopupClosed(PopupPanel sender, boolean autoClosed) {
+        dlg.addCloseHandler(new CloseHandler<PopupPanel>() {
+            public void onClose(CloseEvent<PopupPanel> event) {
                 if (dlg.isOkPressed()) {
                     Widget w = dlg.getSelectedWidgetFactory()
                             .createWidgetFactory().createWidget();
