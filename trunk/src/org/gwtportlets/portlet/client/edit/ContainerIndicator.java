@@ -20,11 +20,16 @@
 
 package org.gwtportlets.portlet.client.edit;
 
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 import org.gwtportlets.portlet.client.layout.LDOM;
-import org.gwtportlets.portlet.client.util.Rectangle;
-import org.gwtportlets.portlet.client.ui.LayoutPanel;
 import org.gwtportlets.portlet.client.layout.RowLayout;
+import org.gwtportlets.portlet.client.ui.LayoutPanel;
+import org.gwtportlets.portlet.client.util.Rectangle;
 
 /**
  * Used to outline containers when they are empty.
@@ -49,8 +54,8 @@ public class ContainerIndicator extends Composite {
 
         setStyleName("portlet-ed-empty-indicator");
 
-        panel.addClickListener(new ClickListener() {
-            public void onClick(Widget sender) {
+        panel.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 ContainerIndicator.this.manager.toggleMenuForContainer(
                         ContainerIndicator.this);
             }

@@ -20,16 +20,17 @@
 
 package org.gwtportlets.portlet.client.util;
 
+import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.*;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.MouseListenerAdapter;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Add this as a MouseListener to any widget to provide drag support.
+ * Create one of these for a widget to provide drag support.
  * Converts all drag coordinates into client area coordinates.
  */
-public class DragAdapter extends MouseListenerAdapter {
+public class DragAdapter implements MouseDownHandler, MouseUpHandler,
+        MouseMoveHandler {
 
     private final Widget target;
     private int state;
@@ -40,8 +41,15 @@ public class DragAdapter extends MouseListenerAdapter {
     private int ABOUT_TO_DRAG = 1;
     private int DRAGGING = 2;
 
+    /**
+     * Target must implement HasMouseDownHandlers, HasMouseUpHandlers and
+     * HasMouseMoveHandlers.
+     */
     public DragAdapter(Widget target) {
         this.target = target;
+        ((HasMouseDownHandlers)target).addMouseDownHandler(this);
+        ((HasMouseUpHandlers)target).addMouseUpHandler(this);
+        ((HasMouseMoveHandlers)target).addMouseMoveHandler(this);
     }
 
     public Widget getTarget() {
@@ -94,34 +102,34 @@ public class DragAdapter extends MouseListenerAdapter {
     protected void onDrop(int clientX, int clientY) {
     }
 
-    public void onMouseDown(Widget sender, int x, int y) {
+    public void onMouseDown(MouseDownEvent event) {
         if (isDragging()) {
             return;
         }
-        Event ev = DOM.eventGetCurrentEvent();
-        DOM.eventPreventDefault(ev);
-        DOM.eventCancelBubble(ev, true);
+        NativeEvent ev = event.getNativeEvent();
+        ev.preventDefault();
+        ev.stopPropagation();
         state = ABOUT_TO_DRAG;
-        startClientX = DOM.eventGetClientX(ev);
-        startClientY = DOM.eventGetClientY(ev);
+        startClientX = ev.getClientX();
+        startClientY = ev.getClientY();
         startAbsoluteLeft = target.getAbsoluteLeft();
         startAbsoluteTop = target.getAbsoluteTop();
         DOM.setCapture(target.getElement());
     }
 
-    public void onMouseMove(Widget sender, int x, int y) {
+    public void onMouseMove(MouseMoveEvent event) {
         if (state == NOT_DRAGGING) {
             return;
         }
-        Event ev = DOM.eventGetCurrentEvent();
-        DOM.eventPreventDefault(ev);
-        DOM.eventCancelBubble(ev, true);
-        x = DOM.eventGetClientX(ev);
-        y = DOM.eventGetClientY(ev);
+        NativeEvent ev = event.getNativeEvent();
+        ev.preventDefault();
+        ev.stopPropagation();
+        int x = ev.getClientX();
+        int y = ev.getClientY();
         if (state == ABOUT_TO_DRAG) {
             if (x != startClientX || y != startClientY) {
                 state = DRAGGING;
-                onDragStart(startClientX, startClientY);                
+                onDragStart(startClientX, startClientY);
             } else {
                 return;
             }
@@ -129,17 +137,17 @@ public class DragAdapter extends MouseListenerAdapter {
         onDrag(x, y);
     }
 
-    public void onMouseUp(Widget sender, int x, int y) {
+    public void onMouseUp(MouseUpEvent event) {
         if (state == NOT_DRAGGING) {
             return;
         }
         DOM.releaseCapture(target.getElement());
-        Event ev = DOM.eventGetCurrentEvent();
-        DOM.eventPreventDefault(ev);
-        DOM.eventCancelBubble(ev, true);
+        NativeEvent ev = event.getNativeEvent();
+        ev.preventDefault();
+        ev.stopPropagation();
         try {
             if (state == DRAGGING) {
-                onDrop(DOM.eventGetClientX(ev), DOM.eventGetClientY(ev));
+                onDrop(ev.getClientX(), ev.getClientY());
             }
         } finally {
             state = NOT_DRAGGING;

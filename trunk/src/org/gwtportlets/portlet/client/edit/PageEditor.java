@@ -21,8 +21,11 @@
 package org.gwtportlets.portlet.client.edit;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.user.client.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
@@ -181,11 +184,10 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
      * Add this to widgets to make mouse move events look they they come
      * from the overlay panel.
      */
-    protected MouseListener overlayMouseListener = new MouseListenerAdapter() {
-        public void onMouseMove(Widget sender, int x, int y) {
-            Event ev = DOM.eventGetCurrentEvent();
-            onOverlayMouseMove(DOM.eventGetClientX(ev),
-                    DOM.eventGetClientY(ev));
+    protected MouseMoveHandler overlayMouseListener = new MouseMoveHandler() {
+        public void onMouseMove(MouseMoveEvent event) {
+            NativeEvent ev = event.getNativeEvent();
+            onOverlayMouseMove(ev.getClientX(), ev.getClientY());
         }
     };
 
@@ -193,11 +195,10 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
      * Add this to widgets to make click events look they they come
      * from the overlay panel.
      */
-    protected ClickListener overlayClickListener = new ClickListener() {
-        public void onClick(Widget sender) {
-            Event ev = DOM.eventGetCurrentEvent();
-            onOverlayClicked(DOM.eventGetClientX(ev),
-                    DOM.eventGetClientY(ev));
+    protected ClickHandler overlayClickListener = new ClickHandler() {
+        public void onClick(ClickEvent event) {
+            NativeEvent ev = event.getNativeEvent();
+            onOverlayClicked(ev.getClientX(), ev.getClientY());
         }
     };
 
@@ -207,22 +208,21 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
         overlay.setStyleName("portlet-ed-overlay");
         overlay.setTitle("Click for menu");
 
-        overlay.addClickListener(overlayClickListener);
-        overlay.addMouseListener(overlayMouseListener);
-        heldIndicator.addMouseListener(overlayMouseListener);
+        overlay.addClickHandler(overlayClickListener);
+        overlay.addMouseMoveHandler(overlayMouseListener);
+        heldIndicator.addMouseMoveHandler(overlayMouseListener);
 
-        dropIndicator.addClickListener(new ClickListener() {
-            public void onClick(Widget sender) {
-                Event ev = DOM.eventGetCurrentEvent();
-                onDropIndicatorClicked(DOM.eventGetClientX(ev),
-                        DOM.eventGetClientY(ev));
+        dropIndicator.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                NativeEvent ev = event.getNativeEvent();
+                onDropIndicatorClicked(ev.getClientX(), ev.getClientY());
             }
         });
 
         getControl().getLeftPanel().add(save);
 
-        save.addClickListener(new ClickListener() {
-            public void onClick(Widget sender) {
+        save.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 WidgetFactory wf = getRoot().createWidgetFactory();
                 LayoutUtil.clearDoNotSendToServerFields(wf);
                 savePage(wf, new AsyncCallback() {
@@ -280,7 +280,7 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
         previousRoot = null;
         RootPanel.get().add(overlay);
         sync.resizeWidget();
-        sync.addResizeHandler();
+        sync.startListening();
         setEditDepth(editDepth);
         this.pageName = pageName;
         save.setTitle(pageName == null ? "Save" : "Save '" + pageName + "'");
@@ -295,7 +295,7 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
             hideIndicator(dropIndicator);
             disposeEditorsEtc();
             if (overlay.isAttached()) {
-                sync.removeResizeHandler();
+                sync.stopListening();
                 RootPanel.get().remove(overlay);
             }
             status.hide();

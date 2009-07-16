@@ -111,11 +111,11 @@ public class Dialog extends PopupPanel {
         setCloseVisible(true);
         setStyleName("portlet-dialog");
 
-        titleLabel.addMouseListener(new DragHandle(titleLabel, this){
+        new DragHandle(titleLabel, this){
             protected void onDrag(int clientX, int clientY) {
                 setPopupPosition(clientX - getOffsetX(), clientY - getOffsetY());
             }
-        });
+        };
     }
 
     protected void onAttach() {
@@ -195,7 +195,7 @@ public class Dialog extends PopupPanel {
             blocker.setStyleName(getStylePrimaryName() + "-blocker");
             blockerSync = new SyncToClientArea(blocker);
             blockerSync.resizeWidget();
-            blockerSync.addResizeHandler();
+            blockerSync.startListening();
             RootPanel.get().add(blocker);
         }
         super.show();
@@ -260,13 +260,13 @@ public class Dialog extends PopupPanel {
     protected void onDetach() {
         super.onDetach();
         if (blocker != null) {
-            blockerSync.removeResizeHandler();
+            blockerSync.stopListening();
             RootPanel.get().remove(blocker);
             blocker = null;
             blockerSync = null;
         }
         if (maxSync != null) {
-            maxSync.removeResizeHandler();
+            maxSync.stopListening();
             maxSync = null;
         }
     }
@@ -438,7 +438,7 @@ public class Dialog extends PopupPanel {
     protected void toggleMaximized() {
         if (isMaximized()) {
             updateMaximizeButton(true);
-            maxSync.removeResizeHandler();
+            maxSync.stopListening();
             maxSync = null;
             setBounds(originalBounds);
             originalBounds = null;
@@ -456,7 +456,7 @@ public class Dialog extends PopupPanel {
                     setBounds(getMaximizeBounds());
                 }
             };
-            maxSync.addResizeHandler();
+            maxSync.startListening();
             maxSync.resizeWidget();
         }
     }
