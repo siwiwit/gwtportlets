@@ -47,10 +47,7 @@ public class MenuPortlet extends WebAppContentPortlet {
 
     public MenuPortlet() {
         setStyleName("portlet-menu");
-        Popper p = new Popper();
-        HTML html = (HTML)getWidget();
-        html.addClickListener(p);
-        html.addMouseListener(p);
+        new Popper().startListening(getWidget());
     }
 
     protected HasHTML createWidget() {
@@ -141,9 +138,7 @@ public class MenuPortlet extends WebAppContentPortlet {
         if (s != null) {
             HTML w = createSubMenu(s);
             PopupPanel panel = new MenuPopup();
-            Popper sub = new Popper(panel);
-            w.addClickListener(sub);
-            w.addMouseListener(sub);
+            new Popper(panel).startListening(w);
             addSubMenuToPopup(w, panel);
             popper.showPopup(panel, e, vertical || sender != getWidget(), 0);
             return true;

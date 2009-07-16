@@ -21,14 +21,19 @@
 package org.gwtportlets.portlet.client.ui;
 
 import com.google.gwt.core.client.JavaScriptException;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.Widget;
+import org.gwtportlets.portlet.client.layout.LDOM;
 import org.gwtportlets.portlet.client.util.GenUtil;
 import org.gwtportlets.portlet.client.util.Rectangle;
-import org.gwtportlets.portlet.client.layout.LDOM;
 
 /**
  * <p>Responds to click and/or mouse move events by popping up a Widget in
@@ -37,14 +42,17 @@ import org.gwtportlets.portlet.client.layout.LDOM;
  * one popup is active at a time. Useful for building cascading menus and so
  * on.</p>
  *
- * <p>Add as a click and/or mouse listener to other widget(s).</p>
+ * <p>Call {@link #startListening(com.google.gwt.user.client.ui.Widget)}
+ * to other widget(s).</p>
  */
-public abstract class CascadingPopupManager extends MouseListenerAdapter
-        implements ClickListener, PopupListener {
+public abstract class CascadingPopupManager
+        implements MouseMoveHandler, ClickHandler, CloseHandler {
 
     protected PopupPanel parent;
     protected PopupPanel active;
     protected Element lastMoveElement;
+    
+    private HandlerRegistration handlerRegistration;
 
     protected CascadingPopupManager() {
     }
@@ -55,7 +63,15 @@ public abstract class CascadingPopupManager extends MouseListenerAdapter
      */
     protected CascadingPopupManager(PopupPanel parent) {
         this.parent = parent;
-        parent.addPopupListener(this);
+        parent.addCloseHandler(this);
+    }
+
+    /**
+     * Start listening to events from w.
+     */
+    public void startListening(Widget w) {
+        ((HasMouseMoveHandlers)w).addMouseMoveHandler(this);
+        ((HasClickHandlers)w).addClickHandler(this);
     }
 
     protected Element getTargetLink() {
@@ -69,13 +85,13 @@ public abstract class CascadingPopupManager extends MouseListenerAdapter
         return e != null && GenUtil.isLink(e) ? e : null;
     }
 
-    public void onClick(Widget sender) {
+    public void onClick(ClickEvent event) {
         Event ev = DOM.eventGetCurrentEvent();
         String token = GenUtil.getTargetHistoryToken(ev);
         if (token != null) {
             DOM.eventPreventDefault(ev);
             if (token.endsWith("()")) {
-                onMethodClick(sender, DOM.eventGetTarget(ev), 
+                onMethodClick((Widget)event.getSource(), DOM.eventGetTarget(ev),
                         token.substring(0, token.length() - 2));
             } else {
                 onHistoryTokenClick(token);
@@ -87,14 +103,15 @@ public abstract class CascadingPopupManager extends MouseListenerAdapter
         History.newItem(token);
     }
 
-    public void onMouseMove(Widget sender, int x, int y) {
+    public void onMouseMove(MouseMoveEvent event) {
         Element e = getTargetLink();
-        if (e != null && lastMoveElement == null || !DOM.compare(e, lastMoveElement)) {
+        if (e != null && lastMoveElement == null || e != lastMoveElement) {
             lastMoveElement = e;
             Event ev = DOM.eventGetCurrentEvent();
             String token = GenUtil.getTargetHistoryToken(ev);
             if (token != null) {
-                onMethodHover(sender, e, token.substring(0, token.length() - 2));
+                onMethodHover((Widget)event.getSource(), e,
+                        token.substring(0, token.length() - 2));
             } else {
                 hidePopup();
             }
@@ -120,11 +137,11 @@ public abstract class CascadingPopupManager extends MouseListenerAdapter
     /**
      * Display p relative to e. Any currently active sibling popup is hidden.
      */
-    public void showPopup(final PopupPanel p, final Element e, 
+    public void showPopup(final PopupPanel p, final Element e,
             final boolean toRightOrLeft, final int spacing) {
         hidePopup();
         active = p;
-        p.addPopupListener(this);
+        handlerRegistration = p.addCloseHandler(this);
         p.setPopupPositionAndShow(new PopupPanel.PositionCallback() {
             public void setPosition(int offsetWidth, int offsetHeight) {
                 setPopupPosition(e, p, offsetWidth, offsetHeight,
@@ -138,7 +155,10 @@ public abstract class CascadingPopupManager extends MouseListenerAdapter
      */
     public void hidePopup() {
         if (active != null) {
-            active.removePopupListener(this);
+            if (handlerRegistration != null) {
+                handlerRegistration.removeHandler();
+                handlerRegistration = null;
+            }
             active.hide();
             active = null;
         }
@@ -170,7 +190,7 @@ public abstract class CascadingPopupManager extends MouseListenerAdapter
     /**
      * Our parent or active popup has been closed.
      */
-    public void onPopupClosed(PopupPanel sender, boolean autoClosed) {
+    public void onClose(CloseEvent event) {
         lastMoveElement = null;
         if (parent != null) {
             PopupPanel p = parent;
@@ -181,6 +201,10 @@ public abstract class CascadingPopupManager extends MouseListenerAdapter
             PopupPanel p = active;
             active = null;
             p.hide();
+            if (handlerRegistration != null) {
+                handlerRegistration.removeHandler();
+                handlerRegistration = null;
+            }
         }
     }
 
