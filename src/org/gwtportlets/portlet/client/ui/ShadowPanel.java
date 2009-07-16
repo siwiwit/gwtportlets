@@ -25,7 +25,6 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import org.gwtportlets.portlet.client.layout.LDOM;
-import org.gwtportlets.portlet.client.ui.Theme;
 
 /**
  * Adds a fuzzy shadow to a single widget.

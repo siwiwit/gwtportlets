@@ -312,8 +312,11 @@ public class TitlePanel extends ContainerPortlet implements AppEventListener  {
         }
 
         lastFlags = -1;
-        new MoveAnimation(main, (Widget)currentMaximizeStop, new ChangeListener(){
-            public void onChange(Widget sender) {
+        new MoveAnimation(main, (Widget)currentMaximizeStop,
+                new AsyncCallback<Void>(){
+            public void onFailure(Throwable caught) {
+            }
+            public void onSuccess(Void result) {
                 if (maxOverlay.getWidgetCount() == 0) {
                     outer.remove(main);
                     maxOverlay.add(main);
