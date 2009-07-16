@@ -102,7 +102,7 @@ public class MenuPortlet extends WebAppContentPortlet {
         final CheckBox vertical = new CheckBox("Vertical menu bar");
         vertical.setTitle("Open first level sub menus to the right (true) or " +
                 "below (false)");
-        vertical.setChecked(isVertical());
+        vertical.setValue(isVertical());
 
         FormBuilder b = new FormBuilder();
         b.label("Menu template path").field(path).endRow();
@@ -116,7 +116,7 @@ public class MenuPortlet extends WebAppContentPortlet {
             public void onClick(ClickEvent event) {
                 dlg.hide();
                 setPath(path.getText().trim());
-                setVertical(vertical.isChecked());
+                setVertical(vertical.getValue());
                 refresh();
             }
         }));

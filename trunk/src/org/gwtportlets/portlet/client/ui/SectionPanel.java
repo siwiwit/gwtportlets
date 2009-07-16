@@ -20,18 +20,22 @@
 
 package org.gwtportlets.portlet.client.ui;
 
-import org.gwtportlets.portlet.client.event.AppEventListener;
-import org.gwtportlets.portlet.client.event.WidgetChangeEvent;
-import org.gwtportlets.portlet.client.event.EventManager;
-import org.gwtportlets.portlet.client.layout.Container;
-import org.gwtportlets.portlet.client.layout.RowLayout;
-import org.gwtportlets.portlet.client.layout.LayoutUtil;
-import org.gwtportlets.portlet.client.layout.ContainerFactory;
-import org.gwtportlets.portlet.client.util.FormBuilder;
-import org.gwtportlets.portlet.client.WidgetFactory;
-import com.google.gwt.user.client.ui.*;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.user.client.ui.*;
+import org.gwtportlets.portlet.client.WidgetFactory;
+import org.gwtportlets.portlet.client.event.AppEventListener;
+import org.gwtportlets.portlet.client.event.EventManager;
+import org.gwtportlets.portlet.client.event.WidgetChangeEvent;
+import org.gwtportlets.portlet.client.layout.Container;
+import org.gwtportlets.portlet.client.layout.ContainerFactory;
+import org.gwtportlets.portlet.client.layout.LayoutUtil;
+import org.gwtportlets.portlet.client.layout.RowLayout;
+import org.gwtportlets.portlet.client.util.FormBuilder;
 
 import java.util.EventObject;
 
@@ -187,14 +191,14 @@ public class SectionPanel extends ContainerPortlet implements AppEventListener {
 
             setText("Configure Section");
 
-            titleText.addChangeListener(new ChangeListener() {
-                public void onChange(Widget sender) {
+            titleText.addChangeHandler(new ChangeHandler() {
+                public void onChange(ChangeEvent event) {
                     updatePanel();
                 }
             });
 
-            titleTextAuto.addClickListener(new ClickListener() {
-                public void onClick(Widget sender) {
+            titleTextAuto.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+                public void onValueChange(ValueChangeEvent<Boolean> event) {
                     updatePanel();
                 }
             });
@@ -221,13 +225,13 @@ public class SectionPanel extends ContainerPortlet implements AppEventListener {
 
         private void updatePanel() {
             panel.titleText = titleText.getText();
-            panel.titleTextAuto = titleTextAuto.isChecked();
+            panel.titleTextAuto = titleTextAuto.getValue();
             panel.update();
         }
 
         private void updateControls() {
             titleText.setText(panel.titleText);
-            titleTextAuto.setChecked(panel.titleTextAuto);
+            titleTextAuto.setValue(panel.titleTextAuto);
         }
     }
 

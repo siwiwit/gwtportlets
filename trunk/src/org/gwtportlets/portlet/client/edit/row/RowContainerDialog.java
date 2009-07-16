@@ -20,13 +20,17 @@
 
 package org.gwtportlets.portlet.client.edit.row;
 
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.user.client.ui.*;
+import org.gwtportlets.portlet.client.edit.PageEditorDialog;
 import org.gwtportlets.portlet.client.layout.Container;
 import org.gwtportlets.portlet.client.layout.LDOM;
-import org.gwtportlets.portlet.client.util.Rectangle;
-import org.gwtportlets.portlet.client.util.FormBuilder;
 import org.gwtportlets.portlet.client.layout.RowLayout;
-import org.gwtportlets.portlet.client.edit.PageEditorDialog;
+import org.gwtportlets.portlet.client.util.FormBuilder;
+import org.gwtportlets.portlet.client.util.Rectangle;
 
 /**
  * Dialog to edit settings for a container with row layout.
@@ -53,14 +57,14 @@ public class RowContainerDialog extends PageEditorDialog {
 
         updateControls();
 
-        spacing.addChangeListener(new ChangeListener() {
-            public void onChange(Widget sender) {
+        spacing.addChangeHandler(new ChangeHandler() {
+            public void onChange(ChangeEvent event) {
                 updateContainer();
             }
         });
 
-        column.addClickListener(new ClickListener() {
-            public void onClick(Widget sender) {
+        column.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+            public void onValueChange(ValueChangeEvent<Boolean> event) {
                 updateContainer();
             }
         });
@@ -111,14 +115,14 @@ public class RowContainerDialog extends PageEditorDialog {
 
     private void updateControls() {
         RowLayout layout = getContainerLayout();
-        column.setChecked(layout.isColumn());
+        column.setValue(layout.isColumn());
         setText(spacing, layout.getSpacing());
     }
 
     private void updateContainer() {
         setDirty(true);
         RowLayout layout = getContainerLayout();
-        layout.setColumn(column.isChecked());
+        layout.setColumn(column.getValue());
         layout.setSpacing((int)getFloat(spacing, layout.getSpacing()));
         container.layout();
     }

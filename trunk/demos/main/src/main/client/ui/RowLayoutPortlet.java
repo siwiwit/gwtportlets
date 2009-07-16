@@ -20,15 +20,19 @@
 
 package main.client.ui;
 
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.ui.*;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
 import org.gwtportlets.portlet.client.WidgetFactory;
-import org.gwtportlets.portlet.client.util.FormBuilder;
 import org.gwtportlets.portlet.client.edit.row.RowConstraintsDialog;
 import org.gwtportlets.portlet.client.layout.*;
 import org.gwtportlets.portlet.client.ui.*;
+import org.gwtportlets.portlet.client.util.FormBuilder;
 
 /**
  * Interactive demo to show how to use RowLayout.
@@ -45,17 +49,17 @@ public class RowLayoutPortlet extends Portlet {
         initWidget(panel);
 
         final CheckBox column = new CheckBox("Column");
-        column.addClickListener(new ClickListener() {
-            public void onClick(Widget sender) {
-                getTargetLayout().setColumn(column.isChecked());
+        column.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+            public void onValueChange(ValueChangeEvent<Boolean> event) {
+                getTargetLayout().setColumn(column.getValue());
                 target.layout();
             }
         });
 
         final TextBox spacing = new TextBox();
         spacing.setVisibleLength(4);
-        spacing.addChangeListener(new ChangeListener() {
-            public void onChange(Widget sender) {
+        spacing.addChangeHandler(new ChangeHandler() {
+            public void onChange(ChangeEvent event) {
                 try {
                     getTargetLayout().setSpacing(Integer.parseInt(spacing.getText()));
                 } catch (NumberFormatException e) {
@@ -69,7 +73,7 @@ public class RowLayoutPortlet extends Portlet {
         target.addLayoutHandler(new LayoutHandler() {
             public void onLayoutUpdated(LayoutEvent layoutEvent) {
                 bounds.setText(LDOM.getBounds(target).toString());
-                column.setChecked(getTargetLayout().isColumn());
+                column.setValue(getTargetLayout().isColumn());
                 spacing.setText(Integer.toString(getTargetLayout().getSpacing()));
             }
         });
@@ -92,8 +96,8 @@ public class RowLayoutPortlet extends Portlet {
             }
         }, "Reset the layout to the selected state");
 
-        demoList.addChangeListener(new ChangeListener() {
-            public void onChange(Widget sender) {
+        demoList.addChangeHandler(new ChangeHandler() {
+            public void onChange(ChangeEvent event) {
                 go.click();
             }
         });
