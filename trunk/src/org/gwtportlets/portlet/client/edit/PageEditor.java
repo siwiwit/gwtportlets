@@ -26,8 +26,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.user.client.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
@@ -920,8 +922,8 @@ public abstract class PageEditor implements EventPreview, LayoutHandler {
                 public void execute() {
                     hideOtherResizers(widget);
                     beginUndo("Edit " + getWidgetDescription(widget) + " Constraints");
-                    editor.editConstraints(widget, new ChangeListener() {
-                        public void onChange(Widget sender) {
+                    editor.editConstraints(widget, new ValueChangeHandler() {
+                        public void onValueChange(ValueChangeEvent event) {
                             onConstraintsChanged(widget);
                         }
                     }, editDialogClosed);
