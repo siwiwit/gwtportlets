@@ -21,17 +21,20 @@
 package org.gwtportlets.portlet.client.ui;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.event.shared.HandlerRegistration;
 import org.gwtportlets.portlet.client.layout.Container;
-import org.gwtportlets.portlet.client.layout.ContainerListener;
+import org.gwtportlets.portlet.client.layout.LayoutHandler;
 import org.gwtportlets.portlet.client.layout.*;
 
 import java.util.Iterator;
 
 /**
  * Portlet that is a Container and delegates container calls to an inner
- * container.
+ * container. The delegate must not change.
  */
 public abstract class ContainerPortlet extends Portlet implements Container {
+
+    private HandlerRegistration handlerRegistration;
 
     protected abstract Container getDelegate();
 
@@ -97,12 +100,15 @@ public abstract class ContainerPortlet extends Portlet implements Container {
         getDelegate().clear();
     }
 
-    public void addContainerListener(ContainerListener l) {
-        getDelegate().addContainerListener(l);
-    }
-
-    public void removeContainerListener(ContainerListener l) {
-        getDelegate().removeContainerListener(l);
+    public HandlerRegistration addLayoutHandler(LayoutHandler handler) {
+        if (handlerRegistration == null) {
+            handlerRegistration = getDelegate().addLayoutHandler(new LayoutHandler() {
+                public void onLayoutUpdated(LayoutEvent event) {
+                    LayoutEvent.fire(ContainerPortlet.this);
+                }
+            });
+        }
+        return addHandler(handler, LayoutEvent.getType());
     }
 
     public boolean isLimitMaximize() {

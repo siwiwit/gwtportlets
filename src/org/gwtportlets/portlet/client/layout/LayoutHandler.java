@@ -20,16 +20,16 @@
 
 package org.gwtportlets.portlet.client.layout;
 
-import java.util.EventListener;
+import com.google.gwt.event.shared.EventHandler;
 
 /**
  * Listener for layout events.
  */
-public interface ContainerListener extends EventListener {
+public interface LayoutHandler extends EventHandler {
 
     /**
      * The containers layout has been updated.
      */
-    public void layoutUpdated(Container container);
+    public void onLayoutUpdated(LayoutEvent event);
 
 }

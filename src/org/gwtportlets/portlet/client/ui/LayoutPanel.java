@@ -30,9 +30,6 @@ import org.gwtportlets.portlet.client.WidgetFactory;
 import org.gwtportlets.portlet.client.WidgetInfo;
 import org.gwtportlets.portlet.client.layout.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Container that uses a pluggable layout strategy and constraints to arrange
  * its children.
@@ -47,8 +44,6 @@ public class LayoutPanel extends ComplexPanel implements Container,
     private int lastWidth = -1;
     private int lastHeight = -1;
     private boolean limitMaximize;
-    
-    private List layoutListeners;
 
     public LayoutPanel() {
         setElement(DOM.createDiv());
@@ -207,7 +202,7 @@ public class LayoutPanel extends ComplexPanel implements Container,
             layout.layoutWidgets(this,
                 LDOM.getContentLeft(e), LDOM.getContentTop(e),
                     lastWidth, lastHeight);
-            fireLayoutUpdated();
+            LayoutEvent.fire(this);
         } finally {
             LayoutPerf.leave();
         }
@@ -222,28 +217,8 @@ public class LayoutPanel extends ComplexPanel implements Container,
         }
     }
 
-    protected void fireLayoutUpdated() {
-        if (layoutListeners != null) {
-            for (int i = layoutListeners.size() - 1; i >= 0; i--) {
-                ((ContainerListener)layoutListeners.get(i)).layoutUpdated(this);
-            }
-        }
-    }
-
-    public void addContainerListener(ContainerListener l) {
-        if (layoutListeners == null) {
-            layoutListeners = new ArrayList();
-        }
-        layoutListeners.add(l);
-    }
-
-    public void removeContainerListener(ContainerListener l) {
-        if (layoutListeners != null) {
-            layoutListeners.remove(l);
-            if (layoutListeners.isEmpty()) {
-                layoutListeners = null;
-            }
-        }
+    public HandlerRegistration addLayoutHandler(LayoutHandler handler) {
+        return addHandler(handler, LayoutEvent.getType());
     }
 
     public Widget getLogicalParent() {
