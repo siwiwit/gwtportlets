@@ -45,7 +45,7 @@ import java.util.List;
  * Manages editing the layouts for a tree of containers. Extend this and
  * implement savePage. 
  */
-public abstract class PageEditor implements EventPreview, ContainerListener {
+public abstract class PageEditor implements EventPreview, LayoutHandler {
 
     private final LayoutPanel overlay = new LayoutPanel();
     private final SyncToClientArea sync = new SyncToClientArea(overlay);
@@ -60,9 +60,9 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
     private int editDepth;
     private int maxEditDepth;
 
-    private List editorList = new ArrayList();
-    private List resizerList = new ArrayList();
-    private List emptyList = new ArrayList();
+    private List<LayoutEditor> editorList = new ArrayList<LayoutEditor>();
+    private List<WidgetResizer> resizerList = new ArrayList<WidgetResizer>();
+    private List<ContainerIndicator> emptyList = new ArrayList<ContainerIndicator>();
 
     private UndoStack undoStack = new UndoStack();
     private WidgetEditor defaultWidgetEditor = createDefaultWidgetEditor();
@@ -330,17 +330,15 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
      */
     private void disposeEditorsEtc() {
         for (int i = editorList.size() - 1; i >= 0; i--) {
-            LayoutEditor ed = (LayoutEditor)editorList.get(i);
-            ed.getContainer().removeContainerListener(this);
-            ed.dispose();
+            editorList.get(i).dispose();
         }
         editorList.clear();
         for (int i = resizerList.size() - 1; i >= 0; i--) {
-            ((WidgetResizer)resizerList.get(i)).dispose();
+            resizerList.get(i).dispose();
         }
         resizerList.clear();
         for (int i = emptyList.size() - 1; i >= 0; i--) {
-            ((ContainerIndicator)emptyList.get(i)).dispose();
+            emptyList.get(i).dispose();
         }
         emptyList.clear();
     }
@@ -386,7 +384,7 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
         // make sure we have an editor for each container, a resizer widget
         // for each widget in each container and an empty indicator for each
         // empty container
-        ArrayList newEditorList = new ArrayList();
+        ArrayList<LayoutEditor> newEditorList = new ArrayList<LayoutEditor>();
         ArrayList newResizerList = new ArrayList();
         ArrayList newEmptyList = new ArrayList();
         for (int i = 0; i < found.size(); i++) {
@@ -398,7 +396,6 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
                     continue;
                 }
                 ed.init(this, container);
-                container.addContainerListener(this);
             }
             newEditorList.add(ed);
             int wc = container.getWidgetCount();
@@ -425,23 +422,21 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
         // dispose editors for containers we no longer have
         editorList.removeAll(newEditorList);
         for (int i = editorList.size() - 1; i >= 0; i--) {
-            LayoutEditor ed = (LayoutEditor)editorList.get(i);
-            ed.getContainer().removeContainerListener(this);
-            ed.dispose();
+            editorList.get(i).dispose();
         }
         editorList = newEditorList;
 
         // dispose resizers for widgets we no longer have
         resizerList.removeAll(newResizerList);
         for (int i = resizerList.size() - 1; i >= 0; i--) {
-            ((WidgetResizer)resizerList.get(i)).dispose();
+            resizerList.get(i).dispose();
         }
         resizerList = newResizerList;
 
         // dispose of empty indicators that are no longer needed
         emptyList.removeAll(newEmptyList);
         for (int i = emptyList.size() - 1; i >= 0; i--) {
-            ((ContainerIndicator)emptyList.get(i)).dispose();
+            emptyList.get(i).dispose();
         }
         emptyList = newEmptyList;
 
@@ -495,7 +490,7 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
      */
     private WidgetResizer getResizerFor(Widget widget) {
         for (int i = resizerList.size() - 1; i >= 0; i--) {
-            WidgetResizer r = (WidgetResizer)resizerList.get(i);
+            WidgetResizer r = resizerList.get(i);
             if (r.getTarget() == widget) {
                 return r;
             }
@@ -508,7 +503,7 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
      */
     private LayoutEditor getEditorFor(Container container) {
         for (int i = editorList.size() - 1; i >= 0; i--) {
-            LayoutEditor ed = (LayoutEditor)editorList.get(i);
+            LayoutEditor ed = editorList.get(i);
             if (ed.getContainer() == container) {
                 return ed;
             }
@@ -521,7 +516,7 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
      */
     private ContainerIndicator getEmptyIndicatorFor(LayoutEditor ed) {
         for (int i = emptyList.size() - 1; i >= 0; i--) {
-            ContainerIndicator e = (ContainerIndicator)emptyList.get(i);
+            ContainerIndicator e = emptyList.get(i);
             if (e.getEditor() == ed) {
                 return e;
             }
@@ -616,7 +611,7 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
      */
     private LayoutEditor getEditorFor(int clientX, int clientY) {
         for (int i = editorList.size() - 1; i >= 0; i--) {
-            LayoutEditor ed = (LayoutEditor)editorList.get(i);
+            LayoutEditor ed = editorList.get(i);
             Widget container = (Widget)ed.getContainer();
             if (LDOM.contains(container.getElement(), clientX, clientY)) {
                 return ed;
@@ -671,11 +666,11 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
      */
     private void hideOtherResizers(Container container) {
         for (int i = resizerList.size() - 1; i >= 0; i--) {
-            WidgetResizer r = (WidgetResizer)resizerList.get(i);
+            WidgetResizer r = resizerList.get(i);
             r.setVisible(r.getEditor().getContainer() == container);
         }
         for (int i = emptyList.size() - 1; i >= 0; i--) {
-            ContainerIndicator ci = (ContainerIndicator)emptyList.get(i);
+            ContainerIndicator ci = emptyList.get(i);
             ci.setVisible(ci.getEditor().getContainer() == container);
         }
     }
@@ -686,11 +681,11 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
      */
     private void hideOtherResizers(Widget widget) {
         for (int i = resizerList.size() - 1; i >= 0; i--) {
-            WidgetResizer r = (WidgetResizer)resizerList.get(i);
+            WidgetResizer r = resizerList.get(i);
             r.setVisible(r.getTarget() == widget);
         }
         for (int i = emptyList.size() - 1; i >= 0; i--) {
-            ContainerIndicator ci = (ContainerIndicator)emptyList.get(i);
+            ContainerIndicator ci = emptyList.get(i);
             ci.setVisible(ci.getEditor().getContainer() == widget);
         }
     }
@@ -700,10 +695,10 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
      */
     private void showAllResizers() {
         for (int i = resizerList.size() - 1; i >= 0; i--) {
-            ((WidgetResizer)resizerList.get(i)).setVisible(true);
+            resizerList.get(i).setVisible(true);
         }
         for (int i = emptyList.size() - 1; i >= 0; i--) {
-            ((ContainerIndicator)emptyList.get(i)).setVisible(true);
+            emptyList.get(i).setVisible(true);
         }
         update();
         // have to do an update as sometimes the indicators
@@ -1263,7 +1258,7 @@ public abstract class PageEditor implements EventPreview, ContainerListener {
         }
     }
 
-    public void layoutUpdated(Container container) {
+    public void onLayoutUpdated(LayoutEvent event) {
         // we may get a update notification from every one of our containers
         // in a single event cycle so schedule just one update for when
         // event processing is complete

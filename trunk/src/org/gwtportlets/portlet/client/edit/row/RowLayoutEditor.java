@@ -22,6 +22,7 @@ package org.gwtportlets.portlet.client.edit.row;
 
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.*;
+import com.google.gwt.event.shared.HandlerRegistration;
 import org.gwtportlets.portlet.client.util.Rectangle;
 import org.gwtportlets.portlet.client.layout.LayoutConstraints;
 import org.gwtportlets.portlet.client.layout.RowLayout;
@@ -37,6 +38,7 @@ public class RowLayoutEditor implements LayoutEditor {
 
     private PageEditor manager;
     private Container container;
+    private HandlerRegistration handlerRegistration;
 
     public RowLayoutEditor() {
     }
@@ -44,9 +46,14 @@ public class RowLayoutEditor implements LayoutEditor {
     public void init(PageEditor manager, Container container) {
         this.manager = manager;
         this.container = container;
+        handlerRegistration = container.addLayoutHandler(manager);
     }
 
     public void dispose() {
+        if (handlerRegistration != null) {
+            handlerRegistration.removeHandler();
+            handlerRegistration = null;
+        }
     }
 
     public PageEditor getManager() {

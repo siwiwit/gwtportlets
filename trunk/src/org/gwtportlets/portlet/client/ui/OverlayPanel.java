@@ -23,15 +23,17 @@ package org.gwtportlets.portlet.client.ui;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.event.shared.HandlerRegistration;
 import org.gwtportlets.portlet.client.util.Rectangle;
 import org.gwtportlets.portlet.client.layout.*;
 
 /**
  * LayoutPanel that maintains its position over another container.
  */
-public class OverlayPanel extends LayoutPanel implements ContainerListener {
+public class OverlayPanel extends LayoutPanel implements LayoutHandler {
 
     private Container target;
+    private HandlerRegistration handlerRegistration;
     private Widget logicalParent;
     private PopupPanel popup;
 
@@ -62,12 +64,13 @@ public class OverlayPanel extends LayoutPanel implements ContainerListener {
      * Position us over target and display. Set a target of null to hide.
      */
     public void setTarget(Container target) {
-        if (this.target != null) {
-            this.target.removeContainerListener(this);
+        if (handlerRegistration != null) {
+            handlerRegistration.removeHandler();
+            handlerRegistration = null;
         }
         this.target = target;
         if (target != null) {
-            target.addContainerListener(this);
+            handlerRegistration = target.addLayoutHandler(this);
         }
         update();
     }
@@ -100,7 +103,7 @@ public class OverlayPanel extends LayoutPanel implements ContainerListener {
         }
     }
 
-    public void layoutUpdated(Container container) {
+    public void onLayoutUpdated(LayoutEvent event) {
         update();            
     }
 

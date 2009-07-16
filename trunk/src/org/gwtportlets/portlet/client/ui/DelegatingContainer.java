@@ -21,8 +21,9 @@
 package org.gwtportlets.portlet.client.ui;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.event.shared.HandlerRegistration;
 import org.gwtportlets.portlet.client.layout.Container;
-import org.gwtportlets.portlet.client.layout.ContainerListener;
+import org.gwtportlets.portlet.client.layout.LayoutHandler;
 import org.gwtportlets.portlet.client.layout.*;
 
 import java.util.Iterator;
@@ -30,10 +31,12 @@ import java.util.Iterator;
 /**
  * Container that contains another inner container and delegates container
  * calls to that inner container. Useful for writing containers that decorate
- * other containers.
+ * other containers. The delegate must not change.
  */
 public abstract class DelegatingContainer extends PositionAwareComposite
         implements Container {
+
+    private HandlerRegistration handlerRegistration;
 
     protected abstract Container getDelegate();
 
@@ -95,12 +98,15 @@ public abstract class DelegatingContainer extends PositionAwareComposite
         getDelegate().clear();
     }
 
-    public void addContainerListener(ContainerListener l) {
-        getDelegate().addContainerListener(l);
-    }
-
-    public void removeContainerListener(ContainerListener l) {
-        getDelegate().removeContainerListener(l);
+    public HandlerRegistration addLayoutHandler(LayoutHandler handler) {
+        if (handlerRegistration == null) {
+            handlerRegistration = getDelegate().addLayoutHandler(new LayoutHandler() {
+                public void onLayoutUpdated(LayoutEvent event) {
+                    LayoutEvent.fire(DelegatingContainer.this);
+                }
+            });            
+        }
+        return addHandler(handler, LayoutEvent.getType());
     }
 
     public boolean isLimitMaximize() {

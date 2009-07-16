@@ -66,8 +66,8 @@ public class RowLayoutPortlet extends Portlet {
         });
 
         final Label bounds = new Label();
-        target.addContainerListener(new ContainerListener() {
-            public void layoutUpdated(Container container) {
+        target.addLayoutHandler(new LayoutHandler() {
+            public void onLayoutUpdated(LayoutEvent layoutEvent) {
                 bounds.setText(LDOM.getBounds(target).toString());
                 column.setChecked(getTargetLayout().isColumn());
                 spacing.setText(Integer.toString(getTargetLayout().getSpacing()));

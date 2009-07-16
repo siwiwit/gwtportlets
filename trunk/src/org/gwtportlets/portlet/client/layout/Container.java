@@ -31,7 +31,7 @@ import org.gwtportlets.portlet.client.WidgetFactoryProvider;
  * implement this.
  */
 public interface Container extends HasWidgets, IndexedPanel,
-        WidgetFactoryProvider, PositionAware {
+        WidgetFactoryProvider, PositionAware, HasLayoutHandlers {
 
     /**
      * Get a short type description for this container (e.g. 'Row',
@@ -65,16 +65,6 @@ public interface Container extends HasWidgets, IndexedPanel,
      * container triggers automatic layout.
      */
     public void layout();
-
-    /**
-     * Add a listener for container events.
-     */
-    public void addContainerListener(ContainerListener l);
-
-    /**
-     * Remove a listener for container events.
-     */
-    public void removeContainerListener(ContainerListener l);
 
     /**
      * Get the parent of this container for event propagation purposes.
