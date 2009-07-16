@@ -20,17 +20,20 @@
 
 package org.gwtportlets.portlet.client.edit.row;
 
-import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.ui.*;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import org.gwtportlets.portlet.client.util.Rectangle;
-import org.gwtportlets.portlet.client.layout.LayoutConstraints;
-import org.gwtportlets.portlet.client.layout.RowLayout;
-import org.gwtportlets.portlet.client.layout.Container;
-import org.gwtportlets.portlet.client.layout.LDOM;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.Widget;
 import org.gwtportlets.portlet.client.edit.LayoutEditor;
 import org.gwtportlets.portlet.client.edit.PageEditor;
+import org.gwtportlets.portlet.client.layout.Container;
+import org.gwtportlets.portlet.client.layout.LDOM;
+import org.gwtportlets.portlet.client.layout.LayoutConstraints;
+import org.gwtportlets.portlet.client.layout.RowLayout;
+import org.gwtportlets.portlet.client.util.Rectangle;
 
 /**
  * Drag and drop editing of a container using RowLayout.
@@ -173,11 +176,12 @@ public class RowLayoutEditor implements LayoutEditor {
         return true;
     }
 
-    public void editConstraints(Widget widget, ChangeListener changeListener,
+    public void editConstraints(Widget widget,
+            ValueChangeHandler<Integer> changeHandler,
             CloseHandler closeHandler) {
         RowConstraintsDialog dlg = new RowConstraintsDialog(container, widget);
-        if (changeListener != null) {
-            dlg.addChangeListener(changeListener);
+        if (changeHandler != null) {
+            dlg.addValueChangeHandler(changeHandler);
         }
         dlg.addCloseHandler(closeHandler);
         dlg.display();

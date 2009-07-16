@@ -20,10 +20,10 @@
 
 package org.gwtportlets.portlet.client.edit;
 
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.ChangeListener;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import org.gwtportlets.portlet.client.layout.Container;
 import org.gwtportlets.portlet.client.layout.LayoutConstraints;
 import org.gwtportlets.portlet.client.util.Rectangle;
@@ -66,7 +66,7 @@ public interface LayoutEditor {
     /**
      * Can constraints be edited for widget?
      *
-     * @see #editConstraints(com.google.gwt.user.client.ui.Widget,com.google.gwt.user.client.ui.ChangeListener,com.google.gwt.event.logical.shared.CloseHandler)
+     * @see #editConstraints(com.google.gwt.user.client.ui.Widget,ValueChangeHandler,com.google.gwt.event.logical.shared.CloseHandler)
      */
     public boolean isEditConstraints(Widget widget);
 
@@ -75,8 +75,8 @@ public interface LayoutEditor {
      * done. If changeListener is not null then call it whenever the
      * constraints are modified.
      */
-    public void editConstraints(Widget widget, ChangeListener changeListener,
-            CloseHandler closeHandler);
+    public void editConstraints(Widget widget,
+            ValueChangeHandler<Integer> changeHandler, CloseHandler closeHandler);
 
     /**
      * Add menu options for the widget to bar. Note that if widget is null

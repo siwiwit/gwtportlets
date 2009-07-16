@@ -20,8 +20,12 @@
 
 package org.gwtportlets.portlet.client.edit;
 
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.*;
@@ -33,13 +37,12 @@ import org.gwtportlets.portlet.client.ui.Dialog;
  * some helper methods for getting data in/out of text boxes and so on.
  */
 public class PageEditorDialog extends Dialog
-        implements SourcesChangeEvents {
+        implements HasValueChangeHandlers<Integer> {
 
     public static final String STYLE_PORTLET_ED_DIALOG = "portlet-ed-dialog";
     public static final String STYLE_ERROR = "portlet-ed-error";
 
     private boolean dirty;
-    private ChangeListenerCollection changeListeners;
 
     public PageEditorDialog(boolean autoHide, boolean modal) {
         super(autoHide, modal);
@@ -156,26 +159,16 @@ public class PageEditorDialog extends Dialog
         this.dirty = dirty;
     }
 
-    public void addChangeListener(ChangeListener listener) {
-        if (changeListeners == null) {
-            changeListeners = new ChangeListenerCollection();
-        }
-        changeListeners.add(listener);
-    }
-
-    public void removeChangeListener(ChangeListener listener) {
-        if (changeListeners != null) {
-            changeListeners.remove(listener);
-        }
+    public HandlerRegistration addValueChangeHandler(
+            ValueChangeHandler<Integer> handler) {
+        return addHandler(handler, ValueChangeEvent.getType());
     }
 
     /**
      * Notify listeners that we have changed whatever we are editing.
      */
     protected void fireChange() {
-        if (changeListeners != null) {
-            changeListeners.fireChange(this);
-        }
+        ValueChangeEvent.fire(this, 0);
     }
 
 }
