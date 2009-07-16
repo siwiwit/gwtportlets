@@ -20,14 +20,16 @@
 
 package org.gwtportlets.portlet.client.edit;
 
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.*;
+import org.gwtportlets.portlet.client.layout.LDOM;
+import org.gwtportlets.portlet.client.layout.PositionAware;
+import org.gwtportlets.portlet.client.layout.RowLayout;
 import org.gwtportlets.portlet.client.ui.LayoutPanel;
 import org.gwtportlets.portlet.client.util.DragAdapter;
 import org.gwtportlets.portlet.client.util.Rectangle;
-import org.gwtportlets.portlet.client.layout.RowLayout;
-import org.gwtportlets.portlet.client.layout.LDOM;
-import org.gwtportlets.portlet.client.layout.PositionAware;
 
 /**
  * Widget used to outline widgets in a layout. Also supports resizing by
@@ -64,11 +66,11 @@ class WidgetResizer extends Composite implements PositionAware {
         infoPanel.setStyleName("portlet-ed-resizer-inner");
         bar.setStyleName("portlet-ed-bar");
 
-        panel.addMouseListener(new Dragger(panel));
-        bar.addMouseListener(new BarDragger(bar));
+        new Dragger(panel);
+        new BarDragger(bar);
 
-        panel.addClickListener(new ClickListener() {
-            public void onClick(Widget sender) {
+        panel.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 // workaround to ignore the click event that comes through in
                 // response to the mouse up for a drag operation
                 if (System.currentTimeMillis() - lastBarDragTime > 200L) {

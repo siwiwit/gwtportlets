@@ -47,11 +47,11 @@ public class ClientAreaPanel extends RefreshPanel {
 
     protected void onLoad() {
         sync.resizeWidget();
-        sync.addResizeHandler();
+        sync.startListening();
     }
 
     protected void onUnload() {
-        sync.removeResizeHandler();
+        sync.stopListening();
     }
     
 }

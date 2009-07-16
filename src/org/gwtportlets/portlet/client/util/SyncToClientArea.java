@@ -30,7 +30,7 @@ import org.gwtportlets.portlet.client.layout.LDOM;
 
 /**
  * Positions a widget to fill the browsers client area. Call
- * {@link #addResizeHandler()} to start automatically resizing the widget when
+ * {@link #startListening()} to start automatically resizing the widget when
  * the browser client area size changes.
  */
 public class SyncToClientArea implements ResizeHandler {
@@ -73,15 +73,15 @@ public class SyncToClientArea implements ResizeHandler {
     /**
      * Start listening for window resize events.
      */
-    public void addResizeHandler() {
-        removeResizeHandler();
+    public void startListening() {
+        stopListening();
         handlerRegistration = Window.addResizeHandler(this);
     }
 
     /**
      * Stop listening for window resize events.
      */
-    public void removeResizeHandler() {
+    public void stopListening() {
         if (handlerRegistration != null) {
             handlerRegistration.removeHandler();
             handlerRegistration = null;
