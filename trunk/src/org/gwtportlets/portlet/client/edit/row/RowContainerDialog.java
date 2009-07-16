@@ -105,7 +105,7 @@ public class RowContainerDialog extends PageEditorDialog {
         setVisible(true);
     }
 
-    protected HasFocus getFirstFocusWidget() {
+    protected Focusable getFirstFocusWidget() {
         return spacing;
     }
 

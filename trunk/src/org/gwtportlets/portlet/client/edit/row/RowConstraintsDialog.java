@@ -20,13 +20,15 @@
 
 package org.gwtportlets.portlet.client.edit.row;
 
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.user.client.ui.*;
+import org.gwtportlets.portlet.client.edit.PageEditorDialog;
 import org.gwtportlets.portlet.client.layout.Container;
 import org.gwtportlets.portlet.client.layout.LDOM;
-import org.gwtportlets.portlet.client.util.Rectangle;
-import org.gwtportlets.portlet.client.util.FormBuilder;
 import org.gwtportlets.portlet.client.layout.RowLayout;
-import org.gwtportlets.portlet.client.edit.PageEditorDialog;
+import org.gwtportlets.portlet.client.util.FormBuilder;
+import org.gwtportlets.portlet.client.util.Rectangle;
 
 /**
  * Dialog to edit row layout constraints.
@@ -57,15 +59,15 @@ public class RowConstraintsDialog extends PageEditorDialog {
 
         updateControls();
 
-        ChangeListener changeListener = new ChangeListener() {
-            public void onChange(Widget sender) {
+        ChangeHandler changeListener = new ChangeHandler() {
+            public void onChange(ChangeEvent event) {
                 updateConstaints();
             }
         };
-        size.addChangeListener(changeListener);
-        weight.addChangeListener(changeListener);
-        maxSize.addChangeListener(changeListener);
-        overflow.addChangeListener(changeListener);
+        size.addChangeHandler(changeListener);
+        weight.addChangeHandler(changeListener);
+        maxSize.addChangeHandler(changeListener);
+        overflow.addChangeHandler(changeListener);
 
         size.setVisibleLength(6);
         weight.setVisibleLength(6);
@@ -108,7 +110,7 @@ public class RowConstraintsDialog extends PageEditorDialog {
         setVisible(true);
     }
 
-    protected HasFocus getFirstFocusWidget() {
+    protected Focusable getFirstFocusWidget() {
         return size;
     }
 

@@ -111,7 +111,7 @@ public class TitlePanelDialog extends PageEditorDialog {
         setVisible(true);
     }
 
-    protected HasFocus getFirstFocusWidget() {
+    protected Focusable getFirstFocusWidget() {
         return titleText;
     }
 

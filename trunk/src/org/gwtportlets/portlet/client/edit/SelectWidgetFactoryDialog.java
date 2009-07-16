@@ -22,6 +22,8 @@ package org.gwtportlets.portlet.client.edit;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.user.client.ui.*;
 import org.gwtportlets.portlet.client.WidgetFactoryMetaData;
 import org.gwtportlets.portlet.client.ui.CssButton;
@@ -88,11 +90,9 @@ public class SelectWidgetFactoryDialog extends PageEditorDialog {
             }
         });
 
-        tree.addTreeListener(new TreeListener() {
-            public void onTreeItemSelected(TreeItem item) {
+        tree.addSelectionHandler(new SelectionHandler<TreeItem>() {
+            public void onSelection(SelectionEvent<TreeItem> event) {
                 ok.setEnabled(getSelectedWidgetFactory() != null);
-            }
-            public void onTreeItemStateChanged(TreeItem item) {
             }
         });
 
