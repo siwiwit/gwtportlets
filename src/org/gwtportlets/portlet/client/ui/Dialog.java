@@ -22,6 +22,7 @@ package org.gwtportlets.portlet.client.ui;
 
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -481,12 +482,13 @@ public class Dialog extends PopupPanel {
         maxButton.setTitle(maximize ? "Maximize" : "Restore");
     }
 
-    public boolean onKeyPressPreview(char key, int modifiers) {
-        if (key == 27 && closeButton.isAttached() && closeButton.isEnabled()) {
+    protected void onPreviewNativeEvent(Event.NativePreviewEvent event) {
+        super.onPreviewNativeEvent(event);
+        if (event.getNativeEvent().getKeyCode() == 27
+                && closeButton.isAttached() && closeButton.isEnabled()) {
             onCloseClick();
-            return false;
+            event.cancel();
         }
-        return true;
     }
 
     /**
