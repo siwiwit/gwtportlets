@@ -20,12 +20,15 @@
 
 package org.gwtportlets.portlet.client.edit;
 
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.*;
 import org.gwtportlets.portlet.client.layout.LDOM;
-import org.gwtportlets.portlet.client.util.Rectangle;
-import org.gwtportlets.portlet.client.util.FormBuilder;
-import org.gwtportlets.portlet.client.edit.PageEditorDialog;
 import org.gwtportlets.portlet.client.ui.TitlePanel;
+import org.gwtportlets.portlet.client.util.FormBuilder;
+import org.gwtportlets.portlet.client.util.Rectangle;
 
 /**
  * Dialog to edit settings for a TitlePanel.
@@ -52,24 +55,24 @@ public class TitlePanelDialog extends PageEditorDialog {
 
         updateControls();
 
-        ChangeListener changeListener = new ChangeListener() {
-            public void onChange(Widget sender) {
+        ChangeHandler changeListener = new ChangeHandler() {
+            public void onChange(ChangeEvent event) {
                 updateCaption();
             }
         };
-        titleText.addChangeListener(changeListener);
+        titleText.addChangeHandler(changeListener);
 
-        ClickListener clickListener = new ClickListener() {
-            public void onClick(Widget sender) {
+        ValueChangeHandler<Boolean> valueChangeHandler = new ValueChangeHandler<Boolean>() {
+            public void onValueChange(ValueChangeEvent<Boolean> event) {
                 updateCaption();
             }
         };
-        titleTextAuto.addClickListener(clickListener);
-        refreshEnabled.addClickListener(clickListener);
-        configureEnabled.addClickListener(clickListener);
-        maximizeEnabled.addClickListener(clickListener);
-        limitMaximize.addClickListener(clickListener);
-        editEnabled.addClickListener(clickListener);
+        titleTextAuto.addValueChangeHandler(valueChangeHandler);
+        refreshEnabled.addValueChangeHandler(valueChangeHandler);
+        configureEnabled.addValueChangeHandler(valueChangeHandler);
+        maximizeEnabled.addValueChangeHandler(valueChangeHandler);
+        limitMaximize.addValueChangeHandler(valueChangeHandler);
+        editEnabled.addValueChangeHandler(valueChangeHandler);
 
         titleText.setVisibleLength(30);
         titleText.setTitle("Enter title for caption");
@@ -114,23 +117,23 @@ public class TitlePanelDialog extends PageEditorDialog {
 
     private void updateControls() {
         titleText.setText(titlePanel.getTitleText());
-        titleTextAuto.setChecked(titlePanel.isTitleTextAuto());
-        refreshEnabled.setChecked(titlePanel.isRefreshEnabled());
-        configureEnabled.setChecked(titlePanel.isConfigureEnabled());
-        editEnabled.setChecked(titlePanel.isEditEnabled());
-        maximizeEnabled.setChecked(titlePanel.isMaximizeEnabled());
-        limitMaximize.setChecked(titlePanel.isLimitMaximize());
+        titleTextAuto.setValue(titlePanel.isTitleTextAuto());
+        refreshEnabled.setValue(titlePanel.isRefreshEnabled());
+        configureEnabled.setValue(titlePanel.isConfigureEnabled());
+        editEnabled.setValue(titlePanel.isEditEnabled());
+        maximizeEnabled.setValue(titlePanel.isMaximizeEnabled());
+        limitMaximize.setValue(titlePanel.isLimitMaximize());
     }
 
     private void updateCaption() {
         setDirty(true);
         titlePanel.setTitleText(titleText.getText());
-        titlePanel.setTitleTextAuto(titleTextAuto.isChecked());
-        titlePanel.setRefreshEnabled(refreshEnabled.isChecked());
-        titlePanel.setConfigureEnabled(configureEnabled.isChecked());
-        titlePanel.setEditEnabled(editEnabled.isChecked());
-        titlePanel.setMaximizeEnabled(maximizeEnabled.isChecked());
-        titlePanel.setLimitMaximize(limitMaximize.isChecked());
+        titlePanel.setTitleTextAuto(titleTextAuto.getValue());
+        titlePanel.setRefreshEnabled(refreshEnabled.getValue());
+        titlePanel.setConfigureEnabled(configureEnabled.getValue());
+        titlePanel.setEditEnabled(editEnabled.getValue());
+        titlePanel.setMaximizeEnabled(maximizeEnabled.getValue());
+        titlePanel.setLimitMaximize(limitMaximize.getValue());
         titlePanel.update();
         fireChange();
     }

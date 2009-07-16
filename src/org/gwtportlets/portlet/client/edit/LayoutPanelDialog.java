@@ -20,10 +20,10 @@
 
 package org.gwtportlets.portlet.client.edit;
 
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.HasFocus;
-import com.google.gwt.user.client.ui.Widget;
 import org.gwtportlets.portlet.client.layout.LDOM;
 import org.gwtportlets.portlet.client.ui.LayoutPanel;
 import org.gwtportlets.portlet.client.util.FormBuilder;
@@ -48,8 +48,8 @@ public class LayoutPanelDialog extends PageEditorDialog {
 
         updateControls();
 
-        limitMaximize.addClickListener(new ClickListener() {
-            public void onClick(Widget sender) {
+        limitMaximize.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+            public void onValueChange(ValueChangeEvent<Boolean> event) {
                 updatePanel();
             }
         });
@@ -85,12 +85,12 @@ public class LayoutPanelDialog extends PageEditorDialog {
     }
 
     private void updateControls() {
-        limitMaximize.setChecked(panel.isLimitMaximize());
+        limitMaximize.setValue(panel.isLimitMaximize());
     }
 
     private void updatePanel() {
         setDirty(true);
-        panel.setLimitMaximize(limitMaximize.isChecked());
+        panel.setLimitMaximize(limitMaximize.getValue());
         fireChange();
     }
 
