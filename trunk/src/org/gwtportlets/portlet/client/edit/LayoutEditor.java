@@ -76,7 +76,7 @@ public interface LayoutEditor {
      * constraints are modified.
      */
     public void editConstraints(Widget widget,
-            ValueChangeHandler<Integer> changeHandler, CloseHandler closeHandler);
+            ValueChangeHandler<Void> changeHandler, CloseHandler closeHandler);
 
     /**
      * Add menu options for the widget to bar. Note that if widget is null
