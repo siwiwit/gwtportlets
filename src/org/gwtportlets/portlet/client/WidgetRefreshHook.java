@@ -39,7 +39,7 @@ public interface WidgetRefreshHook {
 
         public static void set(WidgetRefreshHook instance) {
             if (App.instance != null) {
-                throw new IllegalStateException("WidgetRefreshHandler already set");
+                throw new IllegalStateException("WidgetRefreshHook already set");
             }
             App.instance = instance;
         }
