@@ -35,7 +35,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import org.gwtportlets.portlet.client.WidgetFactory;
 import org.gwtportlets.portlet.client.WidgetFactoryProvider;
-import org.gwtportlets.portlet.client.WidgetRefreshHandler;
+import org.gwtportlets.portlet.client.WidgetRefreshHook;
 import org.gwtportlets.portlet.client.edit.row.RowLayoutEditor;
 import org.gwtportlets.portlet.client.layout.*;
 import org.gwtportlets.portlet.client.ui.*;
@@ -1393,7 +1393,7 @@ public abstract class PageEditor implements Event.NativePreviewHandler, LayoutHa
         }
         WidgetFactory wf = ((WidgetFactoryProvider)w).createWidgetFactory();
         LayoutUtil.clearDoNotSendToServerFields(wf);
-        WidgetRefreshHandler.App.get().refresh(w, wf,
+        WidgetRefreshHook.App.get().refresh(w, wf,
                 new AsyncCallback<WidgetFactory>() {
             public void onFailure(Throwable caught) {
                 // what to do here?

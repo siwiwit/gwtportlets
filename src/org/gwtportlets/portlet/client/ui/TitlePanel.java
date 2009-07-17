@@ -126,7 +126,7 @@ public class TitlePanel extends ContainerPortlet implements AppEventListener  {
 
         int flags = getEnhancedFlags();
         flags = setBit(flags, Portlet.REFRESH,
-                refreshEnabled && WidgetRefreshHandler.App.get() != null);
+                refreshEnabled && WidgetRefreshHook.App.get() != null);
         if (refreshHelper != null && refreshHelper.isRefreshBusy()) {
             flags |= Portlet.REFRESH_BUSY;
         }

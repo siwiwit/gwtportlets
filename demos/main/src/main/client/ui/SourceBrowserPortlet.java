@@ -28,6 +28,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
 import org.gwtportlets.portlet.client.DoNotPersist;
 import org.gwtportlets.portlet.client.DoNotSendToServer;
 import org.gwtportlets.portlet.client.WidgetFactory;
@@ -89,9 +91,9 @@ public class SourceBrowserPortlet extends Portlet {
         
         SuggestBox sb = new SuggestBox(new ClassSuggestOracle(), classBox);
         sb.setWidth("100%");
-        sb.addEventHandler(new SuggestionHandler() {
-            public void onSuggestionSelected(SuggestionEvent event) {
-                ClassSuggestion s = (ClassSuggestion)event.getSelectedSuggestion();
+        sb.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
+            public void onSelection(SelectionEvent<SuggestOracle.Suggestion> event) {
+                ClassSuggestion s = (ClassSuggestion)event.getSelectedItem();
                 navigateTo(s.className);
             }
         });
@@ -103,8 +105,8 @@ public class SourceBrowserPortlet extends Portlet {
         panel.add(b.getForm(), 22);
         panel.add(javaHtml);
 
-        javaHtml.addClickListener(new ClickListener() {
-            public void onClick(Widget sender) {
+        javaHtml.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
                 onJavaHtmlClick();
             }
         });
