@@ -25,9 +25,11 @@ import com.google.gwt.user.client.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import org.gwtportlets.portlet.client.AbstractWidgetFactory;
 import org.gwtportlets.portlet.client.WidgetFactory;
-import org.gwtportlets.portlet.client.WidgetRefreshHandler;
+import org.gwtportlets.portlet.client.WidgetRefreshHook;
 import org.gwtportlets.portlet.client.event.EventManager;
 import org.gwtportlets.portlet.client.event.PageChangeEvent;
 import org.gwtportlets.portlet.client.layout.Container;
@@ -40,7 +42,7 @@ import org.gwtportlets.portlet.client.ui.LayoutPanel;
  * layout and uses this to create the GUI. Loads additional pages when the
  * history token changes.
  */
-public class Demo implements EntryPoint, HistoryListener {
+public class Demo implements EntryPoint {
 
     // The ClientAreaPanel always fills the whole of the browsers client area.
     // It forms the topmost container for the application and adds itself to
@@ -54,7 +56,7 @@ public class Demo implements EntryPoint, HistoryListener {
         // The framework calls the WidgetRefreshHandler instance when it
         // needs to refresh a Portlet or Widget with new data from the server.
         // This handler just calls our refresh service method.
-        WidgetRefreshHandler.App.set(new WidgetRefreshHandler() {
+        WidgetRefreshHook.App.set(new WidgetRefreshHook() {
             public void refresh(Widget w, WidgetFactory wf,
                     AsyncCallback<WidgetFactory> cb) {
                 DemoService.App.get().refresh(History.getToken(), wf, cb);
@@ -63,7 +65,11 @@ public class Demo implements EntryPoint, HistoryListener {
                 Window.alert("Refresh failed: " + caught);
             }
         });
-        History.addHistoryListener(this);
+        History.addValueChangeHandler(new ValueChangeHandler<String>() {
+            public void onValueChange(ValueChangeEvent<String> event) {
+                onHistoryChanged(event.getValue());
+            }
+        });
         fetchRootPage();
     }
 
@@ -134,7 +140,7 @@ public class Demo implements EntryPoint, HistoryListener {
     /**
      * Load a new page of portlets and widgets when the history token changes.
      */
-    public void onHistoryChanged(String historyToken) {
+    private void onHistoryChanged(String historyToken) {
         // display AJAX pizza over whole app disabling input while the page loads
         clientAreaPanel.setLoading(true);
         DemoService.App.get().getPage(historyToken, new AsyncCallback<DemoPage>() {

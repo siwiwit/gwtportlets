@@ -28,7 +28,7 @@ import org.gwtportlets.portlet.client.event.WidgetChangeEvent;
 import org.gwtportlets.portlet.client.layout.LayoutUtil;
 import org.gwtportlets.portlet.client.WidgetFactoryProvider;
 import org.gwtportlets.portlet.client.WidgetFactory;
-import org.gwtportlets.portlet.client.WidgetRefreshHandler;
+import org.gwtportlets.portlet.client.WidgetRefreshHook;
 
 /**
  * Support class to refresh widgets.
@@ -45,7 +45,7 @@ public class RefreshHelper {
      *
      * @param callback Invoked after completion or failure if not null
      * 
-     * @see org.gwtportlets.portlet.client.WidgetRefreshHandler.App#get()
+     * @see org.gwtportlets.portlet.client.WidgetRefreshHook.App#get()
      */
     public void refresh(final Widget w, AsyncCallback<WidgetFactory> callback) {
         refresh(w, ((WidgetFactoryProvider)w).createWidgetFactory(), callback);
@@ -57,11 +57,11 @@ public class RefreshHelper {
      *
      * @param callback Invoked after completion or failure if not null
      *
-     * @see org.gwtportlets.portlet.client.WidgetRefreshHandler.App#get()
+     * @see org.gwtportlets.portlet.client.WidgetRefreshHook.App#get()
      */
     public void refresh(final Widget w, WidgetFactory wf,
             final AsyncCallback<WidgetFactory> callback) {
-        WidgetRefreshHandler rh = WidgetRefreshHandler.App.get();
+        WidgetRefreshHook rh = WidgetRefreshHook.App.get();
         if (rh == null) {
             return;
         }
@@ -92,7 +92,7 @@ public class RefreshHelper {
         --refreshBusy;
         fireChangeEvent(w);
         GWT.log("Refresh failed: " + caught, caught);
-        WidgetRefreshHandler.App.get().onRefreshCallFailure(w, caught);
+        WidgetRefreshHook.App.get().onRefreshCallFailure(w, caught);
     }
 
     public void onRefreshCallSuccess(Widget w, WidgetFactory wf) {

@@ -20,17 +20,21 @@
 
 package main.client.ui;
 
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.*;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import org.gwtportlets.portlet.client.DoNotSendToServer;
 import org.gwtportlets.portlet.client.WidgetFactory;
-import org.gwtportlets.portlet.client.util.FormBuilder;
+import org.gwtportlets.portlet.client.layout.HasMaximumSize;
 import org.gwtportlets.portlet.client.layout.LDOM;
 import org.gwtportlets.portlet.client.layout.PositionAware;
-import org.gwtportlets.portlet.client.layout.HasMaximumSize;
 import org.gwtportlets.portlet.client.ui.*;
+import org.gwtportlets.portlet.client.util.FormBuilder;
 import org.gwtportlets.portlet.client.util.Rectangle;
 
 /**
@@ -78,8 +82,8 @@ public class FreeMemoryPortlet extends Portlet {
         type.addItem("Pie", TYPE_PIE);
         selectChartType(type);
 
-        type.addChangeListener(new ChangeListener() {
-            public void onChange(Widget sender) {
+        type.addChangeHandler(new ChangeHandler() {
+            public void onChange(ChangeEvent event) {
                 chartType = type.getValue(type.getSelectedIndex());
                 chart.update();
                 fireConfigChangeEvent();

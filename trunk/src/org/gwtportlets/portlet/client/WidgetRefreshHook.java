@@ -24,20 +24,20 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * Handles refreshing of widgets. Set a WidgetRefreshHandler for your
+ * Handles refreshing of widgets. Set a WidgetRefreshHook for your
  * application in onModuleLoad to enable widget refresh.
  */
-public interface WidgetRefreshHandler {
+public interface WidgetRefreshHook {
 
     public static class App {
 
-        private static WidgetRefreshHandler instance;
+        private static WidgetRefreshHook instance;
 
-        public static WidgetRefreshHandler get() {
+        public static WidgetRefreshHook get() {
             return instance;
         }
 
-        public static void set(WidgetRefreshHandler instance) {
+        public static void set(WidgetRefreshHook instance) {
             if (App.instance != null) {
                 throw new IllegalStateException("WidgetRefreshHandler already set");
             }

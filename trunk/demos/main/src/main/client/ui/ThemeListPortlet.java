@@ -20,9 +20,9 @@
 
 package main.client.ui;
 
-import com.google.gwt.user.client.ui.ChangeListener;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
 import org.gwtportlets.portlet.client.WidgetFactory;
 import org.gwtportlets.portlet.client.ui.Portlet;
 import org.gwtportlets.portlet.client.ui.PortletFactory;
@@ -49,8 +49,8 @@ public class ThemeListPortlet extends Portlet {
         if (sel >= 0) {
             list.setSelectedIndex(sel);
         }
-        list.addChangeListener(new ChangeListener() {
-            public void onChange(Widget sender) {
+        list.addChangeHandler(new ChangeHandler() {
+            public void onChange(ChangeEvent event) {
                 int i = list.getSelectedIndex();
                 if (i >= 0) {
                     Theme.get().changeTheme(list.getValue(i));
