@@ -177,7 +177,7 @@ public class RowLayoutEditor implements LayoutEditor {
     }
 
     public void editConstraints(Widget widget,
-            ValueChangeHandler<Integer> changeHandler,
+            ValueChangeHandler<Void> changeHandler,
             CloseHandler closeHandler) {
         RowConstraintsDialog dlg = new RowConstraintsDialog(container, widget);
         if (changeHandler != null) {

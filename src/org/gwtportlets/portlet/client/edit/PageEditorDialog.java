@@ -37,7 +37,7 @@ import org.gwtportlets.portlet.client.ui.Dialog;
  * some helper methods for getting data in/out of text boxes and so on.
  */
 public class PageEditorDialog extends Dialog
-        implements HasValueChangeHandlers<Integer> {
+        implements HasValueChangeHandlers<Void> {
 
     public static final String STYLE_PORTLET_ED_DIALOG = "portlet-ed-dialog";
     public static final String STYLE_ERROR = "portlet-ed-error";
@@ -160,7 +160,7 @@ public class PageEditorDialog extends Dialog
     }
 
     public HandlerRegistration addValueChangeHandler(
-            ValueChangeHandler<Integer> handler) {
+            ValueChangeHandler<Void> handler) {
         return addHandler(handler, ValueChangeEvent.getType());
     }
 
@@ -168,7 +168,7 @@ public class PageEditorDialog extends Dialog
      * Notify listeners that we have changed whatever we are editing.
      */
     protected void fireChange() {
-        ValueChangeEvent.fire(this, 0);
+        ValueChangeEvent.fire(this, null);
     }
 
 }
