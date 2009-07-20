@@ -53,7 +53,7 @@ public class Dialog extends PopupPanel {
     private final RefreshPanel content = new RefreshPanel() {
         public void onBroadcast(Object ev) {
             super.onBroadcast(ev);
-            Dialog.this.onObjectBroadcast(ev);
+            Dialog.this.onBroadcast(ev);
         }
     };
 
@@ -63,7 +63,7 @@ public class Dialog extends PopupPanel {
     private Rectangle originalBounds;
     private String wrapperStyle;
     private boolean widthSet;
-    private BroadcastListener[] objectBroadcastHandlers;
+    private BroadcastListener[] broadcastListeners;
 
     private final Label titleLabel = new Label("Dialog");
     private Widget blocker;
@@ -494,29 +494,29 @@ public class Dialog extends PopupPanel {
      * An broadcast object has been received, probably from a child widget.
      * Forward it to our listeners.
      */
-    public void onObjectBroadcast(Object ev) {
-        if (objectBroadcastHandlers != null) {
-            for (int i = 0; i < objectBroadcastHandlers.length; i++) {
-                objectBroadcastHandlers[i].onBroadcast(ev);
+    protected void onBroadcast(Object ev) {
+        if (broadcastListeners != null) {
+            for (int i = 0; i < broadcastListeners.length; i++) {
+                broadcastListeners[i].onBroadcast(ev);
             }
         }
     }
 
-    public void addObjectBroadcastHandler(BroadcastListener h) {
-        if (objectBroadcastHandlers == null) {
-            objectBroadcastHandlers = new BroadcastListener[]{h};
+    public void addBroadcastListener(BroadcastListener h) {
+        if (broadcastListeners == null) {
+            broadcastListeners = new BroadcastListener[]{h};
         } else {
-            ArrayList a = new ArrayList(Arrays.asList(objectBroadcastHandlers));
+            ArrayList a = new ArrayList(Arrays.asList(broadcastListeners));
             a.add(h);
-            objectBroadcastHandlers = (BroadcastListener[])a.toArray(new BroadcastListener[a.size()]);
+            broadcastListeners = (BroadcastListener[])a.toArray(new BroadcastListener[a.size()]);
         }
     }
 
-    public void removeObjectBroadcastHandler(BroadcastListener h) {
-        if (objectBroadcastHandlers != null) {
-            ArrayList a = new ArrayList(Arrays.asList(objectBroadcastHandlers));
+    public void removeBroadcastListener(BroadcastListener h) {
+        if (broadcastListeners != null) {
+            ArrayList a = new ArrayList(Arrays.asList(broadcastListeners));
             a.remove(h);
-            objectBroadcastHandlers = (BroadcastListener[])a.toArray(new BroadcastListener[a.size()]);
+            broadcastListeners = (BroadcastListener[])a.toArray(new BroadcastListener[a.size()]);
         }
     }
 
