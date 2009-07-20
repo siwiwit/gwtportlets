@@ -30,15 +30,14 @@ import org.gwtportlets.portlet.client.layout.*;
 import org.gwtportlets.portlet.client.util.Rectangle;
 import org.gwtportlets.portlet.client.util.FormBuilder;
 
-import java.util.EventObject;
-
 /**
  * Displays the current page by listening for {@link PageChangeEvent}'s
  * and swapping out a new tree of widgets in a content area on page changes.
  * If the page is editable then an edit button is displayed that launches
  * the online layout editor on click.
  */
-public class PagePortlet extends ContainerPortlet implements AppEventListener {
+public class PagePortlet extends ContainerPortlet implements
+        BroadcastListener {
 
     private String appTitle = "App Title";
     private String prefix = appTitle + ": ";
@@ -66,11 +65,11 @@ public class PagePortlet extends ContainerPortlet implements AppEventListener {
         updateTitle();
     }
 
-    public void onAppEvent(EventObject ev) {
+    public void onBroadcast(Object ev) {
         if (ev instanceof PageChangeEvent) {
             onPageChange((PageChangeEvent)ev);
         } else if (ev instanceof WidgetChangeEvent
-                && ev.getSource() == titlePortlet) {
+                && ((WidgetChangeEvent)ev).getSource() == titlePortlet) {
             updateTitle();
         }
     }
@@ -133,7 +132,7 @@ public class PagePortlet extends ContainerPortlet implements AppEventListener {
             Window.setTitle(windowTitle);
             currentTitle = title;
         }
-        EventManager.get().broadcast(new PageTitleChangeEvent(this, title));
+        BroadcastManager.get().broadcast(new PageTitleChangeEvent(this, title));
     }
 
     public void boundsUpdated() {

@@ -25,16 +25,14 @@ import org.gwtportlets.portlet.client.*;
 import org.gwtportlets.portlet.client.layout.LayoutUtil;
 import org.gwtportlets.portlet.client.layout.*;
 import org.gwtportlets.portlet.client.event.WidgetChangeEvent;
-import org.gwtportlets.portlet.client.event.AppEventListener;
-
-import java.util.EventObject;
+import org.gwtportlets.portlet.client.event.BroadcastListener;
 
 /**
  * Displays a refresh spinner when its child is refreshing. Delegates to
  * a LayoutPanel to hold its children.
  */
 public class RefreshPanel extends DelegatingContainer
-        implements AppEventListener {
+        implements BroadcastListener {
 
     private int lastFlags = -1;
     private boolean limitMaximize;
@@ -89,7 +87,7 @@ public class RefreshPanel extends DelegatingContainer
         super.layout();
     }
 
-    public void onAppEvent(EventObject ev) {
+    public void onBroadcast(Object ev) {
         if (ev instanceof WidgetChangeEvent) {
             update();
         }

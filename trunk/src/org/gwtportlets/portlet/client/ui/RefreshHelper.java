@@ -23,7 +23,7 @@ package org.gwtportlets.portlet.client.ui;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
-import org.gwtportlets.portlet.client.event.EventManager;
+import org.gwtportlets.portlet.client.event.BroadcastManager;
 import org.gwtportlets.portlet.client.event.WidgetChangeEvent;
 import org.gwtportlets.portlet.client.layout.LayoutUtil;
 import org.gwtportlets.portlet.client.WidgetFactoryProvider;
@@ -85,7 +85,7 @@ public class RefreshHelper {
     }
 
     protected void fireChangeEvent(Widget w) {
-        EventManager.get().broadcastUp(w, new WidgetChangeEvent(w));
+        BroadcastManager.get().broadcastUp(w, new WidgetChangeEvent(w));
     }
 
     public void onRefreshCallFailure(Widget w, Throwable caught) {

@@ -24,7 +24,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.gwtportlets.portlet.client.WidgetFactory;
 import org.gwtportlets.portlet.client.WidgetFactoryProvider;
-import org.gwtportlets.portlet.client.event.EventManager;
+import org.gwtportlets.portlet.client.event.BroadcastManager;
 import org.gwtportlets.portlet.client.event.WidgetChangeEvent;
 import org.gwtportlets.portlet.client.event.WidgetConfigChangeEvent;
 import org.gwtportlets.portlet.client.layout.LayoutUtil;
@@ -78,7 +78,7 @@ public abstract class Portlet extends PositionAwareComposite
      * Call this when our title or flags may have changed.
      */
     protected void fireChangeEvent() {
-        EventManager.get().broadcastUp(this, new WidgetChangeEvent(this));
+        BroadcastManager.get().broadcastUp(this, new WidgetChangeEvent(this));
     }
 
     /**
@@ -87,7 +87,7 @@ public abstract class Portlet extends PositionAwareComposite
      * page we are on or perform other actions.
      */
     protected void fireConfigChangeEvent() {
-        EventManager.get().broadcastUp(this, new WidgetConfigChangeEvent(this));
+        BroadcastManager.get().broadcastUp(this, new WidgetConfigChangeEvent(this));
     }
 
     public String toString() {

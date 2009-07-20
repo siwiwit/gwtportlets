@@ -20,13 +20,13 @@
 
 package org.gwtportlets.portlet.client.ui;
 
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.*;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
-import org.gwtportlets.portlet.client.event.AppEventListener;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.*;
+import org.gwtportlets.portlet.client.event.BroadcastListener;
 import org.gwtportlets.portlet.client.layout.DeckLayout;
 import org.gwtportlets.portlet.client.layout.LDOM;
 import org.gwtportlets.portlet.client.layout.LayoutConstraints;
@@ -37,7 +37,6 @@ import org.gwtportlets.portlet.client.util.SyncToClientArea;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EventObject;
 
 /**
  * Nicely styled replacement for standard GWT dialog box.
@@ -52,9 +51,9 @@ public class Dialog extends PopupPanel {
     private final EdgeRow footer = new EdgeRow(new LayoutPanel(new RowLayout(false, 0)));
 
     private final RefreshPanel content = new RefreshPanel() {
-        public void onAppEvent(EventObject ev) {
-            super.onAppEvent(ev);
-            Dialog.this.onAppEvent(ev);
+        public void onBroadcast(Object ev) {
+            super.onBroadcast(ev);
+            Dialog.this.onObjectBroadcast(ev);
         }
     };
 
@@ -64,7 +63,7 @@ public class Dialog extends PopupPanel {
     private Rectangle originalBounds;
     private String wrapperStyle;
     private boolean widthSet;
-    private AppEventListener[] widgetListeners;
+    private BroadcastListener[] objectBroadcastHandlers;
 
     private final Label titleLabel = new Label("Dialog");
     private Widget blocker;
@@ -492,32 +491,32 @@ public class Dialog extends PopupPanel {
     }
 
     /**
-     * An event has been received, probably from a child widget. Forward it
-     * to our listeners.
+     * An broadcast object has been received, probably from a child widget.
+     * Forward it to our listeners.
      */
-    public void onAppEvent(EventObject ev) {
-        if (widgetListeners != null) {
-            for (int i = 0; i < widgetListeners.length; i++) {
-                widgetListeners[i].onAppEvent(ev);
+    public void onObjectBroadcast(Object ev) {
+        if (objectBroadcastHandlers != null) {
+            for (int i = 0; i < objectBroadcastHandlers.length; i++) {
+                objectBroadcastHandlers[i].onBroadcast(ev);
             }
         }
     }
 
-    public void addWidgetListener(AppEventListener l) {
-        if (widgetListeners == null) {
-            widgetListeners = new AppEventListener[]{l};
+    public void addObjectBroadcastHandler(BroadcastListener h) {
+        if (objectBroadcastHandlers == null) {
+            objectBroadcastHandlers = new BroadcastListener[]{h};
         } else {
-            ArrayList a = new ArrayList(Arrays.asList(widgetListeners));
-            a.add(l);
-            widgetListeners = (AppEventListener[])a.toArray(new AppEventListener[a.size()]);
+            ArrayList a = new ArrayList(Arrays.asList(objectBroadcastHandlers));
+            a.add(h);
+            objectBroadcastHandlers = (BroadcastListener[])a.toArray(new BroadcastListener[a.size()]);
         }
     }
 
-    public void removeWidgetListener(AppEventListener l) {
-        if (widgetListeners != null) {
-            ArrayList a = new ArrayList(Arrays.asList(widgetListeners));
-            a.remove(l);
-            widgetListeners = (AppEventListener[])a.toArray(new AppEventListener[a.size()]);
+    public void removeObjectBroadcastHandler(BroadcastListener h) {
+        if (objectBroadcastHandlers != null) {
+            ArrayList a = new ArrayList(Arrays.asList(objectBroadcastHandlers));
+            a.remove(h);
+            objectBroadcastHandlers = (BroadcastListener[])a.toArray(new BroadcastListener[a.size()]);
         }
     }
 

@@ -22,16 +22,14 @@ package org.gwtportlets.portlet.client.ui;
 
 import com.google.gwt.user.client.ui.Label;
 import org.gwtportlets.portlet.client.WidgetFactory;
-import org.gwtportlets.portlet.client.event.AppEventListener;
+import org.gwtportlets.portlet.client.event.BroadcastListener;
 import org.gwtportlets.portlet.client.event.PageTitleChangeEvent;
-
-import java.util.EventObject;
 
 /**
  * Displays title of the current page and updates it whenever a
  * PageTitleChangeEvent is received.
  */
-public class PageTitlePortlet extends Portlet implements AppEventListener {
+public class PageTitlePortlet extends Portlet implements BroadcastListener {
 
     private Label label = new Label("Page Title");
 
@@ -40,7 +38,7 @@ public class PageTitlePortlet extends Portlet implements AppEventListener {
         setStyleName("portlet-page-title");
     }
 
-    public void onAppEvent(EventObject ev) {
+    public void onBroadcast(Object ev) {
         if (ev instanceof PageTitleChangeEvent) {
             label.setText(((PageTitleChangeEvent)ev).getPageTitle());
         }
