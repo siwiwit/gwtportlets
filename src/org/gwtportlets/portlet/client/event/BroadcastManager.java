@@ -27,22 +27,21 @@ import org.gwtportlets.portlet.client.layout.LayoutUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EventObject;
 import java.util.Iterator;
 
 /**
- * Singleton to boardcast events to widget trees.
+ * Singleton to broadcast objects to widget trees.
  */
-public class EventManager {
+public class BroadcastManager {
 
-    private static EventManager instance;
+    private static BroadcastManager instance;
 
     /**
      * Get the instance, creating it if not already set.
      */
-    public static EventManager get() {
+    public static BroadcastManager get() {
         if (instance == null) {
-            instance = new EventManager();
+            instance = new BroadcastManager();
         }
         return instance;
     }
@@ -51,75 +50,73 @@ public class EventManager {
      * Call this from onModuleLoad if you have your own manager class for
      * your application.
      */
-    public static void set(EventManager instance) {
-        if (EventManager.instance != null) {
-            throw new IllegalStateException("EventManager already set");
+    public static void set(BroadcastManager instance) {
+        if (BroadcastManager.instance != null) {
+            throw new IllegalStateException("BroadcastManager already set");
         }
-        EventManager.instance = instance;
+        BroadcastManager.instance = instance;
     }
 
-    private AppEventListener[] listeners = new AppEventListener[0];
+    private BroadcastListener[] listeners = new BroadcastListener[0];
 
-    public EventManager() {
+    public BroadcastManager() {
     }
 
     /**
-     * Add listener to be notified on calls to {@link #broadcast} before the
-     * event is dispatched to the widget tree.
+     * Add handler to be notified on calls to {@link #broadcast} before the
+     * object is dispatched to the widget tree.
      */
-    public void addAppEventListener(AppEventListener l) {
+    public void addObjectBroadcastHandler(BroadcastListener handler) {
         ArrayList a = new ArrayList(Arrays.asList(listeners));
-        a.add(l);
-        listeners = (AppEventListener[])a.toArray(new AppEventListener[a.size()]);
+        a.add(handler);
+        listeners = (BroadcastListener[])a.toArray(new BroadcastListener[a.size()]);
     }
 
-    public void removeAppEventListener(AppEventListener l) {
+    public void removeObjectBroadcastHandler(BroadcastListener handler) {
         ArrayList a = new ArrayList(Arrays.asList(listeners));
-        a.remove(l);
-        listeners = (AppEventListener[])a.toArray(new AppEventListener[a.size()]);
+        a.remove(handler);
+        listeners = (BroadcastListener[])a.toArray(new BroadcastListener[a.size()]);
     }
 
     /**
-     * Send the event to all widgets implementing AppEventListener
-     * starting at the RootPanel in depth first order. Does not send the event
-     * to its source.
+     * Send the object to all widgets implementing EventBroadcastHandler
+     * starting at the RootPanel in depth first order.
      *
-     * @see AppEventListener#onAppEvent
+     * @see BroadcastListener#onBroadcast
      * @see org.gwtportlets.portlet.client.layout.LayoutUtil#getTopmostContainer
      */
-    public void broadcast(EventObject ev) {
+    public void broadcast(Object ev) {
         for (int i = listeners.length - 1; i >= 0; i--) {
-            listeners[i].onAppEvent(ev);
+            listeners[i].onBroadcast(ev);
         }
         broadcastDown(RootPanel.get(), ev);
     }
 
     /**
-     * Send the event up to the logical parent of w (and its logical parent
+     * Send the object up to the logical parent of w (and its logical parent
      * and so on) until a widget with no logical parent is reached.
      *
-     * @see AppEventListener#onAppEvent
+     * @see BroadcastListener#onBroadcast
      * @see org.gwtportlets.portlet.client.layout.LayoutUtil#getLogicalParent
      */
-    public void broadcastUp(Widget w, EventObject ev) {
+    public void broadcastUp(Widget w, Object ev) {
         for (;;) {
             w = LayoutUtil.getLogicalParent(w);
             if (w == null) {
                 break;
             }
-            if (w instanceof AppEventListener) {
-                ((AppEventListener)w).onAppEvent(ev);
+            if (w instanceof BroadcastListener) {
+                ((BroadcastListener)w).onBroadcast(ev);
             }
         }
     }
 
     /**
-     * Send the event to root and all its children. Does not send the event
-     * to its source.
+     * Send the object to root and all its children.
      */
-    protected void broadcastDown(Widget root, EventObject ev) {
-        if (root != ev.getSource() && root instanceof AppEventListener) {
-            ((AppEventListener)root).onAppEvent(ev);
+    protected void broadcastDown(Widget root, Object ev) {
+        if (root instanceof BroadcastListener) {
+            ((BroadcastListener)root).onBroadcast(ev);
         }
         if (root instanceof HasWidgets) {
             Iterator<Widget> i = ((HasWidgets)root).iterator();

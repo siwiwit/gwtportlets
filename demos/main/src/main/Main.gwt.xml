@@ -26,8 +26,6 @@
 
     <entry-point class='main.client.Demo'/>
 
-    <stylesheet src="Demo.css"/>    
-
     <!--<set-property name="layout.perf" value="enabled"/>    -->
 
     <!--<set-property name="user.agent" value="ie6"/>-->

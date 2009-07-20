@@ -20,20 +20,21 @@
 
 package org.gwtportlets.portlet.client.event;
 
-import java.util.EventListener;
-import java.util.EventObject;
-
 /**
- * Widgets that implement this will receive broadcast application events.
+ * Widgets that implement this will receive objects broadcast to the widget
+ * tree. Typically these will be events.
  *
- * @see EventManager#broadcast(java.util.EventObject)
- * @see EventManager#broadcastUp(com.google.gwt.user.client.ui.Widget, java.util.EventObject)  
+ * @see BroadcastManager#broadcast(Object)
+ * @see BroadcastManager#broadcastUp(com.google.gwt.user.client.ui.Widget, Object)
  */
-public interface AppEventListener extends EventListener {
+public interface BroadcastListener {
 
     /**
-     * Do something with the event.
+     * A broadcast object has been received.
+     * 
+     * @see BroadcastManager#broadcast(Object)
+     * @see BroadcastManager#broadcastUp(com.google.gwt.user.client.ui.Widget, Object)
      */
-    public void onAppEvent(EventObject ev);
+    public void onBroadcast(Object ev);
 
 }

@@ -26,21 +26,21 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import org.gwtportlets.portlet.client.*;
 import org.gwtportlets.portlet.client.edit.SelectWidgetFactoryDialog;
-import org.gwtportlets.portlet.client.event.AppEventListener;
-import org.gwtportlets.portlet.client.event.EventManager;
+import org.gwtportlets.portlet.client.event.BroadcastListener;
+import org.gwtportlets.portlet.client.event.BroadcastManager;
 import org.gwtportlets.portlet.client.event.WidgetChangeEvent;
 import org.gwtportlets.portlet.client.event.WidgetConfigChangeEvent;
 import org.gwtportlets.portlet.client.layout.*;
 import org.gwtportlets.portlet.client.util.MoveAnimation;
 
-import java.util.EventObject;
 import java.util.List;
 
 /**
  * Container with a title bar with buttons to refresh, maximize and so on.
  * Delegates to a LayoutPanel to hold its children.
  */
-public class TitlePanel extends ContainerPortlet implements AppEventListener  {
+public class TitlePanel extends ContainerPortlet implements
+        BroadcastListener {
 
     private String titleText = "Title";
     private boolean titleTextAuto = true;
@@ -99,9 +99,10 @@ public class TitlePanel extends ContainerPortlet implements AppEventListener  {
         return new LayoutPanel(new RowLayout(false));
     }
 
-    public void onAppEvent(EventObject ev) {
+    public void onBroadcast(Object ev) {
         if (ev instanceof WidgetChangeEvent
-                && (refreshHelper != null || ev.getSource() == portlet)) {
+                && (refreshHelper != null
+                || ((WidgetChangeEvent)ev).getSource() == portlet)) {
             update();
         }
     }
@@ -109,7 +110,7 @@ public class TitlePanel extends ContainerPortlet implements AppEventListener  {
     private void updateTitle(String s) {
         if (!titleLabel.getText().equals(s)) {
             titleLabel.setText(s);
-            EventManager.get().broadcastUp(this, new WidgetChangeEvent(this));
+            BroadcastManager.get().broadcastUp(this, new WidgetChangeEvent(this));
         }
     }
 
@@ -447,7 +448,7 @@ public class TitlePanel extends ContainerPortlet implements AppEventListener  {
      * Dispatch an event.
      */
     protected void onChanged() {
-        EventManager.get().broadcast(new WidgetConfigChangeEvent(this));
+        BroadcastManager.get().broadcast(new WidgetConfigChangeEvent(this));
     }    
 
     protected boolean isMaximized() {

@@ -23,11 +23,9 @@ package org.gwtportlets.portlet.client.ui;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.RootPanel;
-import org.gwtportlets.portlet.client.event.AppEventListener;
+import org.gwtportlets.portlet.client.event.BroadcastListener;
 import org.gwtportlets.portlet.client.event.WidgetChangeEvent;
 import org.gwtportlets.portlet.client.layout.LDOM;
-
-import java.util.EventObject;
 
 /**
  * Extends SimplePanel to displays a refresh spinner when its child is
@@ -35,7 +33,7 @@ import java.util.EventObject;
  * {@link org.gwtportlets.portlet.client.ui.RefreshPanel} to put an
  * automatic spinner over a portlet not positioned absolutely.
  */
-public class RefreshWidget extends SimplePanel implements AppEventListener {
+public class RefreshWidget extends SimplePanel implements BroadcastListener {
 
     private int lastFlags = -1;
     private LoadingWidget loading;
@@ -53,7 +51,7 @@ public class RefreshWidget extends SimplePanel implements AppEventListener {
         update();
     }
 
-    public void onAppEvent(EventObject ev) {
+    public void onBroadcast(Object ev) {
         if (ev instanceof WidgetChangeEvent) {
             update();
         }

@@ -28,8 +28,8 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.user.client.ui.*;
 import org.gwtportlets.portlet.client.WidgetFactory;
-import org.gwtportlets.portlet.client.event.AppEventListener;
-import org.gwtportlets.portlet.client.event.EventManager;
+import org.gwtportlets.portlet.client.event.BroadcastListener;
+import org.gwtportlets.portlet.client.event.BroadcastManager;
 import org.gwtportlets.portlet.client.event.WidgetChangeEvent;
 import org.gwtportlets.portlet.client.layout.Container;
 import org.gwtportlets.portlet.client.layout.ContainerFactory;
@@ -37,13 +37,12 @@ import org.gwtportlets.portlet.client.layout.LayoutUtil;
 import org.gwtportlets.portlet.client.layout.RowLayout;
 import org.gwtportlets.portlet.client.util.FormBuilder;
 
-import java.util.EventObject;
-
 /**
  * Container with a simple title. Delegates to a LayoutPanel to hold its
  * children.
  */
-public class SectionPanel extends ContainerPortlet implements AppEventListener {
+public class SectionPanel extends ContainerPortlet implements
+        BroadcastListener {
 
     private String titleText = "Title";
     private boolean titleTextAuto = true;
@@ -92,9 +91,10 @@ public class SectionPanel extends ContainerPortlet implements AppEventListener {
                 new RowLayout.Constraints(headerHeight));
     }
 
-    public void onAppEvent(EventObject ev) {
+    public void onBroadcast(Object ev) {
         if (ev instanceof WidgetChangeEvent
-                && (refreshHelper != null || ev.getSource() == portlet)) {
+                && (refreshHelper != null
+                || ((WidgetChangeEvent)ev).getSource() == portlet)) {
             update();
         }
     }
@@ -102,7 +102,7 @@ public class SectionPanel extends ContainerPortlet implements AppEventListener {
     private void updateTitle(String s) {
         if (!titleLabel.getText().equals(s)) {
             titleLabel.setText(s);
-            EventManager.get().broadcastUp(this, new WidgetChangeEvent(this));
+            BroadcastManager.get().broadcastUp(this, new WidgetChangeEvent(this));
         }
     }
 

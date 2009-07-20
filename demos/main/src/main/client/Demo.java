@@ -21,16 +21,19 @@
 package main.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.*;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import org.gwtportlets.portlet.client.AbstractWidgetFactory;
 import org.gwtportlets.portlet.client.WidgetFactory;
 import org.gwtportlets.portlet.client.WidgetRefreshHook;
-import org.gwtportlets.portlet.client.event.EventManager;
+import org.gwtportlets.portlet.client.event.BroadcastManager;
 import org.gwtportlets.portlet.client.event.PageChangeEvent;
 import org.gwtportlets.portlet.client.layout.Container;
 import org.gwtportlets.portlet.client.layout.LayoutUtil;
@@ -134,7 +137,7 @@ public class Demo implements EntryPoint {
         // The PagePortlet uses this event to change the widget tree in the
         // 'content area' of the application and to display the gear icon
         // for editable pages
-        EventManager.get().broadcast(pce);
+        BroadcastManager.get().broadcast(pce);
     }
 
     /**

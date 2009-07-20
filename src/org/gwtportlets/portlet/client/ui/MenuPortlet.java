@@ -28,7 +28,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import org.gwtportlets.portlet.client.WidgetFactory;
 import org.gwtportlets.portlet.client.util.FormBuilder;
-import org.gwtportlets.portlet.client.event.EventManager;
+import org.gwtportlets.portlet.client.event.BroadcastManager;
 import org.gwtportlets.portlet.client.event.CommandEvent;
 
 import java.util.ArrayList;
@@ -126,7 +126,7 @@ public class MenuPortlet extends WebAppContentPortlet {
      * clicked. Broadcast a CommandEvent so other widgets can react if needed.
      */
     protected void onMenuItemClick(Widget sender, Element e, String method) {
-        EventManager.get().broadcast(new CommandEvent(this, method));
+        BroadcastManager.get().broadcast(new CommandEvent(this, method));
     }
 
     /**

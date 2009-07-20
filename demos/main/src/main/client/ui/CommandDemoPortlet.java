@@ -23,18 +23,16 @@ package main.client.ui;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import org.gwtportlets.portlet.client.WidgetFactory;
-import org.gwtportlets.portlet.client.event.AppEventListener;
+import org.gwtportlets.portlet.client.event.BroadcastListener;
 import org.gwtportlets.portlet.client.event.CommandEvent;
 import org.gwtportlets.portlet.client.ui.Portlet;
 import org.gwtportlets.portlet.client.ui.PortletFactory;
-
-import java.util.EventObject;
 
 /**
  * Displays the most recent
  * {@link org.gwtportlets.portlet.client.event.CommandEvent}.
  */
-public class CommandDemoPortlet extends Portlet implements AppEventListener {
+public class CommandDemoPortlet extends Portlet implements BroadcastListener {
 
     private Label label = new Label();
 
@@ -45,7 +43,7 @@ public class CommandDemoPortlet extends Portlet implements AppEventListener {
         panel.add(label);
     }
 
-    public void onAppEvent(EventObject event) {
+    public void onBroadcast(Object event) {
         if (event instanceof CommandEvent) {
             CommandEvent ce = (CommandEvent)event;
             label.setText("Received CommandEvent: '" + ce.getCommand() + "'");
