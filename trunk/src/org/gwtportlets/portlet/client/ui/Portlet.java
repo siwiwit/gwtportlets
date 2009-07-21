@@ -90,6 +90,15 @@ public abstract class Portlet extends PositionAwareComposite
         BroadcastManager.get().broadcastUp(this, new WidgetConfigChangeEvent(this));
     }
 
+    /**
+     * Broadcast ev to our children. This is a NOP unless our wrapped widget
+     * (i.e. the one set by {@link #initWidget(com.google.gwt.user.client.ui.Widget)})
+     * implements HasWidgets and/or BroadcastListener.
+     */
+    protected void broadcastDown(Object ev) {
+        BroadcastManager.get().broadcast(getWidget(), ev);
+    }
+
     public String toString() {
         StringBuffer s = new StringBuffer();
         String n = getClass().getName();
