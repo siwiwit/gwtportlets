@@ -27,7 +27,6 @@ import org.gwtportlets.portlet.client.layout.LayoutUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 
 /**
  * Singleton to broadcast objects to widget trees.
@@ -79,17 +78,15 @@ public class BroadcastManager {
     }
 
     /**
-     * Send the object to all widgets implementing EventBroadcastHandler
-     * starting at the RootPanel in depth first order.
+     * Send the object to all widgets from the RootPanel down.
      *
-     * @see BroadcastListener#onBroadcast
-     * @see org.gwtportlets.portlet.client.layout.LayoutUtil#getTopmostContainer
+     * @see #broadcast(com.google.gwt.user.client.ui.Widget, Object) 
      */
     public void broadcast(Object ev) {
         for (int i = listeners.length - 1; i >= 0; i--) {
             listeners[i].onBroadcast(ev);
         }
-        broadcastDown(RootPanel.get(), ev);
+        broadcast(RootPanel.get(), ev);
     }
 
     /**
@@ -112,16 +109,24 @@ public class BroadcastManager {
     }
 
     /**
-     * Send the object to root and all its children.
+     * Send the object to all widgets implementing EventBroadcastHandler
+     * starting at root in depth first order. Note that only children
+     * of Widgets that implement {@link com.google.gwt.user.client.ui.HasWidgets}
+     * are visited. This means that if a Portlet has children that need to
+     * receive events it must implement HasWidgets (the iterator method)
+     * or BroadcastListener and forward events received.
+     *
+     * @see BroadcastListener#onBroadcast
+     * @see org.gwtportlets.portlet.client.layout.LayoutUtil#getTopmostContainer
+     * @see org.gwtportlets.portlet.client.ui.Portlet#broadcastDown(Object) 
      */
-    protected void broadcastDown(Widget root, Object ev) {
+    public void broadcast(Widget root, Object ev) {
         if (root instanceof BroadcastListener) {
             ((BroadcastListener)root).onBroadcast(ev);
         }
         if (root instanceof HasWidgets) {
-            Iterator<Widget> i = ((HasWidgets)root).iterator();
-            while (i.hasNext()) {
-                broadcastDown(i.next(), ev);
+            for (Widget w : ((HasWidgets)root)) {
+                broadcast(w, ev);
             }
         }
     }
