@@ -65,15 +65,15 @@ public class BroadcastManager {
      * Add handler to be notified on calls to {@link #broadcast} before the
      * object is dispatched to the widget tree.
      */
-    public void addObjectBroadcastHandler(BroadcastListener handler) {
+    public void addObjectBroadcastListener(BroadcastListener l) {
         ArrayList a = new ArrayList(Arrays.asList(listeners));
-        a.add(handler);
+        a.add(l);
         listeners = (BroadcastListener[])a.toArray(new BroadcastListener[a.size()]);
     }
 
-    public void removeObjectBroadcastHandler(BroadcastListener handler) {
+    public void removeObjectBroadcastListener(BroadcastListener l) {
         ArrayList a = new ArrayList(Arrays.asList(listeners));
-        a.remove(handler);
+        a.remove(l);
         listeners = (BroadcastListener[])a.toArray(new BroadcastListener[a.size()]);
     }
 
