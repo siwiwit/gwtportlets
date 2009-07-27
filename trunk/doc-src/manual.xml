@@ -1,16 +1,20 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- This document was created with Syntext Serna Free. --><!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "docbookV4.5/docbookx.dtd" []>
 <book>
-  <title>GWT Portlets User Manual</title>
+  <title>GWT Portlets Framework User Manual</title>
   <bookinfo>
-    <author>
-      <firstname>David</firstname>
-      <surname>Tinker</surname>
-    </author>
+    <authorgroup>
+        <author>
+          <firstname>David</firstname>
+          <surname>Tinker</surname>
+        </author>
+    </authorgroup>
     <copyright>
       <year>2009</year>
       <holder>Business Systems Group (Africa)</holder>
     </copyright>
+    <pubdate>@DATE@</pubdate>
+    <releaseinfo>Version @RELEASE@</releaseinfo>
   </bookinfo>
   <chapter>
     <title>Introduction</title>
@@ -119,7 +123,7 @@
     <informalfigure>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="portlet_heirachy.gif"/>
+          <imagedata fileref="img/portlet_heirachy.gif"  scale="75"/>
         </imageobject>
       </mediaobject>
     </informalfigure>
@@ -216,7 +220,8 @@ public class HelloWorldDataProvider
       <para>The Container interface extends GWTs concept of a &quot;Panel&quot; to add support for pluggable layout managers and layout constraints:</para>
       <programlisting>package org.gwtportlets.portlet.client.layout;
 ...
-public interface Container extends HasWidgets, IndexedPanel, WidgetFactoryProvider, PositionAware {
+public interface Container extends HasWidgets, IndexedPanel, WidgetFactoryProvider,
+          PositionAware {
     ...
     public Layout getLayout();
     public void setLayout(Layout layout);
@@ -278,13 +283,15 @@ wf.accept(new WidgetFactoryVisitor(){
       &lt;widgets&gt;
         &lt;LayoutPanel styleName=&quot;&quot; limitMaximize=&quot;false&quot;&gt;
           &lt;widgets&gt;
-            &lt;TitlePanel styleName=&quot;portlet-title&quot; title=&quot;Title&quot; titleAuto=&quot;true&quot; refresh=&quot;true&quot; 
+            &lt;TitlePanel styleName=&quot;portlet-title&quot; title=&quot;Title&quot; titleAuto=&quot;true&quot;
+                    refresh=&quot;true&quot; 
                     configure=&quot;true&quot; edit=&quot;false&quot; maximize=&quot;true&quot; limitMaximize=&quot;true&quot;&gt;
               &lt;widgets&gt;
                 &lt;HelloWorldPortlet styleName=&quot;&quot;/&gt;
               &lt;/widgets&gt;
               &lt;constraints&gt;
-                &lt;RowLayout-Constraints size=&quot;0.0&quot; weight=&quot;1.0&quot; maxSize=&quot;0&quot; overflow=&quot;hidden&quot;/&gt;
+                &lt;RowLayout-Constraints size=&quot;0.0&quot; weight=&quot;1.0&quot; maxSize=&quot;0&quot;
+                    overflow=&quot;hidden&quot;/&gt;
               &lt;/constraints&gt;
 ...
 &lt;/LayoutPanel&gt;</programlisting>
@@ -327,7 +334,7 @@ public class WidgetFactoryXmlIO {
       <informalfigure>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="demo_client_classes.gif"/>
+            <imagedata fileref="img/demo_client_classes.gif" scalefit="1" width="100%" contentdepth="100%"/>
           </imageobject>
         </mediaobject>
       </informalfigure>
@@ -352,7 +359,7 @@ public class WidgetFactoryXmlIO {
       <informalfigure>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="demo_server_classes.gif"/>
+            <imagedata fileref="img/demo_server_classes.gif" scalefit="1" width="100%" contentdepth="100%"/>
           </imageobject>
         </mediaobject>
       </informalfigure>
@@ -374,7 +381,7 @@ public class WidgetFactoryXmlIO {
       <informalfigure>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="get_root_page_seq.gif"/>
+            <imagedata fileref="img/get_root_page_seq.gif" scalefit="1" width="100%" contentdepth="100%"/>
           </imageobject>
         </mediaobject>
       </informalfigure>
@@ -590,14 +597,17 @@ public  class LayoutPanel extends ComplexPanel implements Container {
       <para>The examples below are reproduced in the main demo.</para>
       <para>This example creates a typical &quot;buttons on top of scrolling body region&quot; layout:</para>
       <programlisting>LayoutPanel p = new LayoutPanel(); // has RowLayout in column by default
-p.add(buttons, 22); // new RowLayout.Contraints(22): size=22 weight=0 maxSize=0 overflow=hidden
+p.add(buttons, 22); // new RowLayout.Contraints(22): size=22 weight=0 maxSize=0
+                    // overflow=hidden
 p.add(body); // new RowLayout.Constraints(): size=0 weight=1.0 maxSize=0 overflow=auto
 p.layout();</programlisting>
       <para>This is example has a sidebar on the left using 20% of available space with auto scrollbars, a 20 pixel margin on the right without scrollbars and the rest of the space for the body with auto scrollbars:</para>
       <programlisting>LayoutPanel p = new LayoutPanel(false); // use RowLayout in row
-p.add(sidebar, 0.2f); // new RowLayout.Contraints(0.2f): size=0.2 weight=0.0 maxSize=0 overflow=auto
+p.add(sidebar, 0.2f); // new RowLayout.Contraints(0.2f): size=0.2 weight=0.0 maxSize=0
+                      // overflow=auto
 p.add(body); // new RowLayout.Constraints(): size=0 weight=1.0 maxSize=0 overflow=auto
-p.add(margin, 20);  // new RowLayout.Contraints(20): size=20 weight=0.0 maxSize=0 overflow=hidden
+p.add(margin, 20);  // new RowLayout.Contraints(20): size=20 weight=0.0 maxSize=0
+                    // overflow=hidden
 p.layout();</programlisting>
       <para>Here is &quot;border layout&quot;:</para>
       <programlisting>LayoutPanel inner = new LayoutPanel(false); // row
@@ -673,9 +683,11 @@ public class LDOM {
     /**
      * Position the widget. If it implements {@link PositionAware} then it is notified
      * of this change. The width and height are adjusted to account for the
-     * borders and padding of the widget if needed. Note that its margin is not considered.
+     * borders and padding of the widget if needed. Note that its margin is not
+     * considered.
      */
-    public static void setBounds(Widget w, int left, int top, int width, int height) {...}
+    public static void setBounds(Widget w, int left, int top, int width, int height)
+          {...}
     public static void setBounds(Widget w, Rectangle r) {...}
  
     /**
@@ -746,7 +758,7 @@ public class DemoPageEditor extends PageEditor {
       <informalfigure>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="page_editor1.gif"/>
+            <imagedata fileref="img/page_editor1.gif" scalefit="1" width="100%" contentdepth="100%"/>
           </imageobject>
         </mediaobject>
       </informalfigure>
@@ -755,7 +767,7 @@ public class DemoPageEditor extends PageEditor {
       <informalfigure>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="page_editor_tree.gif"/>
+            <imagedata fileref="img/page_editor_tree.gif" scale="75"/>
           </imageobject>
         </mediaobject>
       </informalfigure>
@@ -807,7 +819,7 @@ public class DemoPageEditor extends PageEditor {
       <informalfigure>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="dialog.gif"/>
+            <imagedata fileref="img/dialog.gif" scale="75"/>
           </imageobject>
         </mediaobject>
       </informalfigure>
@@ -842,7 +854,7 @@ public class FreeMemoryPortlet extends Portlet {
       <informalfigure>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="formbuilder1.gif"/>
+            <imagedata fileref="img/formbuilder1.gif" scale="75"/>
           </imageobject>
         </mediaobject>
       </informalfigure>
@@ -861,7 +873,7 @@ FlexTable form = b.getForm();</programlisting>
       <para>TitlePanel is a Portlet and Container that contains other portlets. Each of the portlets in the home page of the demo is contained in a TitlePanel. It provides a title bar, refresh, configure and maximize buttons and displays an AJAX loading pizza when the first Portlet it contains is refreshing.</para>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="title_panel_dialog.gif"/>
+          <imagedata fileref="img/title_panel_dialog.gif" scale="75"/>
         </imageobject>
       </mediaobject>
       <para>The dialog on the right is displayed by clicking a TitlePanel in the page editor and selecting Edit Title... from the popup menu. The options are as follows:</para>
@@ -971,10 +983,11 @@ public class Theme {
  
     /**
      * Change to a different theme or NOP if the theme is already active.
-     * Expects to find a gwt-portlets-&lt;name&gt;.css stylesheet (unless the default &apos;BlueGradient&apos;
-     * theme is selected) and an optional gwt_portlets_&lt;name&gt; Javascript
-     * object with overrides for dimensions of dialog headers and whatnot.&lt;p&gt;
-     * &lt;b&gt;NB: This method reloads the application if the theme is changed.&lt;/b&gt;
+     * Expects to find a gwt-portlets-&lt;name&gt;.css stylesheet (unless the default
+     * &apos;BlueGradient&apos; theme is selected) and an optional
+     * gwt_portlets_&lt;name&gt; Javascript object with overrides for dimensions
+     * of dialog headers and whatnot. &lt;b&gt;NB: This method reloads the
+     * application if the theme is changed.&lt;/b&gt;
      */
     public void changeTheme(String name) {...}
 ...</programlisting>
@@ -1039,7 +1052,8 @@ var gwt_portlets_MyTheme = {
     /** Configure the dimensions of the dialog. */
     public void updateDialog(Dialog dlg) {
         EdgeRow header = dlg.getHeader();
-        header.setDimensions(0, dialogHeaderHeight, dialogHeaderLeftWidth, dialogHeaderRightWidth);
+        header.setDimensions(0, dialogHeaderHeight, dialogHeaderLeftWidth,
+            dialogHeaderRightWidth);
         ...</programlisting>
       <para>If you want your own widgets to use the same mechanism you may need to extend Theme and call Theme.set(Theme instance) in onModuleLoad.</para>
     </section>

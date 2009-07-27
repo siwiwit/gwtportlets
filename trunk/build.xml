@@ -44,6 +44,7 @@ Run "ant -p" in the root of this project to see available targets.
     <property file="build.properties" />
     <property name="release" value="0.0"/>
     <property name="gwt.sdk" value=""/>
+    <property name="fop.home" value=""/>
     <property name="classes" value="build/classes"/>
 
     <!-- jars from lib that are copied to each demo -->
@@ -55,7 +56,9 @@ Run "ant -p" in the root of this project to see available targets.
         <fileset dir="${gwt.sdk}" includes="gwt-user.jar,gwt-servlet.jar,gwt-dev*.jar"/>
     </path>
 
-    <tstamp/>
+    <tstamp>
+        <format property="TODAY" pattern="dd MMMM yyyy"/> 
+    </tstamp>
 
     <target name="clean" description="Nuke all generated files">
         <delete dir="build"/>
@@ -101,6 +104,20 @@ Run "ant -p" in the root of this project to see available targets.
         <ant dir="demos/main" target="deploy" inheritAll="false"/>
     </target>
 
+    <target name="dist" description="Create the download bundle"
+            depends="clean, jar">
+        <property name="dist" value="gwt-portlets-${release}"/>
+        <mkdir dir="build/${dist}"/>
+        <copy todir="build/${dist}">
+            <fileset dir="."
+                includes="gwt-portlets.jar,etc/**,lib/**,lib-build/**,src/**,demos/**,*.xml,*.txt,*.sample"
+                excludes="**/build.properties"/>
+        </copy>
+        <fixcrlf srcdir="build/${dist}" eol="crlf"
+                 includes="**/*.txt,**/*.java,**/*.properties,**/*.jsp,**/*.html,**/*.css"/>
+        <zip destfile="build/${dist}.zip" basedir="build" includes="${dist}/**"/>
+    </target>
+
     <target name="javadoc" description="Generate build/javadoc.zip">
         <javadoc packagenames="org.gwtportlets.portlet.*"
                 sourcepath="src"
@@ -134,18 +151,87 @@ Run "ant -p" in the root of this project to see available targets.
         </replace>
     </target>
 
-    <target name="dist" description="Create the download bundle"
-            depends="clean, jar">
-        <property name="dist" value="gwt-portlets-${release}"/>
-        <mkdir dir="build/${dist}"/>
-        <copy todir="build/${dist}">
-            <fileset dir="."
-                includes="gwt-portlets.jar,etc/**,lib/**,lib-build/**,src/**,demos/**,*.xml,*.txt,*.sample"
-                excludes="**/build.properties"/>
+    <target name="manual-html" description="Generate single page HTML manual"
+            depends="manual-prep">
+        <java classname="com.icl.saxon.StyleSheet" fork="true" dir="doc-src"
+              classpathref="cp">
+            <jvmarg value="-Xmx256M"/>
+            <jvmarg value="-XX:MaxPermSize=128m"/>
+            <arg value="-o"/>
+            <arg value="${basedir}/build/doc/manual.html"/>
+            <arg value="${basedir}/build/doc/manual.xml"/>
+            <arg value="${basedir}/doc-src/xsl/html.xsl"/>
+        </java>
+    </target>
+
+    <target name="manual-html-chunks" description="Generate multiple page HTML manual"
+            depends="manual-prep">
+        <java classname="com.icl.saxon.StyleSheet" fork="true"
+              dir="${basedir}/build/doc"
+              classpathref="cp">
+            <jvmarg value="-Xmx256M"/>
+            <jvmarg value="-XX:MaxPermSize=128m"/>
+            <arg value="${basedir}/build/doc/manual.xml"/>
+            <arg value="${basedir}/doc-src/xsl/html_chunk.xsl"/>
+        </java>
+    </target>
+
+    <target name="manual-pdf" description="Generate PDF manual"
+            depends="manual-fo">
+        <!-- You need to have Apache FOP installed for this task:
+             http://xmlgraphics.apache.org/fop/download.html -->
+        <available property="fop.home.exists" file="${fop.home}"/>
+        <fail unless="fop.home.exists">Point fop.home at your Apache FOP installation</fail>
+        <copy todir="build/doc">
+            <fileset dir="doc-src" includes="img/**"/>
         </copy>
-        <fixcrlf srcdir="build/${dist}" eol="crlf"
-                 includes="**/*.txt,**/*.java,**/*.properties,**/*.jsp,**/*.html,**/*.css"/>
-        <zip destfile="build/${dist}.zip" basedir="build" includes="${dist}/**"/>
+        <taskdef name="fop" classname="org.apache.fop.tools.anttasks.Fop">
+            <classpath>
+                <fileset dir="${fop.home}" includes="build/fop.jar,lib/*.jar"/>
+            </classpath>
+        </taskdef>
+        <fop outdir="build/doc" relativebase="true">
+            <fileset dir="build/doc" includes="manual.fo"/>
+        </fop>
+    </target>
+
+    <target name="manual-prep">
+        <mkdir dir="build/doc"/>
+        <copy todir="build/doc" overwrite="true">
+            <fileset dir="doc-src" includes="manual.xml"/>
+            <filterset>
+                <filter token="DATE" value="${TODAY}"/>
+                <filter token="RELEASE" value="${release}"/>
+            </filterset>
+        </copy>
+        <copy todir="build/doc">
+            <fileset dir="doc-src" includes="docbook*/**"/>
+        </copy>
+        <copy todir="build/doc">
+            <fileset dir="doc-src/xsl" includes="html.css"/>
+        </copy>
+    </target>
+
+    <target name="manual-fo" depends="check-manual-fo-needed, manual-prep"
+            unless="skip-manual-fo">
+        <java classname="com.icl.saxon.StyleSheet" fork="true"
+              dir="${basedir}/build/doc" classpathref="cp">
+            <jvmarg value="-Xmx256M"/>
+            <jvmarg value="-XX:MaxPermSize=128m"/>
+            <arg value="-o"/>
+            <arg value="${basedir}/build/doc/manual.fo"/>
+            <arg value="${basedir}/build/doc/manual.xml"/>
+            <arg value="${basedir}/doc-src/xsl/fopdf.xsl"/>
+            <!--<arg value="double.sided=${double.sided}"/>-->
+        </java>
+    </target>
+
+    <target name="check-manual-fo-needed">
+        <dependset>
+            <srcfileset dir="doc-src"/>
+            <targetfileset dir="build/doc" includes="manual.fo"/>
+        </dependset>
+        <available property="skip-manual-fo" file="build/doc/manual.fo"/>
     </target>
 
     <target name="check-props">
