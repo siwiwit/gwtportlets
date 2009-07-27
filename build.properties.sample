@@ -5,3 +5,6 @@ gwt.sdk=/usr/local/gwt-linux-1.6.4
 gwtc.style=PRETTY
 tomcat.home=/usr/local/apache-tomcat-5.5.26
 release=0.0
+
+# Only needed to generate PDF documentation
+fop.home=/usr/local/fop-0.95
