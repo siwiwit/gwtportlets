@@ -546,7 +546,7 @@ public abstract class PageProvider {
   <chapter id="layouts">
     <title>Layouts</title>
     <para>GWT Portlets provides an absolute positioning framework with pluggable layout managers (similar to Swing and other thick client GUI toolkits). This chapter explains how LayoutPanel and its default RowLayout work.</para>
-    <section>
+    <section id="rowlayout">
       <title>RowLayout</title>
       <para>The default layout of a LayoutPanel is RowLayout. This flexible layout manager supports arranging widgets in a horizontal row (hence the name) or in a vertical column. In both cases the spacing between widgets in pixels is controlled by an int spacing property (default is 4 pixels). LayoutPanel uses the column mode by default.</para>
       <para>The size of each widget is controlled by a RowLayout.Constraints instance with the following properties:</para>
@@ -577,7 +577,7 @@ public abstract class PageProvider {
       <para>Widgets that implement HasMaximumSize are centered in the rectangle assigned to them if its width or height exceeds the maximums.</para>
       <para>The interactive RowLayout demo provides an environment to experiment with RowLayout and its constraints.</para>
     </section>
-    <section>
+    <section id="using_layoutpanel">
       <title>Using LayoutPanel</title>
       <para>Container (implemented by LayoutPanel) has several convenient add methods that make creating many popular layouts easier:</para>
       <programlisting>package org.gwtportlets.portlet.client.ui;
@@ -640,13 +640,13 @@ public class RowLayout implements Layout {
         public Constraints() {...}
 ...</programlisting>
     </section>
-    <section>
+    <section id="layout_tips">
       <title>Layout Tips</title>
-      <section>
+      <section id="scrollbars">
         <title>Scrollbars</title>
         <para>Generally it is best to avoid placing regions with overflow=auto (i.e. scrollbars if needed) inside each other. In some older browsers scrollbars may appear when not needed when the outer region is made smaller.</para>
       </section>
-      <section>
+      <section id="tables">
         <title>Tables</title>
         <para>Tables with padding around the outer TD elements end up taking up more space that what is assigned to them by the framework. This causes unnecessary scrollbars. Likewise a table with padding and width of 100% placed inside a DIV will get scrollbars. One solution is to avoid padding on TDs on the outer edges of the table. The FormBuilder class uses CSS styles on the first and last rows and columns in the table to achieve this effect.</para>
         <para>This problem and the &quot;narrow tables exploding&quot; problem can also be solved by wrapping the table in a DIV (SimplePanel) as shown in this example:</para>
@@ -658,11 +658,11 @@ p.add(wrapper);
 p.layout();</programlisting>
         <para>The width of wrapper is set to the width of the LayoutPanel and the table assumes its natural width inside it. Without the wrapper the table would be as wide as the LayoutPanel. This approach also avoids the problems with table TD padding and scrollbars.</para>
       </section>
-      <section>
+      <section id="margins">
         <title>Margins</title>
         <para>The framework does not consider margins when laying out widgets. Use the layout spacing property and widget padding and borders to create space between widgets.</para>
       </section>
-      <section>
+      <section id="position_aware">
         <title>PositionAware interface</title>
         <para>Widgets implementing PositionAware are notified by a call to boundsUpdated() when their position and/or size is changed. The Chart widget from the FreeMemoryPortlet uses this mechanism to size its Google Chart to fit the available space:</para>
         <programlisting>private class Chart extends Image implements PositionAware ... {
@@ -672,7 +672,7 @@ p.layout();</programlisting>
         ... </programlisting>
       </section>
     </section>
-    <section>
+    <section id="ldom">
       <title>The LDOM Class</title>
       <para>LayoutPanel and Layouts use static methods in LDOM to query and set position and size related properties for widgets and elements. The methods in this class take borders and padding into account when needed. There are different LDOMImpl implementations for different browsers.</para>
       <para>The most important methods are shown in extract below: </para>
@@ -752,7 +752,7 @@ public class DemoPageEditor extends PageEditor {
     }
 }</programlisting>
     <para>The only thing required from a PageEditor subclass is a savePage method. Override other methods if you need to customize the editor further.</para>
-    <section>
+    <section id="using_page_editor">
       <title>Using The Editor</title>
       <para>The following screenshot (taken from a modifled version of the demo home page) shows the major components of the editor:</para>
       <informalfigure>
@@ -813,7 +813,7 @@ public class DemoPageEditor extends PageEditor {
   <chapter id="ui_widgets">
     <title>UI Widgets</title>
     <para>The framework includes useful portlets and the widgets needed for its own UI (to avoid having to depend on other GWT libraries). The aim of the GWT Portlets framework is to make it easier to produce modular, decoupled business applications using GWT, not to create a widget library.</para>
-    <section>
+    <section id="dialog_and_cssbutton">
       <title>Dialog and CssButton</title>
       <para>Dialog is a replacement for the standard GWT dialog box. It includes a title bar with maximize/restore and close buttons, content area, button bar, is styled using CSS and image sprites, is themable, prevents the application from receiving events (even mouse overs and so on) when modal, triggers close when escape is presssed and absolutely positions its contents.</para>
       <informalfigure>
@@ -848,7 +848,7 @@ public class FreeMemoryPortlet extends Portlet {
       <para>The body of the Dialog is a RefreshPanel. This will display a AJAX loading pizza inside the dialog if it contains a Portlet and the portlet is refreshed.</para>
       <para>The showNextTo method will position the dialog next to another widget. If there is more space to the right or left then the dialog will be positioned there, otherwise it is placed below or above. It will center the dialog if there is not enough space anywhere.</para>
     </section>
-    <section>
+    <section id="form_builder">
       <title>FormBuilder</title>
       <para>FormBuilder is not actually a widget itself, it creates a form (labels and fields etc.) based on a GWT FlexTable</para>
       <informalfigure>
@@ -868,7 +868,7 @@ b.field(column).colspan(2).endRow(); // checkbox spans 2 columns
 FlexTable form = b.getForm();</programlisting>
       <para>FormBuilder styles the table so that the spacing between TDs inside is even (default is 4px) but the outer TDs (first row, last row, first column and last column) do not have any padding on the outside. This makes it easier to nest forms, to maintain consistent spacing and avoid problems with tables and spacing inside scrolling regions.</para>
     </section>
-    <section>
+    <section id="title_panel">
       <title>TitlePanel</title>
       <para>TitlePanel is a Portlet and Container that contains other portlets. Each of the portlets in the home page of the demo is contained in a TitlePanel. It provides a title bar, refresh, configure and maximize buttons and displays an AJAX loading pizza when the first Portlet it contains is refreshing.</para>
       <mediaobject>
@@ -898,11 +898,11 @@ FlexTable form = b.getForm();</programlisting>
         </listitem>
       </itemizedlist>
     </section>
-    <section>
+    <section id="web_app_content_portlet">
       <title>WebAppContentPortlet</title>
       <para>The WebAppContentPortlet displays any content served from the web application including JSP pages, static HTML, servlets and so on. It is configured with the path to the content as shown in the main demo (demos/main).</para>
     </section>
-    <section>
+    <section id="menu_portlet">
       <title>MenuPortlet</title>
       <para>The MenuPortlet displays a lightweight HTML menu generated from an HTML template served from the web application (a JSP page, static HTML etc.). It is configured with the path to the template as shown in the main demo (demos/main)</para>
       <para>The template for the demo application (menu.html) is shown below: </para>
@@ -939,24 +939,24 @@ FlexTable form = b.getForm();</programlisting>
       </itemizedlist>
       <para>The CommandDemoPortlet on command demo page displays the most recent CommandEvent received.</para>
     </section>
-    <section>
+    <section id="page_portlet">
       <title>PagePortlet</title>
       <para>PagePortlet listens for PageChangeEvent&apos;s and displays the widgets for the new page in its &quot;content&quot; area. If the page is editable then an edit button is displayed that launches the page editor on click.</para>
       <para>It updates the browser window title and broadcasts a PageTitleChangeEvent when the title of the first Portlet on the page changes. The application title and prefix used to construct the browser window title can be configured by selecting<emphasis role="italic"> Configure...</emphasis> for on the PagePortlet in the PageEditor.</para>
       <para>It is styled <code>portlet-page</code> by default.</para>
     </section>
-    <section>
+    <section id="page_title_portlet">
       <title>PageTitlePortlet</title>
       <para>PageTitlePortlet listens for PageTitleChangeEvent&apos;s and updates a title label. It is styled <code>portlet-page-title</code> by default.</para>
     </section>
-    <section>
+    <section id="tool_button">
       <title>ToolButton</title>
       <para>ToolButton displays a small icon defined by a CSS background image sprite with rollover and disabled support. </para>
       <programlisting>ToolButton edit = new ToolButton(ToolButton.CONFIGURE, &quot;Edit Page&quot;, new ClickListener() {
     public void onClick(Widget sender) {...}
 });</programlisting>
     </section>
-    <section>
+    <section id="shadow_panel">
       <title>ShadowPanel</title>
       <para>ShadowPanel adds a fuzzy shadow to a single widget. The look of the shadow is controlled by the theme.</para>
       <programlisting>Widget w = ...
@@ -966,7 +966,7 @@ ShadowPanel sp = new ShadowPanel(w);</programlisting>
   <chapter id="themes">
     <title>Theme Support</title>
     <para>The framework themes its widgets using a singleton Theme instance, theme CSS files and Javascript maps. Several themes are bundled with the framework. The CSS for BlueGradient is included in gwt-portlets.css as it is the default theme. The selected theme stored in a cookie.</para>
-    <section>
+    <section id="theme_singleton">
       <title>The Theme Singleton</title>
       <para>The Theme class supports querying available themes and changing the theme:</para>
       <programlisting>package org.gwtportlets.portlet.client.ui;
@@ -999,8 +999,8 @@ var gwt_portlets = {
 };
 &lt;/script&gt;</programlisting>
     </section>
-    <section>
-      <title>Creating New Themes</title>
+    <section id="creating_themes">
+      <title>Creating Themes</title>
       <para>Defining a new theme that has the same dimensions for UI elements (e.g. dialog title bar height) involves creating just a CSS file. Here is <filename>gwt-portlets-LightBlue.css</filename>:</para>
       <programlisting>.portlet-dialog-header-bg,
 .portlet-dialog-footer-bg {
