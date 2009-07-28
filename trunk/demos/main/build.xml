@@ -86,6 +86,21 @@ Run "ant -p" from the demo directory to see available targets.
     <target name="hosted" description="Run demo in hosted mode" depends="javac">
         <java fork="true" failonerror="true" classpathref="dev-cp"
                 classname="com.google.gwt.dev.HostedMode">
+            <arg value="-startupUrl"/>
+            <arg value="Demo.html"/>
+            <arg value="main.Main"/>
+            <jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xnoagent"/>
+            <jvmarg value="-Djava.compiler=NONE"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"/>
+            <jvmarg value="-Xms128m"/>
+            <jvmarg value="-Xmx512m"/>
+        </java>
+    </target>
+
+    <target name="hosted-noserver" description="Run demo in hosted mode with -noserver" depends="javac">
+        <java fork="true" failonerror="true" classpathref="dev-cp"
+                classname="com.google.gwt.dev.HostedMode">
             <arg value="-noserver"/>
             <arg value="-port"/>
             <arg value="8080"/>
