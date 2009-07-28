@@ -105,13 +105,17 @@ Run "ant -p" in the root of this project to see available targets.
     </target>
 
     <target name="dist" description="Create the download bundle"
-            depends="clean, jar">
+            depends="clean, jar, manual-html, manual-pdf">
         <property name="dist" value="gwt-portlets-${release}"/>
         <mkdir dir="build/${dist}"/>
         <copy todir="build/${dist}">
             <fileset dir="."
                 includes="gwt-portlets.jar,etc/**,lib/**,lib-build/**,src/**,demos/**,*.xml,*.txt,*.sample"
                 excludes="**/build.properties"/>
+        </copy>
+        <mkdir dir="build/${dist}/doc"/>
+        <copy todir="build/${dist}/doc">
+            <fileset dir="build/doc" includes="manual.pdf,manual.html,img/**" />
         </copy>
         <fixcrlf srcdir="build/${dist}" eol="crlf"
                  includes="**/*.txt,**/*.java,**/*.properties,**/*.jsp,**/*.html,**/*.css"/>
