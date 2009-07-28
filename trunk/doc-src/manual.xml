@@ -4,10 +4,10 @@
   <title>GWT Portlets Framework User Manual</title>
   <bookinfo>
     <authorgroup>
-        <author>
-          <firstname>David</firstname>
-          <surname>Tinker</surname>
-        </author>
+      <author>
+        <firstname>David</firstname>
+        <surname>Tinker</surname>
+      </author>
     </authorgroup>
     <copyright>
       <year>2009</year>
@@ -16,7 +16,7 @@
     <pubdate>@DATE@</pubdate>
     <releaseinfo>Version @RELEASE@</releaseinfo>
   </bookinfo>
-  <chapter>
+  <chapter id="introduction">
     <title>Introduction</title>
     <para>GWT Portlets is a free open source web framework for building modular GWT (Google Web Toolkit) applications. GWT provides the low level building blocks required to build web applications (Java to Javascript compiler, basic UI widgets, an RPC mechanism etc.) but typical business applications can benefit from the additional scaffolding provided by GWT Portlets. In traditional web applications this role would be fulfilled by Struts and other web frameworks as well as portal servers.</para>
     <para>The GWT Portlets framework is a library does not force a particular structure on an application. The programming model resembles that offered by JSR168 portlets and portal servers but the application creates and controls the &quot;portal server&quot; environment instead of just being deployed into it. </para>
@@ -38,13 +38,13 @@
       </listitem>
     </itemizedlist>
     <para>GWT Portlets is implemented in Java code and does not wrap any external Javascript libraries. It does not impose any server side framework (e.g. Spring or J2EE) but is designed to work well in conjunction with such frameworks.</para>
-    <section>
+    <section id="usage">
       <title>Usage</title>
       <para>The framework is packaged as gwt-portlets.jar and this file must be on the classpath at compile and runtime (e.g. in WEB-INF/lib). It depends on Log4j (log4j-*.jar) and optionally XStream (xstream-*.jar, xpp3_min-*.jar and xmlpull*.jar). These jars and their licenses are included in the download bundle (lib directory).</para>
       <para>Add the following line to the GWT module file for your application to use GWT Portlets:</para>
       <para><code>&lt;inherits name=&quot;org.gwtportlets.portlet.Portlets&quot;/&gt;</code></para>
     </section>
-    <section>
+    <section id="packages">
       <title>Packages</title>
       <para>The framework package layout follows standard GWT conventions:</para>
       <para><informaltable frame="all">
@@ -97,7 +97,7 @@
         </informaltable></para>
     </section>
   </chapter>
-  <chapter>
+  <chapter id="portlets">
     <title>Portlets</title>
     <para>A portlet is a GWT Widget (it extends Composite) with features that make it easier to build GWT applications composed of decoupled components:</para>
     <itemizedlist>
@@ -123,11 +123,11 @@
     <informalfigure>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="img/portlet_heirachy.gif"  scale="75"/>
+          <imagedata scale="75" fileref="img/portlet_heirachy.gif"/>
         </imageobject>
       </mediaobject>
     </informalfigure>
-    <section>
+    <section id="hello_world_portlet">
       <title>Hello World Portlet</title>
       <para>This section describes the different parts of the &quot;hello world&quot;portlet from the main demo (demos/main):</para>
       <programlisting>package main.client.ui;
@@ -181,7 +181,7 @@ public class HelloWorldPortlet extends Portlet {
       <para>The portlet method WidgetFactory createWidgetFactory() {...} creates a instance of the factory class externalizing the state of the portlet. This method is specified by the WidgetFactoryProvider interface. </para>
       <para>The refresh(HelloWorldPortlet p) {...} method in the factory restores the state of the portlet by calling its restore(Factory f) {...} method. The restore method copies data out of the factory fields into the portlet fields (serverTime) and sets the text on the label to update the GUI.</para>
     </section>
-    <section>
+    <section id="hello_world_data_provider">
       <title>Hello World Data Provider</title>
       <para>PortletFactory instances are filled with data on the server side by WidgetDataProvider implementations. Data providers are named after the portlet they supply data for by convention (HelloWorldDataProvider for HelloWorldPortlet etc.). Note that a Portlet is not required to have a corresponding WidgetDataProvider (e.g. the PageTitlePortlet in the framework). Here is the &quot;hello world&quot; data provider:</para>
       <programlisting>package main.server;
@@ -211,10 +211,10 @@ public class HelloWorldDataProvider
       <para>The page request also includes the HttpServletRequest and HttpServletResponse for the call. </para>
     </section>
   </chapter>
-  <chapter>
+  <chapter id="concepts">
     <title>Other Concepts</title>
     <para>This chapter describes the key concepts and ideas used by the framework.</para>
-    <section>
+    <section id="containers_and_layouts">
       <title>Containers &amp; Layouts</title>
       <para>The framework provides support for absolute positioning of widgets within each other and the browser viewport. Widgets (e.g. Portlets) are arranged using constraints and layout managers in a manner similar to Swing and AWT. This approach makes it possible to create scrolling regions and to build a browser based &quot;desktop style&quot; application. Static (i.e. normal browser flow) positioning can still be used for the &quot;contents&quot; of widgets and is often easier than trying to control the position and size of every button and label using absolute positioning.</para>
       <para>The Container interface extends GWTs concept of a &quot;Panel&quot; to add support for pluggable layout managers and layout constraints:</para>
@@ -252,7 +252,7 @@ panel.add(chart); // use all free space and include scrollbars if needed
 panel.add(label, 24); // 24 pixels high, no scrollbars (overflow is hidden)
 panel.layout(); // adding widgets does not automatically redo the layout</programlisting>
     </section>
-    <section>
+    <section id="widget_factory_trees">
       <title>WidgetFactory Trees</title>
       <para>Container extends WidgetFactoryProvider so all container implementations support externalizing their state into a serializable WidgetFactory subclass that can restore that state (like Portlets). A tree of Containers and Widgets implementing WidgetFactoryProvider (e.g. Portlets) can be externalized into a tree of WidgetFactories and recreated with a few lines of code:</para>
       <programlisting>Container root = ...; // tree of Containers and Portlets
@@ -271,7 +271,7 @@ wf.accept(new WidgetFactoryVisitor(){
     public boolean visit(WidgetFactory wf) {...}
 });</programlisting>
     </section>
-    <section>
+    <section id="page_files">
       <title>Page Files</title>
       <para>The framework supports the conversion of WidgetFactory trees to/from XML using XStream<footnote>
           <para>http://xstream.codehaus.org/</para>
@@ -325,16 +325,16 @@ public class WidgetFactoryXmlIO {
       <para>As mentioned in the Javadoc comment in the code fragment, fields annotated with DoNotPersist or DoNotSendToServer are not included in the XML. This is useful when fields in a PortletFactory are used only on the client side (DoNotSendToServer) or are used to pass information back to the server (DoNotPersist) that should not not end up in page XML files.</para>
     </section>
   </chapter>
-  <chapter>
+  <chapter id="app_structure">
     <title>Application Structure</title>
     <para>This chapter  describes how to pull the different parts of the framework together to create a complete application using one of the the bundled demos (demos/main in the distribution) as an example.</para>
-    <section>
+    <section id="app_classes">
       <title>Classes</title>
       <para>The main client side classes (main.client package) are shown in the class diagram below (blue classes are part of the GWT portlets framework, yellow classes are part of GWT):</para>
       <informalfigure>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="img/demo_client_classes.gif" scalefit="1" width="100%" contentdepth="100%"/>
+            <imagedata width="100%" contentdepth="100%" scalefit="1" fileref="img/demo_client_classes.gif"/>
           </imageobject>
         </mediaobject>
       </informalfigure>
@@ -359,7 +359,7 @@ public class WidgetFactoryXmlIO {
       <informalfigure>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="img/demo_server_classes.gif" scalefit="1" width="100%" contentdepth="100%"/>
+            <imagedata width="100%" contentdepth="100%" scalefit="1" fileref="img/demo_server_classes.gif"/>
           </imageobject>
         </mediaobject>
       </informalfigure>
@@ -381,7 +381,7 @@ public class WidgetFactoryXmlIO {
       <informalfigure>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="img/get_root_page_seq.gif" scalefit="1" width="100%" contentdepth="100%"/>
+            <imagedata width="100%" contentdepth="100%" scalefit="1" fileref="img/get_root_page_seq.gif"/>
           </imageobject>
         </mediaobject>
       </informalfigure>
@@ -402,7 +402,7 @@ public class WidgetFactoryXmlIO {
   ...</programlisting>
       <para>Each time the history token changes (onHistoryChanged()), Demo calls DemoServiceImpl.getPage(historyToken) and the returned DemoPage DTO contains the page for the history token widgetFactory (rootWidgetFactory is null). A PageChangeEvent is broadcast and the PagePortlet displays the new page.</para>
     </section>
-    <section>
+    <section id="event_broadcasting">
       <title>Event Broadcasting</title>
       <para>The BroadcastManager singleton supports broadcasting of application wide events to widget trees. Only widgets that implement BroadcastListener receive broadcast events. This mechanism makes it easy for &quot;global&quot; events to be communicated to all parts of the GUI in a decoupled way.</para>
       <programlisting>package org.gwtportlets.portlet.client.event;
@@ -465,7 +465,7 @@ public class BroadcastManager {
     public void removeObjectBroadcastListener(BroadcastListener l) {..}
 ...</programlisting>
     </section>
-    <section>
+    <section id="widget_refresh_hook">
       <title>The WidgetRefreshHook Singleton</title>
       <para>The framework does not have its own service interface. Instead it relies a WidgetRefreshHook singleton to refresh a Portlet or Widget with new data from the server. This is normally set in onModuleLoad and just invokes a service method:</para>
       <programlisting>package main.client;
@@ -504,7 +504,7 @@ public class DemoServiceImpl extends RemoteServiceServlet
     }
 ...</programlisting>
     </section>
-    <section>
+    <section id="widget_factory_trees_and_data_providers">
       <title>WidgetFactory Trees and Data Providers</title>
       <para>The Demo application service implementation refreshes WidgetFactory trees by delegating to the DemoPageProvider as show above. The code that handles the refresh is in the PageProvider base class and is the same code that runs after a page XML file has been read:</para>
       <programlisting>package org.gwtportlets.portlet.server;
@@ -543,7 +543,7 @@ public abstract class PageProvider {
       <para>Each WidgetFactory in the tree is visited and refreshed by a WidgetDataProvider. The provider is found by a simple map lookup using the class of the factory as the key. Note that WidgetDataProvider implementations need to be thread safe.</para>
     </section>
   </chapter>
-  <chapter>
+  <chapter id="layouts">
     <title>Layouts</title>
     <para>GWT Portlets provides an absolute positioning framework with pluggable layout managers (similar to Swing and other thick client GUI toolkits). This chapter explains how LayoutPanel and its default RowLayout work.</para>
     <section>
@@ -703,7 +703,7 @@ public class LDOM {
 ...</programlisting>
     </section>
   </chapter>
-  <chapter>
+  <chapter id="page_editor">
     <title>The Page Editor</title>
     <para>The framework supports editing of pages (actually any tree of Containers and Portlets) in the browser. The application using the framework controls how the page editor is launched and what happens when the user &quot;saves&quot; a page or tree. The demo application uses the PagePortlet to display pages and this portlet displays a spanner icon on the bottom right hand corner of the client area for editable pages.</para>
     <para>The appropriate code fragments from the demo are shown below:</para>
@@ -758,7 +758,7 @@ public class DemoPageEditor extends PageEditor {
       <informalfigure>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="img/page_editor1.gif" scalefit="1" width="100%" contentdepth="100%"/>
+            <imagedata width="100%" contentdepth="100%" scalefit="1" fileref="img/page_editor1.gif"/>
           </imageobject>
         </mediaobject>
       </informalfigure>
@@ -767,7 +767,7 @@ public class DemoPageEditor extends PageEditor {
       <informalfigure>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="img/page_editor_tree.gif" scale="75"/>
+            <imagedata scale="75" fileref="img/page_editor_tree.gif"/>
           </imageobject>
         </mediaobject>
       </informalfigure>
@@ -810,7 +810,7 @@ public class DemoPageEditor extends PageEditor {
       <para>Don&apos;t forget to click <emphasis role="italic">Save</emphasis> to save changes.</para>
     </section>
   </chapter>
-  <chapter>
+  <chapter id="ui_widgets">
     <title>UI Widgets</title>
     <para>The framework includes useful portlets and the widgets needed for its own UI (to avoid having to depend on other GWT libraries). The aim of the GWT Portlets framework is to make it easier to produce modular, decoupled business applications using GWT, not to create a widget library.</para>
     <section>
@@ -819,7 +819,7 @@ public class DemoPageEditor extends PageEditor {
       <informalfigure>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="img/dialog.gif" scale="75"/>
+            <imagedata scale="75" fileref="img/dialog.gif"/>
           </imageobject>
         </mediaobject>
       </informalfigure>
@@ -854,7 +854,7 @@ public class FreeMemoryPortlet extends Portlet {
       <informalfigure>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="img/formbuilder1.gif" scale="75"/>
+            <imagedata scale="75" fileref="img/formbuilder1.gif"/>
           </imageobject>
         </mediaobject>
       </informalfigure>
@@ -873,7 +873,7 @@ FlexTable form = b.getForm();</programlisting>
       <para>TitlePanel is a Portlet and Container that contains other portlets. Each of the portlets in the home page of the demo is contained in a TitlePanel. It provides a title bar, refresh, configure and maximize buttons and displays an AJAX loading pizza when the first Portlet it contains is refreshing.</para>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="img/title_panel_dialog.gif" scale="75"/>
+          <imagedata scale="75" fileref="img/title_panel_dialog.gif"/>
         </imageobject>
       </mediaobject>
       <para>The dialog on the right is displayed by clicking a TitlePanel in the page editor and selecting Edit Title... from the popup menu. The options are as follows:</para>
@@ -963,7 +963,7 @@ FlexTable form = b.getForm();</programlisting>
 ShadowPanel sp = new ShadowPanel(w);</programlisting>
     </section>
   </chapter>
-  <chapter>
+  <chapter id="themes">
     <title>Theme Support</title>
     <para>The framework themes its widgets using a singleton Theme instance, theme CSS files and Javascript maps. Several themes are bundled with the framework. The CSS for BlueGradient is included in gwt-portlets.css as it is the default theme. The selected theme stored in a cookie.</para>
     <section>
@@ -1058,7 +1058,7 @@ var gwt_portlets_MyTheme = {
       <para>If you want your own widgets to use the same mechanism you may need to extend Theme and call Theme.set(Theme instance) in onModuleLoad.</para>
     </section>
   </chapter>
-  <chapter>
+  <chapter id="spring">
     <title>Integrating with Spring</title>
     <para>Spring is a platform for building Enterprise Java applications. It provides lifecycle management and wiring for application components (among other features). A Spring / GWT Portlets application will typically do the following:</para>
     <itemizedlist>
