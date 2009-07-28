@@ -84,6 +84,7 @@
         table before
         procedure before
     </xsl:param>
+
 	<xsl:template match="author" mode="titlepage.mode">
 		<xsl:if test="name(preceding-sibling::*[1]) = 'author'">
 			<xsl:text>, </xsl:text>
