@@ -115,7 +115,7 @@ Run "ant -p" in the root of this project to see available targets.
         </copy>
         <mkdir dir="build/${dist}/doc"/>
         <copy todir="build/${dist}/doc">
-            <fileset dir="build/doc" includes="manual.pdf,manual.html,img/**" />
+            <fileset dir="build/doc" includes="manual.pdf,manual.html,*.css,img/**" />
         </copy>
         <fixcrlf srcdir="build/${dist}" eol="crlf"
                  includes="**/*.txt,**/*.java,**/*.properties,**/*.jsp,**/*.html,**/*.css"/>

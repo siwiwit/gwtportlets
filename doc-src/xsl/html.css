@@ -200,6 +200,11 @@ TT {
     background-color: #e4eff3;
 }
 
+.navheader TABLE {
+    margin: 0 0 0 0;
+    width: 100%;
+}
+
 PRE {
     font-size: 110%;
     padding: 5px;
