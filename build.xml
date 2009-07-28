@@ -111,7 +111,7 @@ Run "ant -p" in the root of this project to see available targets.
         <copy todir="build/${dist}">
             <fileset dir="."
                 includes="gwt-portlets.jar,etc/**,lib/**,lib-build/**,src/**,demos/**,*.xml,*.txt,*.sample"
-                excludes="**/build.properties"/>
+                excludes="**/build.properties,**/*.iml,**/*.iws"/>
         </copy>
         <mkdir dir="build/${dist}/doc"/>
         <copy todir="build/${dist}/doc">
