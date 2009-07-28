@@ -9,11 +9,27 @@ GWT Portlets is a free open source web framework for building modular GWT
 blocks required to build web applications (Java to Javascript compiler,
 basic UI widgets, an RPC mechanism etc.) but typical business applications
 can benefit from the additional scaffolding provided by GWT Portlets. In
-traditional web applications this role would be fulfilled by Struts and
-other web frameworks.
+traditional web applications this role would be fulfilled by Struts,
+other web frameworks and portal servers.
 
-Please visit http://www.gwtportlets.org/ for more information and
-documentation.
+The GWT Portlets manual is in the doc directory in PDF and HTML format.
+
+Please visit http://www.gwtportlets.org/ for more information.
+
+
+QUICK START
+===========
+
+Copy build.properties.sample to build.properties and customize it to match
+your environment (set your GWT installation directory etc.).
+
+Run ant (no arguements) at a command prompt from the root of the
+distribution. This will copy gwt-portlets.jar, other required jars and
+build.properties to each of the demos. Each demo will now be
+standalone (you can copy the whole directory elsewhere to start a project).
+
+Change to demos/main and run "ant" (no arguements) to launch the demo in
+hosted mode.
 
 
 BUILDING
