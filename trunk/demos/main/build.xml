@@ -32,7 +32,7 @@ files to all the demos.
 Run "ant -p" from the demo directory to see available targets.
 
 -->
-<project name="main" default="gwtc" basedir=".">
+<project name="main" default="hosted" basedir=".">
 
     <property file="build.properties"/>
 
