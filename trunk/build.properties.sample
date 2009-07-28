@@ -1,7 +1,7 @@
 # Copy this to build.properties and edit to match your environment
 # Then run "ant" (no args) to copy build.properties and jar files to the demos
 
-gwt.sdk=/usr/local/gwt-linux-1.6.4
+gwt.sdk=/usr/local/gwt-linux-1.7.0
 gwtc.style=PRETTY
 tomcat.home=/usr/local/apache-tomcat-5.5.26
 release=0.0
