@@ -79,7 +79,7 @@ Run "ant -p" in the root of this project to see available targets.
     </target>
 
     <target name="jar" depends="javac"
-            description="Create gwt-portlets.jar and updates demos">
+            description="Create gwt-portlets.jar">
         <jar destfile="gwt-portlets.jar">
             <fileset dir="${classes}"/>
             <fileset dir="src" includes="**/*.java"/>

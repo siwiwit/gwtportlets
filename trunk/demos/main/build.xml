@@ -149,13 +149,13 @@ Run "ant -p" from the demo directory to see available targets.
     <target name="check-props">
         <available property="build.properties.exists" file="build.properties"/>
         <fail unless="build.properties.exists">
-${build.properties} does not exist - please edit build.properties in the root
+build.properties does not exist - please edit build.properties in the root
 of this distribution and then run 'ant' to copy it to this demo
         </fail>
-        <fail message="gwt.sdk not set in build.properties">
-            <condition>
-                <equals arg1="${gwt.sdk}" arg2=""/>
-            </condition>
+        <available property="gwt-portlets.exists" file="war/WEB-INF/lib/gwt-portlets.jar"/>
+        <fail unless="gwt-portlets.exists">
+war/WEB-INF/lib/gwt-portlets.jar does not exist - please run 'ant' in the root
+of this distribution to copy it to this demo
         </fail>
         <available property="gwt.sdk.exists" file="${gwt.sdk}"/>
         <fail unless="gwt.sdk.exists"
