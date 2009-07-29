@@ -61,6 +61,7 @@ the demo will still run but no source will be displayed.
 
     <target name="clean" description="Nuke all generated files">
         <delete dir="${classes}"/>
+        <delete dir="src" includes="**/*.class"/>
         <delete dir="war/main"/>
         <delete dir="war/src"/>
         <delete dir="war/WEB-INF/lib" includes="gwt-servlet.jar"/>
