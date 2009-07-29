@@ -64,7 +64,13 @@ public class SourceBrowserDataProvider
         String srcPath = srcDir.getAbsolutePath();
         String filePath = file.getAbsolutePath();
         if (!filePath.startsWith(srcPath) || !file.isFile()) {
-            f.html = "File not found";
+            if (!srcDir.isDirectory()) {
+                f.html = "Source not found. Run 'ant java2html' in the root " +
+                        "of the GWT Portlets distribution to generate HTML " +
+                        "files for each framework source file.";                
+            } else {
+                f.html = "File not found";
+            }
             log.warn("File not found: " + file);
         } else {
             f.html = htmlCache.get(file);
