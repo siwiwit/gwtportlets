@@ -24,8 +24,8 @@ Build instructions:
 
 For all demos:
 
-Create a file called build.properties in the root of the distribution
-by copying and customizing build.properties.sample. Then run "ant" (no args)
+Edit build.properties in the root of the distribution to match your
+environment (GWT installation directory etc.). Then run "ant" (no args)
 in the root of the distribution to copy build.properties and required jar
 files to all the demos.
 
@@ -47,6 +47,7 @@ Run "ant -p" from the demo directory to see available targets.
     <path id="dev-cp">
         <pathelement path="src"/>
         <path refid="cp"/>
+        <fileset dir="lib-hosted" includes="*.jar"/>
         <fileset dir="${gwt.sdk}" includes="gwt-dev*.jar"/>
     </path>
 
@@ -89,6 +90,8 @@ Run "ant -p" from the demo directory to see available targets.
             <arg value="-startupUrl"/>
             <arg value="Demo.html"/>
             <arg value="main.Main"/>
+            <arg value="-whitelist"/>
+            <arg value="^http[:][/][/]www[.]gmodules[.]com"/>
             <jvmarg value="-Xdebug"/>
             <jvmarg value="-Xnoagent"/>
             <jvmarg value="-Djava.compiler=NONE"/>
@@ -107,6 +110,8 @@ Run "ant -p" from the demo directory to see available targets.
             <arg value="-startupUrl"/>
             <arg value="main/Demo.html"/>
             <arg value="main.Main"/>
+            <arg value="-whitelist"/>
+            <arg value="^http[:][/][/]www[.]gmodules[.]com"/>
             <jvmarg value="-Xdebug"/>
             <jvmarg value="-Xnoagent"/>
             <jvmarg value="-Djava.compiler=NONE"/>
@@ -144,8 +149,8 @@ Run "ant -p" from the demo directory to see available targets.
     <target name="check-props">
         <available property="build.properties.exists" file="build.properties"/>
         <fail unless="build.properties.exists">
-${build.properties} does not exist - please copy build.properties.sample
-to build.properties and edit it to match your environment
+${build.properties} does not exist - please edit build.properties in the root
+of this distribution and then run 'ant' to copy it to this demo
         </fail>
         <fail message="gwt.sdk not set in build.properties">
             <condition>

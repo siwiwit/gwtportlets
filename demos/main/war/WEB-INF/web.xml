@@ -46,4 +46,22 @@
         <url-pattern>/main/rpc</url-pattern>
     </servlet-mapping>
 
+    <!-- This makes sure that the Jetty JSP compiler (used in hosted mode)
+         allows JDK 1.5 source. Otherwise it expects 1.4.
+         http://code.google.com/p/raisercostin/wiki/GwtEclipsePluginDebug
+         -->
+    <servlet>
+        <servlet-name>jsp</servlet-name>
+        <servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
+        <init-param>
+            <param-name>compilerSourceVM</param-name>
+            <param-value>1.5</param-value>
+        </init-param>
+        <init-param>
+            <param-name>compilerTargetVM</param-name>
+            <param-value>1.5</param-value>
+        </init-param>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+
 </web-app>
