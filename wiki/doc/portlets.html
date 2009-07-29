@@ -1,0 +1,68 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;2.&nbsp;Portlets</title><link rel="stylesheet" href="html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="GWT Portlets Framework User Manual"><link rel="up" href="index.html" title="GWT Portlets Framework User Manual"><link rel="prev" href="introduction.html" title="Chapter&nbsp;1.&nbsp;Introduction"><link rel="next" href="concepts.html" title="Chapter&nbsp;3.&nbsp;Other Concepts"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;2.&nbsp;Portlets</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="introduction.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="concepts.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;2.&nbsp;Portlets"><div class="titlepage"><div><div><h2 class="title"><a name="portlets"></a>Chapter&nbsp;2.&nbsp;Portlets</h2></div></div></div><p>A portlet is a GWT Widget (it extends Composite) with features that make it easier to build GWT applications composed of decoupled components:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>It can externalize its state into an instance of a PortletFactory subclass that can recreate the Portlet and/or restore its state </p></li><li class="listitem"><p>It can "refresh" itself by sending a PortletFactory instance to the server for update (e.g. from a database) and restoring its state using the returned factory to show the new data i.e. the factory is used as a DTO (Data Transfer Object) </p></li><li class="listitem"><p>It has a user friendly title </p></li><li class="listitem"><p>It may be able open a dialog to configure itself</p></li><li class="listitem"><p>It notifies its parent (and its parent's parent recursively) when its state changes (e.g. busy with refresh, title changed) for automatic display of AJAX loading pizza's etc. </p></li><li class="listitem"><p>It can be positioned absolutely and is aware of its position and size and hence can use scrolling regions effectively </p></li></ul></div><div class="informalfigure"><div class="mediaobject"><img src="img/portlet_heirachy.gif"></div></div><div class="section" title="2.1.&nbsp;Hello World"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="hello_world"></a>2.1.&nbsp;Hello World</h2></div></div></div><p>This section describes the different parts of the "hello world"portlet from the main demo (demos/main). The Portlet class is as follows:</p><pre class="programlisting">package main.client.ui;
+ 
+import com.google.gwt.user.client.ui.*;
+import org.gwtportlets.portlet.client.*;
+import org.gwtportlets.portlet.client.ui.*;
+ 
+public class HelloWorldPortlet extends Portlet {
+ 
+    private String serverTime;
+ 
+    private Label label = new Label();
+ 
+    public HelloWorldPortlet() {
+        initWidget(label);
+    }
+ 
+    private void restore(Factory f) {
+        serverTime = f.serverTime;
+        label.setText("Hello World, the time on the server is " + serverTime);
+    }
+ 
+    public WidgetFactory createWidgetFactory() {
+        return new Factory(this);
+    }
+ 
+    public static class Factory extends PortletFactory&lt;HelloWorldPortlet&gt; {
+ 
+        @DoNotSendToServer public String serverTime;
+ 
+        public Factory() { }
+ 
+        public Factory(HelloWorldPortlet p) {
+            super(p);
+            serverTime = p.serverTime;
+        }
+ 
+        public void refresh(HelloWorldPortlet p) {
+            super.refresh(p);
+            p.restore(this);
+        }
+ 
+        public HelloWorldPortlet createWidget() {
+            return new HelloWorldPortlet();
+        }
+    }
+}</pre><p>This portlet displays its message using a single label field. Since it is a Composite it calls initWidget(label) in the constructor.</p><p>The static inner class <code class="code">Factory extends PortletFactory {...}</code> has a single field String serverTime to hold the state of the portlet. This field is marked with the @DoNotSendToServer annotation which causes the framework to set it to null before the factory is sent to the server, reducing the amount of data transfered.</p><p>The portlet method WidgetFactory createWidgetFactory() {...} creates a instance of the factory class externalizing the state of the portlet. This method is specified by the WidgetFactoryProvider interface. </p><p>The refresh(HelloWorldPortlet p) {...} method in the factory restores the state of the portlet by calling its restore(Factory f) {...} method. The restore method copies data out of the factory fields into the portlet fields (serverTime) and sets the text on the label to update the GUI.</p><p>PortletFactory instances are filled with data on the server side by WidgetDataProvider implementations. Data providers are named after the portlet they supply data for by convention (HelloWorldDataProvider for HelloWorldPortlet etc.). Note that a Portlet is not required to have a corresponding WidgetDataProvider (e.g. the PageTitlePortlet in the framework). </p><p>Here is the "hello world" data provider:</p><pre class="programlisting">package main.server;
+ 
+import main.client.ui.HelloWorldPortlet;
+import org.gwtportlets.portlet.server.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+ 
+public class HelloWorldDataProvider
+        implements WidgetDataProvider&lt;HelloWorldPortlet.Factory&gt; {
+ 
+    private static final SimpleDateFormat DATE_FORMAT =
+            new SimpleDateFormat("dd MMM yyyy HH:mm:ss Z");
+ 
+    public Class getWidgetFactoryClass() {
+        return HelloWorldPortlet.Factory.class;
+    }
+ 
+    public void refresh(HelloWorldPortlet.Factory f, PageRequest req) {
+        f.serverTime = DATE_FORMAT.format(new Date());
+    }
+}</pre><p>The getWidgetFactoryClass() method just returns the factory class that the data provider populates. </p><p>The refresh(HelloWorldPortlet.Factory f, PageRequest req) method populates the factory with the time on the server. The PageRequest contains information derived from the current "history token" on the client (the part after the # in the URL). In particular if the history token contains "parameters" then these are available through the PageRequest.</p><p>Example: If the history token at the time of refresh is "#hello_world?foo=bar" then req.get("foo") will return "bar". A more complex data provider might use this parameter and information from the factory to execute a database query.</p><p>The page request also includes the HttpServletRequest and HttpServletResponse for the call. </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="introduction.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="concepts.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;1.&nbsp;Introduction&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;3.&nbsp;Other Concepts</td></tr></table></div></body></html>

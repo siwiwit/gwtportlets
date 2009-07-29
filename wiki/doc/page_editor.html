@@ -1,0 +1,44 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;6.&nbsp;The Page Editor</title><link rel="stylesheet" href="html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="GWT Portlets Framework User Manual"><link rel="up" href="index.html" title="GWT Portlets Framework User Manual"><link rel="prev" href="layouts.html" title="Chapter&nbsp;5.&nbsp;Layouts"><link rel="next" href="ui_widgets.html" title="Chapter&nbsp;7.&nbsp;UI Widgets"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;6.&nbsp;The Page Editor</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="layouts.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ui_widgets.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;6.&nbsp;The Page Editor"><div class="titlepage"><div><div><h2 class="title"><a name="page_editor"></a>Chapter&nbsp;6.&nbsp;The Page Editor</h2></div></div></div><p>The framework supports editing of pages (actually any tree of Containers and Portlets) in the browser. The application using the framework controls how the page editor is launched and what happens when the user "saves" a page or tree. The demo application uses the PagePortlet to display pages and this portlet displays a spanner icon on the bottom right hand corner of the client area for editable pages.</p><p>The appropriate code fragments from the demo are shown below:</p><pre class="programlisting">package demo.client;
+...
+public class Demo implements EntryPoint ... {
+...
+    // The pageEditor is responsible for editing and saving pages (extends PageEditor)
+    private DemoPageEditor pageEditor = new DemoPageEditor();
+...
+    private void onPageChange(final DemoPage p) {
+        ...
+        // The page change event knows how to edit the current page
+        PageChangeEvent pce = new PageChangeEvent(this) {
+            public void editPage(Container container) {
+                ...
+                pageEditor.startEditing(getPageName(), container);
+            }
+        };
+        pce.setPageName(p.pageName);
+        pce.setEditable(p.canEditPage);
+        pce.setWidgetFactory(p.widgetFactory);
+ 
+        // Send the event to every AppEventListener in the container tree.
+        // The PagePortlet uses this event to change the widget tree in the
+        // 'content area' of the application and to display the gear icon
+        // for editable pages
+        BroadcastManager.get().broadcast(pce);
+    }
+...</pre><p>The PagePortlet calls editPage on the PageChangeEvent when the user clicks the gear icon for an editable page and the demo starts editing using its PageEditor subclass:</p><pre class="programlisting">package demo.client;
+...
+public class DemoPageEditor extends PageEditor {
+...
+    protected void savePage(WidgetFactory wf, AsyncCallback callback) {
+        DemoService.App.get().savePage(getPageName(), wf,
+                new AsyncCallback() {
+            public void onFailure(Throwable caught) {
+                Window.alert("Oops " + caught);
+            }
+            public void onSuccess(Object result) {
+                Window.alert("Saved");
+            }
+        });
+    }
+}</pre><p>The only thing required from a PageEditor subclass is a savePage method. Override other methods if you need to customize the editor further.</p><div class="section" title="6.1.&nbsp;Using The Editor"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="using_page_editor"></a>6.1.&nbsp;Using The Editor</h2></div></div></div><p>The following screenshot (taken from a modifled version of the demo home page) shows the major components of the editor:</p><div class="informalfigure"><div class="mediaobject"><img src="img/page_editor1.gif"></div></div><p>The Dialog titled "Layout Editor" displays a button for each level in the Container tree being edited ("1", "2" etc.) with the selected level highlighted.</p><p>The image below shows how levels in the editor correspond to levels in the container tree. You can click the buttons or use the mouse wheel to change levels. There is also a context sensitive message explaining what do ("Drag widgets to move or resize") and a save button. Closing this dialog stops editing.</p><div class="informalfigure"><div class="mediaobject"><img src="img/page_editor_tree.gif"></div></div><p>Each widget on the current level on the tree is outlined by a blue rectangle. These rectangles can be dragged around to move widgets to different positions at the same level in the tree. The thick edge of the rectangle resizes the widget and left click opens a context sensitive menu (not all the options listed below are visible in the screenshot):</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p><span class="italic">Edit Constraints...</span> Opens a dialog to edit layout constraints for the widget </p></li><li class="listitem"><p><span class="italic">Pickup</span> Pickup the widget and click to drop it somewhere else. Change levels (use the mouse wheel) while "holding" a widget to move widgets between levels in the tree</p></li><li class="listitem"><p><span class="italic">Delete</span>... Delete the widget </p></li><li class="listitem"><p><span class="italic">Replace With &gt;</span> Replace the widget with a different widget. If the new widget is a Container then the widget is placed inside the container. This is very useful for "splitting" the space occupied by a widget into a row or column and for putting widgets inside TitlePanel's </p></li><li class="listitem"><p><span class="italic">Style &gt;</span> Set the CSS style for the widget. The list of styles can be changed by overriding PageEditor.getStyleNamesFor(Widget) </p></li><li class="listitem"><p><span class="italic">Edit...</span> Edit settings for the widget that was clicked (in this case a TitlePanel) </p></li><li class="listitem"><p><span class="italic">Configure...</span> Configure the Portlet that was clicked (if it supports configure e.g. FreeMemoryPortlet) </p></li><li class="listitem"><p><span class="italic">Parent Container &gt;</span> Edit settiings for the parent container of the clicked widget </p></li><li class="listitem"><p><span class="italic">Undo</span> Undo the last action </p></li><li class="listitem"><p><span class="italic">Redo</span> Redo the last undone action </p></li><li class="listitem"><p><span class="italic">Add &gt;</span> Select a new widget or container and click to drop it </p></li></ul></div><p>Don't forget to click <span class="italic">Save</span> to save changes.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="layouts.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ui_widgets.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;5.&nbsp;Layouts&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;7.&nbsp;UI Widgets</td></tr></table></div></body></html>

@@ -1,0 +1,129 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;4.&nbsp;Application Structure</title><link rel="stylesheet" href="html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="GWT Portlets Framework User Manual"><link rel="up" href="index.html" title="GWT Portlets Framework User Manual"><link rel="prev" href="concepts.html" title="Chapter&nbsp;3.&nbsp;Other Concepts"><link rel="next" href="layouts.html" title="Chapter&nbsp;5.&nbsp;Layouts"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;4.&nbsp;Application Structure</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="concepts.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="layouts.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;4.&nbsp;Application Structure"><div class="titlepage"><div><div><h2 class="title"><a name="app_structure"></a>Chapter&nbsp;4.&nbsp;Application Structure</h2></div></div></div><p>This chapter  describes how to pull the different parts of the framework together to create a complete application using one of the the bundled demos (demos/main in the distribution) as an example.</p><div class="section" title="4.1.&nbsp;Classes"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="app_classes"></a>4.1.&nbsp;Classes</h2></div></div></div><p>The main client side classes (main.client package) are shown in the class diagram below (blue classes are part of the GWT portlets framework, yellow classes are part of GWT):</p><div class="informalfigure"><div class="mediaobject"><img src="img/demo_client_classes.gif"></div></div><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p><code class="code">Demo</code> The EntryPoint (main) class </p></li><li class="listitem"><p><code class="code">DemoService</code> The service interface (Async version not shown) </p></li><li class="listitem"><p><code class="code">DemoPage</code> DTO used to transfer WidgetFactory trees (pages) and related information from the server to client. A real application might include information on the currently logged on user etc. </p></li><li class="listitem"><p><code class="code">DemoPageEditor</code> The page editor for in browser layout editing, knows how to save pages to the server</p></li><li class="listitem"><p><code class="code">ClientAreaPanel</code> (framework) Container to fill the whole browser client area and layout child containers</p></li></ul></div><p>The server side classes (main.server package):</p><div class="informalfigure"><div class="mediaobject"><img src="img/demo_server_classes.gif"></div></div><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p><code class="code">DemoServiceImpl</code> GWT RemoteServiceServlet implementing demo.client.DemoService methods </p></li><li class="listitem"><p><code class="code">DemoPageProvider</code> Loads and saves "pages" (widget and portlet layouts) of the application from xml files and refreshes portlets </p></li><li class="listitem"><p><code class="code">WidgetFactoryXmlIO</code> (framework) Used to convert WidgetFactory trees to/from XML using XStream </p></li><li class="listitem"><p><code class="code">PageRequest</code> (framework) Analogous to an HttpServletRequest. It parses the history token into a page name and parameters and provides a store for per-request attributes (to share data between WidgetDataProviders) and the actual servlet request, response and context </p></li></ul></div><p>The following (abridged) sequence diagram shows how the EntryPoint class for the demo application bootstraps the GUI from onModuleLoad():</p><div class="informalfigure"><div class="mediaobject"><img src="img/get_root_page_seq.gif"></div></div><p>The DemoPage DTO contains a WidgetFactory tree for the root page and for the page loaded for the history token. It a real application it would also contain information about the currently logged on user and so on. The rootWidgetFactory is used to create a tree of Widgets that is added to the ClientAreaPanel. The root page tree should contain a PagePortlet (and other widgets and portlets).</p><pre class="programlisting">public class DemoPage implements Serializable {
+    public String pageName;
+    public WidgetFactory widgetFactory;
+    public WidgetFactory rootWidgetFactory;
+    public boolean canEditPage; // is page editable?
+}</pre><p>The PagePortlet portlet displays the current page by listening for PageChangeEvents and swapping out a new tree of widgets in a content area on page changes. If the page is editable then an edit button is displayed that launches the online layout editor on click. After the ClientAreaPanel has been populated with the root page, a PageChageEvent containing the widgetFactory tree (page) for the history token is broadcast to all the widgets in the tree. This is picked up by the PagePortlet.</p><pre class="programlisting">&lt;!-- Part of root.xml from the demo --&gt;
+&lt;LayoutPanel styleName="" limitMaximize="false"&gt;
+  ...
+  &lt;PagePortlet styleName="portlet-page" 
+        appTitle="GWT Portlets Demo"
+        prefix="GWT Portlets Demo: "/&gt;
+  ...</pre><p>Each time the history token changes (onHistoryChanged()), Demo calls DemoServiceImpl.getPage(historyToken) and the returned DemoPage DTO contains the page for the history token widgetFactory (rootWidgetFactory is null). A PageChangeEvent is broadcast and the PagePortlet displays the new page.</p></div><div class="section" title="4.2.&nbsp;Event Broadcasting"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="event_broadcasting"></a>4.2.&nbsp;Event Broadcasting</h2></div></div></div><p>The BroadcastManager singleton supports broadcasting of application wide events to widget trees. Only widgets that implement BroadcastListener receive broadcast events. This mechanism makes it easy for "global" events to be communicated to all parts of the GUI in a decoupled way.</p><pre class="programlisting">package org.gwtportlets.portlet.client.event;
+...
+public class BroadcastManager {
+...
+    /**
+     * Send the object to all widgets from the RootPanel down.
+     */
+    public void broadcast(Object ev) {...}
+ 
+    /**
+     * Send the object up to the logical parent of w (and its logical parent
+     * and so on) until a widget with no logical parent is reached.
+     */
+    public void broadcastUp(Widget w, Object ev) {...}
+...</pre><p>For example the Demo application broadcasts a PageChangeEvent when the history token changes and a new page is loaded from the server. The PagePortlet uses this event to display the new page. It in turn broadcasts a PageTitleChangeEvent when it receives a WidgetChangeEvent from the widget on the page supplying the title. The PageTitlePortlet updates its title bar when it receives the event.</p><pre class="programlisting">package org.gwtportlets.portlet.client.ui;
+...
+public class PagePortlet extends ContainerPortlet implements BroadcastListener {
+...
+    public void onBroadcast(Object ev) {
+        if (ev instanceof PageChangeEvent) {
+            onPageChange((PageChangeEvent)ev);
+        } else if (ev instanceof WidgetChangeEvent
+                &amp;&amp; ((WidgetChangeEvent)ev).getSource() == titlePortlet) {
+            updateTitle();
+        }
+    }
+...
+    private void updateTitle() {
+        ...
+        BroadcastManager.get().broadcast(new PageTitleChangeEvent(this, title));
+    }
+...</pre><pre class="programlisting">package org.gwtportlets.portlet.client.ui;
+...
+public class PageTitlePortlet extends Portlet implements BroadcastListener {
+    private Label label = new Label("Page Title");
+    ...
+    public void onBroadcast(Object ev) {
+        if (ev instanceof PageTitleChangeEvent) {
+            label.setText(((PageTitleChangeEvent)ev).getPageTitle());
+        }
+    }
+...</pre><p>All Portlets must call boardcastUp with a WidgetChangeEvent when their title or flags change. This happens automatically when a Portlet refreshes itself. TitlePanel uses this event to show or hide a loading spinner, to update its title bar and to decide which buttons to display (configure, refresh etc.).</p><p>Applications can broadcast their own objects instead of having to couple components together directly (e.g. a LoggedOnUserPortlet might display a name and role from a LoggedOnEvent).</p><p>The BroadcastManager also supports non-widget listeners for broadcast events:</p><pre class="programlisting">package org.gwtportlets.portlet.client.event;
+...
+public class BroadcastManager {
+...
+    /**
+     * Add listener to be notified on calls to broadcast before the
+     * event is dispatched to the widget tree.
+     */
+    public void addObjectBroadcastListener(BroadcastListener l) {...}
+    public void removeObjectBroadcastListener(BroadcastListener l) {..}
+...</pre></div><div class="section" title="4.3.&nbsp;The WidgetRefreshHook Singleton"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="widget_refresh_hook"></a>4.3.&nbsp;The WidgetRefreshHook Singleton</h2></div></div></div><p>The framework does not have its own service interface. Instead it relies a WidgetRefreshHook singleton to refresh a Portlet or Widget with new data from the server. This is normally set in onModuleLoad and just invokes a service method:</p><pre class="programlisting">package main.client;
+...
+public class Demo implements EntryPoint {
+    ...
+    public void onModuleLoad() {
+        WidgetRefreshHook.App.set(new WidgetRefreshHook() {
+            public void refresh(Widget w, WidgetFactory wf,
+                    AsyncCallback&lt;WidgetFactory&gt; cb) {
+                DemoService.App.get().refresh(History.getToken(), wf, cb);
+            }
+            public void onRefreshCallFailure(Widget w, Throwable caught) {
+                Window.alert("Refresh failed: " + caught);
+            }
+        });
+        ...</pre><p>The implementation of the service method delegates to the PageProvider to refresh the WidgetFactory tree. This simple mechanism makes it possible to refresh any portlet (actually any tree of Widgets implementing WidgetFactoryProvider) with new data without having to a new service method and code a specific async call.</p><pre class="programlisting">package main.server;
+...
+public class DemoServiceImpl extends RemoteServiceServlet
+        implements DemoService {
+    private DemoPageProvider pageProvider;
+    ...
+    public WidgetFactory refresh(String historyToken, WidgetFactory wf) {
+        pageProvider.refresh(createPageRequest(historyToken), wf);
+        return wf;
+    }
+ 
+    private PageRequest createPageRequest(String historyToken) {
+        PageRequest req = new PageRequest(historyToken);
+        req.setServletConfig(getServletConfig());
+        req.setServletRequest(getThreadLocalRequest());
+        req.setServletResponse(getThreadLocalResponse());
+        return req;
+    }
+...</pre></div><div class="section" title="4.4.&nbsp;WidgetFactory Trees and Data Providers"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="widget_factory_trees_and_data_providers"></a>4.4.&nbsp;WidgetFactory Trees and Data Providers</h2></div></div></div><p>The Demo application service implementation refreshes WidgetFactory trees by delegating to the DemoPageProvider as show above. The code that handles the refresh is in the PageProvider base class and is the same code that runs after a page XML file has been read:</p><pre class="programlisting">package org.gwtportlets.portlet.server;
+...
+public abstract class PageProvider {
+...
+    /** Refresh the data in the widget factory tree starting at top. */
+    public void refresh(final PageRequest req, final WidgetFactory top) {
+        top.accept(new WidgetFactoryVisitor() {
+            public boolean visit(WidgetFactory wf) {
+                WidgetDataProvider p = findWidgetDataProvider(wf);
+                if (p != null) {
+                    try {
+                        p.refresh(wf, req);
+                    } catch (Exception e) {
+                        handleRefreshException(req, top, wf, e);
+                    }
+                }
+                return true;
+            }
+        });
+    }
+ 
+    public WidgetDataProvider findWidgetDataProvider(WidgetFactory wf) {
+        return providerMap.get(wf.getClass());
+    }
+ 
+    public void add(WidgetDataProvider p) {
+        Class&lt;? extends WidgetFactory&gt; key = p.getWidgetFactoryClass();
+        if (key == null) {
+            throw new IllegalArgumentException("null not supported");
+        }
+        providerMap.put(key, p);
+    }
+...</pre><p>Each WidgetFactory in the tree is visited and refreshed by a WidgetDataProvider. The provider is found by a simple map lookup using the class of the factory as the key. Note that WidgetDataProvider implementations need to be thread safe.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="concepts.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="layouts.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;3.&nbsp;Other Concepts&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;5.&nbsp;Layouts</td></tr></table></div></body></html>

@@ -1,0 +1,75 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;8.&nbsp;Theme Support</title><link rel="stylesheet" href="html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="GWT Portlets Framework User Manual"><link rel="up" href="index.html" title="GWT Portlets Framework User Manual"><link rel="prev" href="ui_widgets.html" title="Chapter&nbsp;7.&nbsp;UI Widgets"><link rel="next" href="spring.html" title="Chapter&nbsp;9.&nbsp;Integrating with Spring"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter&nbsp;8.&nbsp;Theme Support</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ui_widgets.html">Prev</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="spring.html">Next</a></td></tr></table><hr></div><div class="chapter" title="Chapter&nbsp;8.&nbsp;Theme Support"><div class="titlepage"><div><div><h2 class="title"><a name="themes"></a>Chapter&nbsp;8.&nbsp;Theme Support</h2></div></div></div><p>The framework themes its widgets using a singleton Theme instance, theme CSS files and Javascript maps. Several themes are bundled with the framework. The CSS for BlueGradient is included in gwt-portlets.css as it is the default theme. The selected theme stored in a cookie.</p><div class="section" title="8.1.&nbsp;The Theme Singleton"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="theme_singleton"></a>8.1.&nbsp;The Theme Singleton</h2></div></div></div><p>The Theme class supports querying available themes and changing the theme:</p><pre class="programlisting">package org.gwtportlets.portlet.client.ui;
+...
+public class Theme {
+    /** Get the singleton Theme instance. */
+    public static Theme get() {...}
+ 
+    /** Get the name of the currently selected theme. */
+    public String getCurrentTheme() {...}
+ 
+    /** Get the names of the available themes.  */
+    public String[] getThemes() {...}
+ 
+    /**
+     * Change to a different theme or NOP if the theme is already active.
+     * Expects to find a gwt-portlets-&lt;name&gt;.css stylesheet (unless the default
+     * 'BlueGradient' theme is selected) and an optional
+     * gwt_portlets_&lt;name&gt; Javascript object with overrides for dimensions
+     * of dialog headers and whatnot. &lt;b&gt;NB: This method reloads the
+     * application if the theme is changed.&lt;/b&gt;
+     */
+    public void changeTheme(String name) {...}
+...</pre><p>The demo includes a ThemeListPortlet to display and change the theme.</p><p>The list of available themes may be changed by defining a Javascript object in your bootstrap HTML file:</p><pre class="programlisting">&lt;script type="text/javascript"&gt;
+var gwt_portlets = {
+    themes: "BlueGradient, LightBlue, MyTheme"
+};
+&lt;/script&gt;</pre></div><div class="section" title="8.2.&nbsp;Creating Themes"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="creating_themes"></a>8.2.&nbsp;Creating Themes</h2></div></div></div><p>Defining a new theme that has the same dimensions for UI elements (e.g. dialog title bar height) involves creating just a CSS file. Here is <code class="filename">gwt-portlets-LightBlue.css</code>:</p><pre class="programlisting">.portlet-dialog-header-bg,
+.portlet-dialog-footer-bg {
+    background-image: url( "img/portlet-dialog-blue.png" );
+}
+ 
+.portlet-dialog-sides-bg {
+    background-image: url( "img/portlet-dialog-sides-blue.png" );
+}
+ 
+.portlet-title-header-bg {
+    background-image: url( "img/portlet-caption-blue.gif" );
+}
+ 
+.portlet-dialog-content {
+    background-color: #dae7f6;
+}
+ 
+.portlet-dialog-content-body {
+    border: 1px solid #99bbe8;
+}
+ 
+.portlet-dialog-buttonbar {
+    background-color: #dae7f6;
+}
+ 
+.portlet-title-body {
+    border-left: 1px solid #99bbe8;
+    border-right: 1px solid #99bbe8;
+    border-bottom: 1px solid #99bbe8;
+}</pre><p>If your theme changes the dimensions of things (e.g. dialog title bar height) then you also need to define a Javascript object (typically in your bootstrap HTML file):</p><pre class="programlisting">&lt;script type="text/javascript"&gt;
+var gwt_portlets_MyTheme = {
+    titleBarHeight: 20;
+    titleBarLeftWidth : 6;
+    ...
+};
+&lt;/script&gt;</pre><p>The framework widgets ask the Theme singleton to apply the selected theme, typically when their style is set:</p><pre class="programlisting">public class Dialog extends PopupPanel {
+...
+    public void setStyleName(String style) {
+        ...
+        Theme.get().updateDialog(this);
+        ...</pre><pre class="programlisting">public class Theme {
+...
+    /** Configure the dimensions of the dialog. */
+    public void updateDialog(Dialog dlg) {
+        EdgeRow header = dlg.getHeader();
+        header.setDimensions(0, dialogHeaderHeight, dialogHeaderLeftWidth,
+            dialogHeaderRightWidth);
+        ...</pre><p>If you want your own widgets to use the same mechanism you may need to extend Theme and call Theme.set(Theme instance) in onModuleLoad.</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ui_widgets.html">Prev</a>&nbsp;</td><td width="20%" align="center">&nbsp;</td><td width="40%" align="right">&nbsp;<a accesskey="n" href="spring.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;7.&nbsp;UI Widgets&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;9.&nbsp;Integrating with Spring</td></tr></table></div></body></html>
