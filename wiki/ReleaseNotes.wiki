@@ -1,9 +1,7 @@
-#summary Release Notes
+#summary Change log for GWT Portlets releases
 #labels Featured
 
-= Release Notes =
-
-== 0.9.4beta ==
+= 0.9.4beta =
 
 Major changes:
 
