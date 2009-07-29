@@ -88,6 +88,9 @@ Run "ant -p" in the root of this project to see available targets.
 
     <target name="copy-files-to-demos" description="Copy jar and other files to demos">
         <copy todir="demos/main" file="build.properties"/>
+        <copy todir="demos/main">
+            <fileset dir="." includes="lib-hosted/**"/>
+        </copy>
         <copy todir="demos/main/war/WEB-INF/lib">
             <fileset dir="." includes="gwt-portlets.jar"/>
             <fileset dir="lib" includes="${lib.jars}"/>
@@ -117,6 +120,8 @@ Run "ant -p" in the root of this project to see available targets.
         <copy todir="build/${dist}/doc">
             <fileset dir="build/doc" includes="manual.pdf,manual.html,*.css,img/**" />
         </copy>
+        <move file="build/${dist}/build.properties.sample"
+                tofile="build/${dist}/build.properties"/>
         <fixcrlf srcdir="build/${dist}" eol="crlf"
                  includes="**/*.txt,**/*.java,**/*.properties,**/*.jsp,**/*.html,**/*.css"/>
         <zip destfile="build/${dist}.zip" basedir="build" includes="${dist}/**"/>

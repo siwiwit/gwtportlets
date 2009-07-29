@@ -67,13 +67,13 @@
           <para>To run the demos you need to:</para>
           <itemizedlist>
             <listitem>
-              <para>Copy <filename>build.properties.sample</filename> to <filename>build.properties</filename> and customize it to match your environment (set your GWT installation directory etc.)</para>
+              <para>Edit <filename>build.properties</filename> to match your environment (set your GWT installation directory etc.)</para>
             </listitem>
             <listitem>
               <para>Run <filename>ant</filename> (no arguements) at a command prompt from the root of the distribution. This will copy <filename>gwt-portlets.jar</filename>, other required jars and <filename>build.properties</filename> to each of the demos. Each demo will now be standalone (you can copy the whole directory elsewhere to start a project)</para>
             </listitem>
           </itemizedlist>
-          <para>Change to <filename>demos/main</filename> and run <filename>ant -p</filename> to list targets. Try running <filename>ant</filename> (no arguements) to launch the demo in hosted mode.</para>
+          <para>Change to <filename>demos/main</filename> and run <filename>ant -p</filename> to list targets. Running <filename>ant</filename> (no arguements) will launch the demo in hosted mode.</para>
       </section>
     <section id="packages">
       <title>Packages</title>

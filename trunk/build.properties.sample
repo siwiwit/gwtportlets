@@ -1,10 +1,13 @@
-# Copy this to build.properties and edit to match your environment
+# Edit to match your environment
 # Then run "ant" (no args) to copy build.properties and jar files to the demos
 
 gwt.sdk=/usr/local/gwt-linux-1.7.0
 gwtc.style=PRETTY
+
+# Some demos can run in hosted mode without Tomcat
 tomcat.home=/usr/local/apache-tomcat-5.5.26
-release=0.0
 
 # Only needed to generate PDF documentation
 fop.home=/usr/local/fop-0.95
+
+release=0.0

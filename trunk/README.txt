@@ -20,13 +20,14 @@ Please visit http://www.gwtportlets.org/ for more information.
 QUICK START
 ===========
 
-Copy build.properties.sample to build.properties and customize it to match
-your environment (set your GWT installation directory etc.).
+Edit build.properties to match your environment (set your GWT installation
+directory etc.).
 
 Run ant (no arguements) at a command prompt from the root of the
 distribution. This will copy gwt-portlets.jar, other required jars and
-build.properties to each of the demos. Each demo will now be
-standalone (you can copy the whole directory elsewhere to start a project).
+build.properties to each of the demos. Each demo will now be a
+standalone application i.e. you can copy the whole directory elsewhere to
+start a project.
 
 Change to demos/main and run "ant" (no arguements) to launch the demo in
 hosted mode.
@@ -164,6 +165,27 @@ Log4j (http://logging.apache.org/log4j/) is used by GWT Portlets at runtime and
 is released under an Apache 2 license:
 
 Copyright 1999-2005 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Jasper
+------
+This distribution includes a version of the Jasper JSP compiler to
+work around issues with hosted mode, GWT 1.6.4+ and JSPs using 1.5 level
+language features. Please see lib-hosted/README.txt for more information.
+
+Jasper (lib-hosted/jasper-compiler*.jar) is distributed under an Apache 2
+license:
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
