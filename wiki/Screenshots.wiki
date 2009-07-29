@@ -1,7 +1,7 @@
-#summary Screenshots
+#summary Screenshots from framework demos
 
-* Main Demo Home Page *
+== Main Demo Home Page ==
 http://gwtportlets.googlecode.com/svn/wiki/img/screenshot1.gif
 
-* Using the Page Editor *
+== Using the Page Editor ==
 http://gwtportlets.googlecode.com/svn/wiki/img/screenshot2.gif
