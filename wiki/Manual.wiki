@@ -1,0 +1,10 @@
+#summary GWT Portlets user manual
+#labels Featured,Phase-Implementation
+
+The GWT Portlets framework user manual is included in the download distribution (PDF and single HTML page). It is also available online in several formats:
+
+  * [PDF http://gwtportlets.googlecode.com/svn/wiki/doc/manual.pdf]
+  * [Single HTML page http://gwtportlets.googlecode.com/svn/wiki/doc/manual.html]
+  * [Multiple HTML pages http://gwtportlets.googlecode.com/svn/wiki/doc/index.html]
+
+The source for manual is in subversion (Docbook V4.5).
