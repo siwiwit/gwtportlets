@@ -1,4 +1,5 @@
 #summary Screenshots from framework demos
+#labels Featured
 
 == Main Demo Home Page ==
 http://gwtportlets.googlecode.com/svn/wiki/img/screenshot1.gif
