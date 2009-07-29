@@ -1,4 +1,4 @@
-GWT Portlets Framework (http://www.gwtportlets.org/)
+GWT Portlets Framework (http://code.google.com/p/gwtportlets/)
 
 
 OVERVIEW
@@ -14,7 +14,7 @@ other web frameworks and portal servers.
 
 The GWT Portlets manual is in the doc directory in PDF and HTML format.
 
-Please visit http://www.gwtportlets.org/ for more information.
+Please visit http://code.google.com/p/gwtportlets/ for more information.
 
 
 QUICK START

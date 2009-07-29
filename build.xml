@@ -1,5 +1,5 @@
 <!--
-  ~ GWT Portlets Framework (http://www.gwtportlets.org/)
+  ~ GWT Portlets Framework (http://code.google.com/p/gwtportlets/)
   ~ Copyright 2009 Business Systems Group (Africa)
   ~
   ~ This file is part of GWT Portlets.
@@ -135,9 +135,9 @@ Run "ant -p" in the root of this project to see available targets.
                 sourcepath="src"
                 destdir="build/javadoc"
                 use="true" classpathref="cp">
-            <header><![CDATA[GWT Portlets Framework ${release}<br><a href="http://www.gwtportlets.org">www.gwtportlets.org</a>]]></header>
+            <header><![CDATA[GWT Portlets Framework ${release}<br><a href="http://code.google.com/p/gwtportlets/">http://code.google.com/p/gwtportlets/</a>]]></header>
             <bottom><![CDATA[<i>Copyright &#169; 2009 <a href="http://www.bsg.co.za/web/guest/software_solutions">BSG(Africa)</a>
-- Released under <a href="http://www.gwtportlets.org/license">LGPLv3 license</a> - Generated ${TODAY}</i>]]></bottom>
+- Released under <a href="http://www.gnu.org/licenses/lgpl.html">LGPL license</a> - Generated ${TODAY}</i>]]></bottom>
         </javadoc>
         <zip destfile="build/javadoc.zip" basedir="build" includes="javadoc/**"/>
     </target>
@@ -155,9 +155,9 @@ Run "ant -p" in the root of this project to see available targets.
             <replacetoken><![CDATA[</BODY>]]></replacetoken>
             <replacevalue><![CDATA[<BR>
                 <p style="font-size:12px;color:#666666">
-                // Part of <a href="http://www.gwtportlets.org">GWT Portlets</a> @RELEASE@
+                // Part of <a href="http://code.google.com/p/gwtportlets/">GWT Portlets</a> @RELEASE@
                 - Copyright &#169; 2009 <a href="http://www.bsg.co.za/web/guest/software_solutions">BSG(Africa)</a>
-                - Released under <a href="http://www.gwtportlets.org/license">LGPLv3 license</a>
+                - Released under <a href="http://www.gnu.org/licenses/lgpl.html">LGPL license</a>
                 </p></BODY>]]></replacevalue>
             <replacefilter token="@RELEASE@" value="${release}"/>
         </replace>

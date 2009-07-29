@@ -18,7 +18,7 @@
   </bookinfo>
   <chapter id="introduction">
     <title>Introduction</title>
-    <para>GWT Portlets (<ulink url="http://www.gwtportlets.org">http://www.gwtportlets.org</ulink>) is a free open source web framework for building modular GWT (Google Web Toolkit) applications. GWT provides the low level building blocks required to build web applications (Java to Javascript compiler, basic UI widgets, an RPC mechanism etc.) but typical business applications can benefit from the additional scaffolding provided by GWT Portlets. In traditional web applications this role would be fulfilled by Struts and other web frameworks as well as portal servers.</para>
+    <para>GWT Portlets (<ulink url="http://code.google.com/p/gwtportlets/">http://code.google.com/p/gwtportlets/</ulink>) is a free open source web framework for building modular GWT (Google Web Toolkit) applications. GWT provides the low level building blocks required to build web applications (Java to Javascript compiler, basic UI widgets, an RPC mechanism etc.) but typical business applications can benefit from the additional scaffolding provided by GWT Portlets. In traditional web applications this role would be fulfilled by Struts and other web frameworks as well as portal servers.</para>
     <para>The GWT Portlets framework is a library does not force a particular structure on an application. The programming model resembles that offered by JSR168 portlets and portal servers but the application creates and controls the &quot;portal server&quot; environment instead of just being deployed into it. </para>
     <para>GWT Portlets includes the following functionality:
 
