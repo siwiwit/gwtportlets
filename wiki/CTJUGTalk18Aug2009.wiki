@@ -1,0 +1,5 @@
+#summary David Tinker will be presenting a CTJUG talk on Tuesday 18 August at 6:30pm at BSG's offices
+
+<wiki:gadget url="http://gwtportlets.googlecode.com/svn/wiki/gadgets/ctjug_talk_18_aug_2009_rsvp.xml" width="600" height="600" />
+
+Click [http://www.bsg.co.za/web/guest/ct_office here] to find out how to get to BSG.
