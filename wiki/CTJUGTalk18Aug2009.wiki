@@ -2,7 +2,7 @@
 
 == GWT Portlets update + GWT compile time generators  + GWT 1.6 event model ==
 
-_The talk will be held at 6:30pm at [http://www.bsg.co.za/web/guest/ct_office BSG's offices] in Cape Town, South Africa_
+_The talk will be held at 6:30pm at [http://www.bsg.co.za/web/guest/ct_office BSG's offices] in Cape Town, South Africa. Snacks and drinks will be provided, so please RSVP._
 
 BSG released the GWT Portlets framework as open source about 6 months ago. Since then a lot of work has been done on the framework and the website has moved to Google Code. The talk will introduce GWT Portlets and give an update on the progress of the project (migration to GWT 1.6+ and other topics).
 
