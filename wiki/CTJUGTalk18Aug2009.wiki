@@ -1,5 +1,13 @@
 #summary David Tinker will be presenting a talk to CTJUG on Tuesday 18 August
 
-The talk will be held at 6:30pm at [http://www.bsg.co.za/web/guest/ct_office BSG's offices] in Cape Town, South Africa
+== GWT Portlets update + GWT compile time generators  + GWT 1.6 event model ==
+
+_The talk will be held at 6:30pm at [http://www.bsg.co.za/web/guest/ct_office BSG's offices] in Cape Town, South Africa_
+
+BSG released the GWTPortlets framework as open source about 6 months ago. Since then a lot of work has been done on the framework and the website has moved to Google Code. The talk will introduce GWT Portlets and give an update on the progress of the project (migration to GWT 1.6+ and other topics).
+
+GWTPortlets makes use of GWT's support for compile time code generation. The talk will cover how this important GWT feature works and how it is used by the framework.
+
+Probably the biggest change between GWT 1.5 and GWT 1.6 is the new event model. The talk will explain how you can simplify your own widgets by using the new event model.
 
 <wiki:gadget url="http://gwtportlets.googlecode.com/svn/wiki/gadgets/ctjug_talk_18_aug_2009_rsvp.xml" width="660" height="520" />
