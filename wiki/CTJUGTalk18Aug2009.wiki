@@ -1,3 +1,5 @@
-#summary David Tinker will be presenting a talk to CTJUG on Tuesday 18 August at 6:30pm at [http://www.bsg.co.za/web/guest/ct_office BSG's offices] in Cape Town, South Africa
+#summary David Tinker will be presenting a talk to CTJUG on Tuesday 18 August
 
-<wiki:gadget url="http://gwtportlets.googlecode.com/svn/wiki/gadgets/ctjug_talk_18_aug_2009_rsvp.xml" width="620" height="600" />
+The talk will be held at 6:30pm at [http://www.bsg.co.za/web/guest/ct_office BSG's offices] in Cape Town, South Africa
+
+<wiki:gadget url="http://gwtportlets.googlecode.com/svn/wiki/gadgets/ctjug_talk_18_aug_2009_rsvp.xml" width="630" height="500" />
