@@ -1,0 +1,8 @@
+#summary Demo applications available online
+#labels Featured
+
+The main demo is [http://www.gwtportlets.org/main/ available online] for the really impatient.
+
+_Note that you edit pages in the demo by clicking the spanner in the bottom right hand corner of the browser client area._
+
+Other demos will be added soon (complete app with JPA and Spring etc.).
