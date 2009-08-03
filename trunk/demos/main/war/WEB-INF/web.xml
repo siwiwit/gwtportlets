@@ -49,6 +49,7 @@
     <!-- This makes sure that the Jetty JSP compiler (used in hosted mode)
          allows JDK 1.5 source. Otherwise it expects 1.4.
          http://code.google.com/p/raisercostin/wiki/GwtEclipsePluginDebug
+         Comment out this servlet when deploying to google app engine.
          -->
     <servlet>
         <servlet-name>jsp</servlet-name>
