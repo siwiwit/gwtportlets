@@ -81,7 +81,7 @@ the demo will still run but no source will be displayed.
 
     <target name="gwtc" depends="javac,check-if-gwtc-needed" unless="skip.gwtc">
         <java fork="true" failonerror="true" classpathref="dev-cp"
-                classname="com.google.gwt.dev.Compiler" maxmemory="128m">
+              classname="com.google.gwt.dev.Compiler" maxmemory="128m">
             <jvmarg value="-Xss16M"/>
             <arg value="-style"/>
             <arg value="${gwtc.style}"/>
@@ -91,7 +91,7 @@ the demo will still run but no source will be displayed.
 
     <target name="hosted" description="Run demo in hosted mode" depends="javac">
         <java fork="true" failonerror="true" classpathref="dev-cp"
-                classname="com.google.gwt.dev.HostedMode">
+              classname="com.google.gwt.dev.HostedMode">
             <arg value="-startupUrl"/>
             <arg value="/"/>
             <arg value="main.Main"/>
@@ -108,7 +108,7 @@ the demo will still run but no source will be displayed.
 
     <target name="hosted-noserver" description="Run demo in hosted mode with -noserver" depends="javac">
         <java fork="true" failonerror="true" classpathref="dev-cp"
-                classname="com.google.gwt.dev.HostedMode">
+              classname="com.google.gwt.dev.HostedMode">
             <arg value="-noserver"/>
             <arg value="-port"/>
             <arg value="8080"/>
@@ -128,7 +128,7 @@ the demo will still run but no source will be displayed.
 
     <target name="deploy" description="Deploy demo to Tomcat" depends="gwtc">
         <copy file="main.xml" overwrite="true"
-                todir="${tomcat.home}/conf/Catalina/localhost">
+              todir="${tomcat.home}/conf/Catalina/localhost">
             <filterset>
                 <filter token="DOCBASE" value="${basedir}/war"/>
             </filterset>
@@ -154,17 +154,67 @@ the demo will still run but no source will be displayed.
     <target name="check-props">
         <available property="build.properties.exists" file="build.properties"/>
         <fail unless="build.properties.exists">
-build.properties does not exist - please edit build.properties in the root
-of this distribution and then run 'ant' to copy it to this demo
+            build.properties does not exist - please edit build.properties in the root
+            of this distribution and then run 'ant' to copy it to this demo
         </fail>
         <available property="gwt-portlets.exists" file="war/WEB-INF/lib/gwt-portlets.jar"/>
         <fail unless="gwt-portlets.exists">
-war/WEB-INF/lib/gwt-portlets.jar does not exist - please run 'ant' in the root
-of this distribution to copy it to this demo
+            war/WEB-INF/lib/gwt-portlets.jar does not exist - please run 'ant' in the root
+            of this distribution to copy it to this demo
         </fail>
         <available property="gwt.sdk.exists" file="${gwt.sdk}"/>
         <fail unless="gwt.sdk.exists"
               message="gwt.sdk does not exist: ${gwt.sdk}"/>
+    </target>
+
+
+    <property name="APP.ENGINE.SDK.HOME" location=""/>
+
+    <import file="${APP.ENGINE.SDK.HOME}/config/user/ant-macros.xml"/>
+
+    <target name="runserver" depends="gwtc"
+            description="Starts the development server.">
+        <dev_appserver war="war">
+        </dev_appserver>
+    </target>
+
+    <target name="debugserver" depends="gwtc"
+            description="Starts the development server.">
+        <copy todir="war">
+            <fileset dir="web"/>
+        </copy>
+        <dev_appserver war="war">
+            <options>
+                <arg value="--jvm_flag=-Xdebug"/>
+                <arg value="--jvm_flag=-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9999"/>
+            </options>
+        </dev_appserver>
+    </target>
+    <target name="update" depends="gwtc"
+            description="Uploads the application to App Engine.">
+        <copy todir="war/WEB-INF/lib" flatten="true">
+            <fileset dir="${APP.ENGINE.SDK.HOME}/lib/user" includes="**/*.jar"/>
+        </copy>
+
+        <appcfg action="update" war="war">
+        </appcfg>
+    </target>
+
+    <target name="rollback" depends="gwtc"
+            description="Rolls back an interrupted application update.">
+        <appcfg action="rollback" war="war"/>
+    </target>
+
+    <target name="request_logs"
+            description="Downloads log data from App Engine for the application.">
+        <appcfg action="request_logs" war="war">
+            <options>
+                <arg value="--num_days=5"/>
+            </options>
+            <args>
+                <arg value="logs.txt"/>
+            </args>
+        </appcfg>
     </target>
 
 </project>
