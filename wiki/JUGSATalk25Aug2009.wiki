@@ -1,4 +1,4 @@
-#summary Kutloisiso Mona will be presenting a talk to CTJUG on Tuesday 25 August
+#summary Kutloisiso Mona will be presenting a talk to JUGSA on Tuesday 25 August
 
 == GWT Portlets update + GWT compile time generators  + GWT 1.6 event model ==
 
