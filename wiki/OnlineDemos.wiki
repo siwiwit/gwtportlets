@@ -1,7 +1,7 @@
 #summary Demo applications available online
 #labels Featured
 
-The main demo is [http://www.gwtportlets.org/main/ available online] for the really impatient.
+The main demo is [http://beta.latest.gwtportletdemo.appspot.com/ available online] for the really impatient.
 
 _Note that you edit pages in the demo by clicking the spanner in the bottom right hand corner of the browser client area._
 
