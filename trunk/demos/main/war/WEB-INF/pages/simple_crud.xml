@@ -1,0 +1,9 @@
+<LayoutPanel styleName="" limitMaximize="false">
+  <widgets>
+    <SimpleCrudPortlet styleName="gwt-Label"/>
+  </widgets>
+  <constraints>
+    <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0" overflow="hidden"/>
+  </constraints>
+  <layout class="RowLayout" column="true" spacing="4"/>
+</LayoutPanel>

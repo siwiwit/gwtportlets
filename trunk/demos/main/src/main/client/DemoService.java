@@ -62,6 +62,7 @@ public interface DemoService extends RemoteService {
     /**
      * Refresh the factory with new data from the server.
      */
-    public WidgetFactory refresh(String historyToken, WidgetFactory wf);
+    public WidgetFactory refresh(String historyToken, WidgetFactory wf)
+            throws IllegalArgumentException;
 
 }
