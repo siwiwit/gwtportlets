@@ -51,3 +51,19 @@ PRE FONT {
     border: 2px solid #cccccc;
     padding: 4px;
 }
+
+.grid_header {
+    background-color: darkcyan;
+}
+
+.grid_even {
+    background-color: gainsboro;
+}
+
+.grid_odd {
+    background-color: aliceblue;
+}
+
+.grid_selected {
+    background-color: palegoldenrod;
+}
