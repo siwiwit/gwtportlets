@@ -44,18 +44,12 @@ public class SimpleCrudDataProvider
     }
 
     public void refresh(SimpleCrudPortlet.Factory f, PageRequest req) {
-        // Create a dummy data and store it on the session when the
-        // provider loads for the first time
-        if (req.isOpenPage()) {
-            List<SimpleCrudPortlet.Contact> list = createTestData();
-            save(req, list);
-        }
 
         if (f.updateContact != null) {
             update(req, f.updateContact);
         }
 
-        List<SimpleCrudPortlet.Contact> list = load(req);
+        List<SimpleCrudPortlet.Contact> list = getContacts(req);
         if (f.deleteContactId > 0) {
             for (int i = 0; i < list.size(); i++) {
                 SimpleCrudPortlet.Contact c =  list.get(i);
@@ -80,9 +74,15 @@ public class SimpleCrudDataProvider
     /**
      * Helper method which returns the list of contacts stored on the session.
      */
-    private List<SimpleCrudPortlet.Contact> load(PageRequest req) {
-        return (List<SimpleCrudPortlet.Contact>)
+    private List<SimpleCrudPortlet.Contact> getContacts(PageRequest req) {
+        List<SimpleCrudPortlet.Contact> contactList = (List<SimpleCrudPortlet.Contact>)
                 req.getServletRequest().getSession().getAttribute(DATA);
+
+        if (contactList == null) {
+            contactList = createTestData();
+            save(req, contactList);
+        }
+        return contactList;
     }
 
     /**
@@ -91,7 +91,7 @@ public class SimpleCrudDataProvider
      */
     private void update(PageRequest req, SimpleCrudPortlet.Contact c) {
         boolean adding = c.contactId == 0;
-        List<SimpleCrudPortlet.Contact> contactList = load(req);
+        List<SimpleCrudPortlet.Contact> contactList = getContacts(req);
 
         // check if the name is unique
         for (SimpleCrudPortlet.Contact dto : contactList) {
