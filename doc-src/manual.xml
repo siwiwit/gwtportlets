@@ -8,6 +8,10 @@
         <firstname>David</firstname>
         <surname>Tinker</surname>
       </author>
+      <author>
+        <firstname>Jon</firstname>
+        <surname>Lai Lam</surname>
+      </author>
     </authorgroup>
     <copyright>
       <year>2009</year>
@@ -238,36 +242,23 @@ public class HelloWorldDataProvider
       <para>The refresh(HelloWorldPortlet.Factory f, PageRequest req) method populates the factory with the time on the server. The PageRequest contains information derived from the current &quot;history token&quot; on the client (the part after the # in the URL). In particular if the history token contains &quot;parameters&quot; then these are available through the PageRequest.</para>
       <para>Example: If the history token at the time of refresh is &quot;#hello_world?foo=bar&quot; then req.get(&quot;foo&quot;) will return &quot;bar&quot;. A more complex data provider might use this parameter and information from the factory to execute a database query.</para>
       <para>The page request also includes the HttpServletRequest and HttpServletResponse for the call. </para>
-      <para/>
     </section>
     <section>
       <title>Simple CRUD Portlet</title>
-      <para>This section describes the different parts of the &quot;simple crud&quot;portlet from the main demo (demos/main). </para>
-      <para>This portlet displays a list of contacts on a grid with buttons to add, edit and delete contacts. This example is going to focus  on the way the portlet communicates with the data provider.</para>
+      <para>This section describes the different parts of the &quot;simple crud&quot;portlet from the main demo (demos/main). This portlet displays a list of contacts on a grid with buttons to add, edit and delete contacts.</para>
       <para>The static inner class Contact is a data transfer object (DTO) which is used to transfer data between the portlet and the data povider.  </para>
-      <programlisting>
-public class SimpleCrudPortlet extends Portlet {
-
+      <programlisting>public class SimpleCrudPortlet extends Portlet {
 ...
-
-    /**
-    * Simple Data transfer object to send the contact's data between the
-    * client and server
-    */
     public static class Contact implements Serializable {
       public int contactId;
       public String name;
       public String mobile;
     }
-
 ...
-}
-      </programlisting>
-      <para>The portlet factory has an array of Contacts which is populated by the data porvider on the server side and then is read by the portlet and displayed on the client. </para>
-      <para>The portlet factory also has two other attributes int deleteContactId and Contact updateContact these are used when deleting, adding and editing a Contact more about that later.</para>
-      <programlisting>
-public class SimpleCrudPortlet extends Portlet {
-
+}      </programlisting>
+      <para>The portlet factory has an array of Contacts which is populated by the data porvider on the server side and displayed by the portlet. This field is annotated <code>@DoNotSendToServer</code> to avoid sending this data back to the server when refreshing the Portlet.</para>
+      <para>The portlet factory also has two other attributes<code> int deleteContactId</code> and <code>Contact update</code> these are used when deleting, adding and editing a Contact. Note that these fields are annotated <code>@DoNotPersist</code> so they are not stored in XML page files.</para>
+      <programlisting>public class SimpleCrudPortlet extends Portlet {
 ...
     public static class Factory extends PortletFactory&lt;SimpleCrudPortlet&gt; {
 
@@ -277,320 +268,97 @@ public class SimpleCrudPortlet extends Portlet {
       public int deleteContactId;
       @DoNotPersist
       public Contact updateContact;
-
-      public Factory() {
-      }
-
-      public Factory(SimpleCrudPortlet p) {
-          super(p);
-      }
-
-      public void refresh(SimpleCrudPortlet p) {
-          super.refresh(p);
-          p.restore(this);
-      }
-
-      public SimpleCrudPortlet createWidget() {
-          return new SimpleCrudPortlet();
-      }
-    }
-}
-
-      </programlisting>
-      <para>The data provider&apos;s refresh(SimpleCRUDPortlet.Factory f, PageRequest req) {...} creates an inital list of Contacts and adds puts in on the session the first time the portlet is loaded. The data provider populates the Portlets factory&apos;s ContactList.</para>
-      <programlisting>
-...
-
-public class SimpleCrudDataProvider
+      ...
+}</programlisting>
+      <para>The data provider&apos;s <code>refresh(SimpleCRUDPortlet.Factory f, PageRequest req) {...}</code> populates the contactList field in the factory with a list of contacts. This list is stored in the session on the server to simulate a database.</para>
+      <programlisting>public class SimpleCrudDataProvider
       implements WidgetDataProvider&lt;SimpleCrudPortlet.Factory&gt; {
-
   ...
-
   public void refresh(SimpleCrudPortlet.Factory f, PageRequest req) {
-
-      List&lt;SimpleCrudPortlet.Contact&gt; list = getContacts(req);
-      f.contactList = new SimpleCrudPortlet.Contact[list.size()];
-      list.toArray(f.contactList);
+      ...
+      List&lt;SimpleCrudPortlet.Contact&gt; list = getContacts(req); // get from session
+      ...
+      f.contactList = list.toArray(new SimpleCrudPortlet.Contact[list.size()]);
+      ...
   }
-
   ...
-
-  /**
-   * Helper method which returns the list of contacts stored on the session.
-   */
-  private List&lt;SimpleCrudPortlet.Contact&gt; getContacts(PageRequest req) {
-      List&lt;SimpleCrudPortlet.Contact&gt; contactList = (List&lt;SimpleCrudPortlet.Contact&gt;)
-              req.getServletRequest().getSession().getAttribute(DATA);
-
-      if (contactList == null) {
-          contactList = createTestData();
-          save(req, contactList);
-      }
-      return contactList;
-  }
-
-  ...        
-
-  /**
-   * A helper method which creates a list of test data, this kind of data
-   * would typically come from a database.
-   */
-  private List&lt;SimpleCrudPortlet.Contact&gt; createTestData() {
-      List&lt;SimpleCrudPortlet.Contact&gt; list = new ArrayList();
-
-      list.add(createContact(1, "Bobby Test", "1234567890"));
-      list.add(createContact(2, "John Doe", "+1234567890"));
-      list.add(createContact(3, "Steve Bob", "+1234567890"));
-      list.add(createContact(4, "Tommy Goat", "+1234567890"));
-      list.add(createContact(5, "Sleepy Simon", "+1234567890"));
-
-      return list;
-  }
-
-  ...
-}
-
-      </programlisting>
+}     </programlisting>
       <para>The portlet&apos;s restore method loops through the ContactList and adds  the to the FlexTable.</para>
-      <programlisting>
-public class SimpleCrudPortlet extends Portlet {
-
+      <programlisting>public class SimpleCrudPortlet extends Portlet {
   private FlexTable grid;
-
   ...
-
   private void restore(Factory f) {
       panel.clear();
       contactList = f.contactList;
-
-      grid = new FlexTable();
-      grid.addClickHandler(handler);
-      fillData();
-
-      panel.add(fbButtons.getFormInPanel(), 30);
-      SimplePanel sp = new SimplePanel();
-      sp.add(grid);
-      panel.add(sp);
-  }
-
-  ...
-
-  /**
-   * Add the headers and contacts to the grid.
-   */
-  private void fillData() {
-      grid.setText(0, 0, "Contact Id");
-      grid.setText(0, 1, "Name");
-      grid.setText(0, 2, "Moble");
-      grid.getRowFormatter().setStyleName(0, "grid_header");
-
+      ...
       for (int i = 0; i &lt; contactList.length; i++) {
           Contact contact = contactList[i];
           int row = i + 1;
-          grid.setText(row, 0, "" + contact.contactId);
+          grid.setText(row, 0, &quot;&quot; + contact.contactId);
           grid.setText(row, 1, contact.name);
           grid.setText(row, 2, contact.mobile);
-          grid.getRowFormatter().setStyleName(row, row % 2 == 0 ? "grid_even" : "grid_odd");
       }
   }
-
-}
-      </programlisting>
+...    </programlisting>
       <para>Adding and editing a  Contact is done by the same dialog. The add method opens the dialog passing a new Contact to the dialog. The edit method gets the selected contact on the grid and passes it to the dialog. </para>
-      <programlisting>
-public class SimpleCrudPortlet extends Portlet {
+      <programlisting>private void showContactDialog(final Contact c) {
+    final Dialog dlg = new Dialog();
+    final TextBox name = new TextBox();
+    final TextBox mobile = new TextBox();
 
-  ...
+    boolean adding = c.contactId == 0;
+    dlg.setText((adding ? &quot;Add&quot; : &quot;Edit&quot;) + &quot; Contact&quot;);
+    name.setText(c.name);
+    mobile.setText(c.mobile);
 
-  /**
-   * Open the contact dialog with a new contact.
-   */
-  private void add() {
-      showContactDialog(new Contact());
-  }
+    FormBuilder fb = new FormBuilder();
+    fb.label(&quot;Name&quot;).field(name).endRow();
+    fb.label(&quot;Mobile&quot;).field(mobile).endRow();
 
-  /**
-   * Open the contact dialog with the selected contact's details.
-   */
-  private void edit() {
-      Contact c = getSelectedContact();
-      if (c != null) {
-          showContactDialog(c);
-      } else {
-          Window.alert("Please select a contact to edit.");
-      }
-  }
-
-  /**
-   * Helper method which dispays a dialog to change the contacts details.
-   */
-  private void showContactDialog(final Contact c) {
-      final Dialog d = new Dialog();
-      final TextBox name = new TextBox();
-      final TextBox mobile = new TextBox();
-
-      boolean adding = c.contactId == 0;
-      if (adding) {
-          d.setText("Adding contact");
-      } else {
-          d.setText("Editing contact " + c.name);
-          name.setText(c.name);
-          mobile.setText(c.mobile);
-      }
-
-      FormBuilder fb = new FormBuilder();
-      fb.label("Name").field(name).endRow();
-      fb.label("Mobile").field(mobile).endRow();
-
-      d.setWidget(fb.getForm());
-      d.addButton(new CssButton("Save", new ClickHandler() {
-          public void onClick(ClickEvent clickEvent) {
-              if (name.getText() == null || name.getText().length() == 0) {
-                  Window.alert("Name is mandatory");
-                  return;
-              }
-              if (mobile.getText() == null || mobile.getText().length() == 0) {
-                  Window.alert("Mobile is mandatory");
-                  return;
-              }
-
-              Factory f = new Factory(SimpleCrudPortlet.this);
-              Contact dto = new Contact();
-              dto.contactId = c.contactId;
-              dto.name = name.getText();
-              dto.mobile = mobile.getText();
-
-              f.updateContact = dto;
-              refresh(f, new AsyncCallback&lt;WidgetFactory&gt;() {
-                  public void onFailure(Throwable throwable) {
-                      Window.alert(throwable.getMessage());
-                  }
-
-                  public void onSuccess(WidgetFactory widgetFactory) {
-                      d.hide();
-                  }
-              });
-          }
-      }));
-
-      d.addCloseButton("Cancel");
-
-      if (adding) {
-          d.showNextTo(add);
-      } else {
-          d.showNextTo(edit);
-      }
-  }
-
-  ...
-}
-
-      </programlisting>
-      <para>When the dialog is closed by clicking the save button we set the factories updateContact and call the portlet refresh with an AsyncCallback so we can report any server side errors.</para>
-      <programlisting>
-...
-
-public class SimpleCrudDataProvider
-    implements WidgetDataProvider&lt;SimpleCrudPortlet.Factory&gt; {
-
+    dlg.setWidget(fb.getForm());
+    dlg.addButton(new CssButton(&quot;OK&quot;, new ClickHandler() {
+        public void onClick(ClickEvent clickEvent) {
+            if (name.getText().length() == 0 || mobile.getText().length() == 0) {
+                Window.alert(&quot;Name and Mobile are required&quot;);
+                return;
+            }
+            Contact dto = new Contact();
+            dto.contactId = c.contactId;
+            dto.name = name.getText();
+            dto.mobile = mobile.getText();
+            // send the Contact to be updated to the server via refresh
+            Factory f = new Factory(SimpleCrudPortlet.this);
+            f.update = dto;
+            refresh(f, dlg);
+            // dialog hides itself onSuccess and ignores onFailure
+            // which is handled by main.client.Demo
+        }
+    }));
+    dlg.addCloseButton(&quot;Cancel&quot;);
+    dlg.showNextTo(grid);
+}     </programlisting>
+      <para>A new Contact DTO is created using the data from the Dialog when OK is clicked. This is attached to the update field of the Factory and sent to the server via a refresh call. The dialog itself is passed to the refresh method as the AsyncCallback. It hides itself in onSuccess and does nothing in onFailure as errors are handled globally in main.client.Demo.</para>
+      <para>The SimpleCrudDataProvider handles the refresh as shown below:</para>
+      <programlisting>public class SimpleCrudDataProvider
+        implements WidgetDataProvider&lt;SimpleCrudPortlet.Factory&gt; {
     ...
-
     public void refresh(SimpleCrudPortlet.Factory f, PageRequest req) {
-
-      ...
-
-      if (f.updateContact != null) {
-          update(req, f.updateContact);
-      }
-
-      ...
+        List&lt;SimpleCrudPortlet.Contact&gt; list = getContacts(req);
+        if (f.update != null) {
+            update(list, f.update);
+        }
+        if (f.deleteContactId &gt; 0) {
+            delete(list, f.deleteContactId);
+        }
+        save(req, list);
+        f.contactList = list.toArray(new SimpleCrudPortlet.Contact[list.size()]);
     }
-
     ...
-
-    /**
-    * Updates or adds to the list on the session. Throws an IllegalArgumentException
-    * if a contact with a duplicate name is found.
-    */
-    private void update(PageRequest req, SimpleCrudPortlet.Contact c) {
-      boolean adding = c.contactId == 0;
-      List&lt;SimpleCrudPortlet.Contact&gt; contactList = load(req);
-
-      // check if the name is unique
-      for (SimpleCrudPortlet.Contact dto : contactList) {
-          if (c.name != null &amp;&amp; c.name.equalsIgnoreCase(dto.name)) {
-              throw new IllegalArgumentException("Duplicate contact found for " + c.name);
-          }
-      }
-
-      if (adding) {
-          c.contactId = getNextId(contactList);
-          contactList.add(c);
-      } else {
-          for (SimpleCrudPortlet.Contact dto : contactList) {
-              if (dto.contactId == c.contactId) {
-                  dto.name = c.name;
-                  dto.mobile = c.mobile;
-              }
-          }
-      }
-      save(req, contactList);
-    }
-
-    ...
-}
-      </programlisting>
+}      </programlisting>
       <para>Deleting a Contact is done when the delete button is clicked, the deleteContactId is set to the selected contact on the grid. The data provider then removes the contact from the list.</para>
-      <programlisting>
-public class SimpleCrudPortlet extends Portlet {
-
-  ...
-
-  /**
-   * Delete the selected contact.
-   */
-  private void delete() {
-      Contact c = getSelectedContact();
-      if (c != null &amp;&amp;
-              Window.confirm("Are you sure you would like to delete " + c.name + "?")) {
-
-          Factory f = new Factory(this);
-          f.deleteContactId = c.contactId;
-          refresh(f);
-      } else {
-          Window.alert("Please select a contact to delete.");
-      }
-  }
-
-  ...
-
-}
-
-public class SimpleCrudDataProvider
-  implements WidgetDataProvider&lt;SimpleCrudPortlet.Factory&gt; {
-
-  ...
-
-  public void refresh(SimpleCrudPortlet.Factory f, PageRequest req) {
-
-      ...
-
-      List&lt;SimpleCrudPortlet.Contact&gt; list = load(req);
-      if (f.deleteContactId &gt; 0) {
-          for (int i = 0; i &lt; list.size(); i++) {
-              SimpleCrudPortlet.Contact c =  list.get(i);
-              if (c.contactId == f.deleteContactId) {
-                  list.remove(i);
-              }
-          }
-      }
-
-      ...
-  }
- 
-
-}
-    </programlisting>
+      <para>The update method in SimpleCrudDataProvider
+ throws an IllegalArgumentException on duplicate names. This causes the refresh to fail and an error alert is displayed on the client side.</para>
+      <para>Using the Portlet refresh machanism for updates and deletes removes the need for additional RPC methods and associated complexity.</para>
     </section>
   </chapter>
   <chapter id="concepts">

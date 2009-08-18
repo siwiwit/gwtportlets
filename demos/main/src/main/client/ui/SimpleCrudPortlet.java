@@ -23,8 +23,10 @@ package main.client.ui;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTMLTable;
+import com.google.gwt.user.client.ui.TextBox;
 import org.gwtportlets.portlet.client.DoNotPersist;
 import org.gwtportlets.portlet.client.DoNotSendToServer;
 import org.gwtportlets.portlet.client.WidgetFactory;
@@ -115,6 +117,7 @@ public class SimpleCrudPortlet extends Portlet {
         }
     }
 
+    /** Display dialog to add/edit the contact. */
     private void showContactDialog(final Contact c) {
         final Dialog dlg = new Dialog();
         final TextBox name = new TextBox();
@@ -136,11 +139,12 @@ public class SimpleCrudPortlet extends Portlet {
                     Window.alert("Name and Mobile are required");
                     return;
                 }
-                Factory f = new Factory(SimpleCrudPortlet.this);
                 Contact dto = new Contact();
                 dto.contactId = c.contactId;
                 dto.name = name.getText();
                 dto.mobile = mobile.getText();
+                // send the Contact to be updated to the server via refresh
+                Factory f = new Factory(SimpleCrudPortlet.this);
                 f.update = dto;
                 refresh(f, dlg);
                 // dialog hides itself onSuccess and ignores onFailure
@@ -154,6 +158,7 @@ public class SimpleCrudPortlet extends Portlet {
     private void delete() {
         Contact c = getSelectedContact();
         if (Window.confirm("Are you sure you want to delete " + c.name + "?")) {
+            // send the id of the contact to delete to the server via refresh
             Factory f = new Factory(this);
             f.deleteContactId = c.contactId;
             refresh(f);
