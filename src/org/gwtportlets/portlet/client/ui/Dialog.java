@@ -25,7 +25,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
+import org.gwtportlets.portlet.client.WidgetFactory;
 import org.gwtportlets.portlet.client.event.BroadcastListener;
 import org.gwtportlets.portlet.client.layout.DeckLayout;
 import org.gwtportlets.portlet.client.layout.LDOM;
@@ -41,7 +43,7 @@ import java.util.Arrays;
 /**
  * Nicely styled replacement for standard GWT dialog box.
  */
-public class Dialog extends PopupPanel {
+public class Dialog extends PopupPanel implements AsyncCallback<WidgetFactory> {
 
     private final LayoutPanel main = new LayoutPanel(new RowLayout(true, 0));
     private final EdgeRow header = new EdgeRow(new LayoutPanel(new RowLayout(false, 0)));
@@ -518,6 +520,13 @@ public class Dialog extends PopupPanel {
             a.remove(h);
             broadcastListeners = (BroadcastListener[])a.toArray(new BroadcastListener[a.size()]);
         }
+    }
+
+    public void onFailure(Throwable caught) {
+    }
+
+    public void onSuccess(WidgetFactory result) {
+        hide();
     }
 
 }
