@@ -35,63 +35,31 @@ import java.util.List;
 public class SimpleCrudDataProvider
         implements WidgetDataProvider<SimpleCrudPortlet.Factory> {
 
-    private static final String DATA = "data";
+    private static final String SESSION_KEY = "contactList";
 
     public Class getWidgetFactoryClass() {
         return SimpleCrudPortlet.Factory.class;
     }
 
     public void refresh(SimpleCrudPortlet.Factory f, PageRequest req) {
-        if (f.update != null) {
-            update(req, f.update);
-        }
-
         List<SimpleCrudPortlet.Contact> list = getContacts(req);
-
+        if (f.update != null) {
+            update(list, f.update);
+        }
         if (f.deleteContactId > 0) {
-            for (int i = 0; i < list.size(); i++) {
-                SimpleCrudPortlet.Contact c =  list.get(i);
-                if (c.contactId == f.deleteContactId) {
-                    list.remove(i);
-                }
-            }
+            delete(list, f.deleteContactId);
         }
-        
-        f.contactList = new SimpleCrudPortlet.Contact[list.size()];
-        list.toArray(f.contactList);
         save(req, list);
+        f.contactList = list.toArray(new SimpleCrudPortlet.Contact[list.size()]);
     }
 
-    /**
-     * Helper method which saves the list of contacts on the session.
-     */
-    private void save(PageRequest req, List list) {
-        req.getServletRequest().getSession().setAttribute(DATA, list);
-    }
-
-    /**
-     * Helper method which returns the list of contacts stored on the session.
-     */
-    private List<SimpleCrudPortlet.Contact> getContacts(PageRequest req) {
-        List<SimpleCrudPortlet.Contact> contactList = (List<SimpleCrudPortlet.Contact>)
-                req.getServletRequest().getSession().getAttribute(DATA);
-        if (contactList == null) {
-            contactList = createTestData();
-            save(req, contactList);
-        }
-        return contactList;
-    }
-
-    /**
-     * Updates or adds to the list on the session. Throws an IllegalArgumentException
-     * if a contact with a duplicate name is found.
-     */
-    private void update(PageRequest req, SimpleCrudPortlet.Contact c) {
+    /** Add/edit contact. */
+    private void update(List<SimpleCrudPortlet.Contact> list,
+            SimpleCrudPortlet.Contact c) {
         boolean adding = c.contactId == 0;
-        List<SimpleCrudPortlet.Contact> contactList = getContacts(req);
 
         // check if the name is unique
-        for (SimpleCrudPortlet.Contact dto : contactList) {
+        for (SimpleCrudPortlet.Contact dto : list) {
             if (c.name != null && c.name.equalsIgnoreCase(dto.name)
                     && c.contactId != dto.contactId) {
                 throw new IllegalArgumentException("Duplicate contact: '" +
@@ -100,26 +68,21 @@ public class SimpleCrudDataProvider
         }
 
         if (adding) {
-            c.contactId = getNextId(contactList);
-            contactList.add(c);
+            c.contactId = getNextId(list);
+            list.add(c);
         } else {
-            for (SimpleCrudPortlet.Contact dto : contactList) {
+            for (SimpleCrudPortlet.Contact dto : list) {
                 if (dto.contactId == c.contactId) {
                     dto.name = c.name;
                     dto.mobile = c.mobile;
                 }
             }
         }
-        save(req, contactList);
     }
 
-    /**
-     * A helper method which loops through the list of Contacts and returns the
-     * next available id.
-     */
-    private int getNextId(List<SimpleCrudPortlet.Contact> contacts) {
+    private int getNextId(List<SimpleCrudPortlet.Contact> list) {
         int id = 0;
-        for (SimpleCrudPortlet.Contact c : contacts) {
+        for (SimpleCrudPortlet.Contact c : list) {
             if (c.contactId > id) {
                 id = c.contactId;
             }
@@ -127,10 +90,30 @@ public class SimpleCrudDataProvider
         return id + 1;
     }
 
-    /**
-     * A helper method which creates a list of test data, this kind of data
-     * would typically come from a database.
-     */
+    /** Delete contact by id. */
+    private void delete(List<SimpleCrudPortlet.Contact> list, int contactId) {
+        for (int i = list.size() - 1; i >= 0; i--) {
+            SimpleCrudPortlet.Contact c =  list.get(i);
+            if (c.contactId == contactId) {
+                list.remove(i);
+            }
+        }
+    }
+
+    /** Get list of contacts stored from the session */
+    private List<SimpleCrudPortlet.Contact> getContacts(PageRequest req) {
+        List<SimpleCrudPortlet.Contact> contactList = (List<SimpleCrudPortlet.Contact>)
+                req.getServletRequest().getSession().getAttribute(SESSION_KEY);
+        if (contactList == null) {
+            save(req, contactList = createTestData());
+        }
+        return contactList;
+    }
+
+    private void save(PageRequest req, List list) {
+        req.getServletRequest().getSession().setAttribute(SESSION_KEY, list);
+    }
+
     private List<SimpleCrudPortlet.Contact> createTestData() {
         List<SimpleCrudPortlet.Contact> list = new ArrayList();
         list.add(createContact(1, "Bobby Test", "1234567890"));
@@ -141,9 +124,6 @@ public class SimpleCrudDataProvider
         return list;
     }
 
-    /**
-     * Helper method used to create test data.
-     */
     private SimpleCrudPortlet.Contact createContact(int id, String name, String moblie) {
         SimpleCrudPortlet.Contact ans = new SimpleCrudPortlet.Contact();
         ans.contactId = id;
