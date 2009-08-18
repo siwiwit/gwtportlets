@@ -65,7 +65,14 @@ public class Demo implements EntryPoint {
                 DemoService.App.get().refresh(History.getToken(), wf, cb);
             }
             public void onRefreshCallFailure(Widget w, Throwable caught) {
-                Window.alert("Refresh failed: " + caught);
+                String msg = null;
+                if (caught instanceof IllegalArgumentException) {
+                    msg = caught.getMessage();
+                }
+                if (msg == null || msg.length() == 0) {
+                    msg = "Refresh failed: " + caught;
+                }
+                Window.alert(msg);
             }
         });
         History.addValueChangeHandler(new ValueChangeHandler<String>() {
