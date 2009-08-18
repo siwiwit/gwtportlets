@@ -42,8 +42,8 @@ public class SimpleCrudDataProvider
     }
 
     public void refresh(SimpleCrudPortlet.Factory f, PageRequest req) {
-        if (f.updateContact != null) {
-            update(req, f.updateContact);
+        if (f.update != null) {
+            update(req, f.update);
         }
 
         List<SimpleCrudPortlet.Contact> list = getContacts(req);
@@ -92,7 +92,8 @@ public class SimpleCrudDataProvider
 
         // check if the name is unique
         for (SimpleCrudPortlet.Contact dto : contactList) {
-            if (c.name != null && c.name.equalsIgnoreCase(dto.name)) {
+            if (c.name != null && c.name.equalsIgnoreCase(dto.name)
+                    && c.contactId != dto.contactId) {
                 throw new IllegalArgumentException("Duplicate contact: '" +
                         c.name + "'");
             }

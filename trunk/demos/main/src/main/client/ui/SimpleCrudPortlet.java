@@ -141,15 +141,10 @@ public class SimpleCrudPortlet extends Portlet {
                 dto.contactId = c.contactId;
                 dto.name = name.getText();
                 dto.mobile = mobile.getText();
-                f.updateContact = dto;
-                refresh(f, new AsyncCallback<WidgetFactory>() {
-                    public void onFailure(Throwable throwable) {
-                        // ignore - handled by main.client.Demo
-                    }
-                    public void onSuccess(WidgetFactory f) {
-                        dlg.hide();
-                    }
-                });
+                f.update = dto;
+                refresh(f, dlg);
+                // dialog hides itself onSuccess and ignores onFailure
+                // which is handled by main.client.Demo
             }
         }));
         dlg.addCloseButton("Cancel");
@@ -190,7 +185,7 @@ public class SimpleCrudPortlet extends Portlet {
         @DoNotPersist
         public int deleteContactId;
         @DoNotPersist
-        public Contact updateContact;
+        public Contact update;
 
         public Factory() {
         }
