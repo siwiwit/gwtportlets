@@ -24,9 +24,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.*;
 import org.gwtportlets.portlet.client.DoNotPersist;
 import org.gwtportlets.portlet.client.DoNotSendToServer;
 import org.gwtportlets.portlet.client.WidgetFactory;
@@ -36,202 +34,139 @@ import org.gwtportlets.portlet.client.util.FormBuilder;
 import java.io.Serializable;
 
 /**
- * A Simple data provider which demonstrates how one can write CRUD user interfaces
- * with GWT portlets.
- *<p>
- * Displays add, edit and delete buttons above a grid of contacts.
+ * Grid of contacts with add, edit and delete buttons. The Portlet refresh
+ * mechanism is used to carry out the add, edit and delete operations.
  */
 public class SimpleCrudPortlet extends Portlet {
 
     private Contact[] contactList;
 
-    private LayoutPanel panel = new LayoutPanel();
     private FlexTable grid;
-    private FormBuilder fbButtons;
-    private ClickHandler handler;
-    private CssButton add;
-    private CssButton edit;
 
-    private int lastSelectedRow;
+    private CssButton edit= new CssButton("Edit", new ClickHandler() {
+        public void onClick(ClickEvent clickEvent) {
+            showContactDialog(getSelectedContact());
+        }
+    });
+    private CssButton delete= new CssButton("Delete", new ClickHandler() {
+        public void onClick(ClickEvent clickEvent) {
+            delete();
+        }
+    });
+
+    private int selectedRow;
 
     public SimpleCrudPortlet() {
-        // ClickHandler for the grid which sets the style for the selected row
-        handler = new ClickHandler() {
-            public void onClick(ClickEvent clickEvent) {
-                lastSelectedRow = grid.getCellForEvent(clickEvent).getRowIndex();
-
-                for (int i = 1; i < grid.getRowCount(); i++) {
-                    if (i == lastSelectedRow) {
-                        grid.getRowFormatter().setStyleName(i, "grid_selected");
-                    } else {
-                        grid.getRowFormatter().setStyleName(i, i % 2 == 0 ? "grid_even" : "grid_odd");
-                    }
-                }
-            }
-        };
-
-        fbButtons = new FormBuilder();
-        add = new CssButton("Add", new ClickHandler() {
-            public void onClick(ClickEvent clickEvent) {
-                add();
-            }
-        });
-
-        edit = new CssButton("Edit", new ClickHandler() {
-            public void onClick(ClickEvent clickEvent) {
-                edit();
-            }
-        });
-
-        CssButton delete = new CssButton("Delete", new ClickHandler() {
-            public void onClick(ClickEvent clickEvent) {
-                delete();
-            }
-        });
-        fbButtons.add(add, edit, delete);
-        
+        LayoutPanel panel = new LayoutPanel();
         initWidget(panel);
+
+        FormBuilder b = new FormBuilder();
+        b.caption("ID").caption("Name").caption("Mobile").endRow();
+
+        grid = b.getForm();
+        grid.addStyleName("data");
+        grid.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent clickEvent) {
+                HTMLTable.Cell cell = grid.getCellForEvent(clickEvent);
+                setSelection(cell == null ? -1 : cell.getRowIndex());
+            }
+        });
+
+        FlowPanel p = new FlowPanel();
+        p.add(new CssButton("Add", new ClickHandler() {
+            public void onClick(ClickEvent clickEvent) {
+                showContactDialog(new Contact());
+            }
+        }));
+        p.add(edit);
+        p.add(delete);
+
+        panel.add(p, 24);
+        panel.add(b.getFormInPanel());
+    }
+
+    private void setSelection(int row) {
+        this.selectedRow = row;
+        HTMLTable.RowFormatter f = grid.getRowFormatter();
+        for (int i = 1; i < grid.getRowCount(); i++) {
+            if (i == row) {
+                f.addStyleName(i, "selected");
+            } else {
+                f.removeStyleName(i, "selected");
+            }
+        }
+        edit.setEnabled(row > 0);
+        delete.setEnabled(row > 0);
     }
 
     private void restore(Factory f) {
-        panel.clear();
         contactList = f.contactList;
-
-        grid = new FlexTable();
-        grid.addClickHandler(handler);
-        fillData();
-
-        panel.add(fbButtons.getFormInPanel(), 30);
-        SimplePanel sp = new SimplePanel();
-        sp.add(grid);
-        panel.add(sp);
-    }
-
-    /**
-     * Add the headers and contacts to the grid.
-     */
-    private void fillData() {
-        grid.setText(0, 0, "Contact Id");
-        grid.setText(0, 1, "Name");
-        grid.setText(0, 2, "Moble");
-        grid.getRowFormatter().setStyleName(0, "grid_header");
-
-        for (int i = 0; i < contactList.length; i++) {
-            Contact contact = contactList[i];
-            int row = i + 1;
-            grid.setText(row, 0, "" + contact.contactId);
-            grid.setText(row, 1, contact.name);
-            grid.setText(row, 2, contact.mobile);
-            grid.getRowFormatter().setStyleName(row, row % 2 == 0 ? "grid_even" : "grid_odd");
+        for (int i = grid.getRowCount() - 1; i >= 1; i--) {
+            grid.removeRow(i);
+        }
+        if (contactList != null) {
+            for (int i = 0; i < contactList.length; i++) {
+                Contact contact = contactList[i];
+                int row = i + 1;
+                grid.setText(row, 0, "" + contact.contactId);
+                grid.setText(row, 1, contact.name);
+                grid.setText(row, 2, contact.mobile);
+            }
         }
     }
 
-    /**
-     * Open the contact dialog with a new contact.
-     */
-    private void add() {
-        showContactDialog(new Contact());
-    }
-
-    /**
-     * Open the contact dialog with the selected contact's details.
-     */
-    private void edit() {
-        Contact c = getSelectedContact();
-        if (c != null) {
-            showContactDialog(c);
-        } else {
-            Window.alert("Please select a contact to edit.");
-        }
-    }
-
-    /**
-     * Helper method which dispays a dialog to change the contacts details.
-     */
     private void showContactDialog(final Contact c) {
-        final Dialog d = new Dialog();
+        final Dialog dlg = new Dialog();
         final TextBox name = new TextBox();
         final TextBox mobile = new TextBox();
 
         boolean adding = c.contactId == 0;
-        if (adding) {
-            d.setText("Adding contact");
-        } else {
-            d.setText("Editing contact " + c.name);
-            name.setText(c.name);
-            mobile.setText(c.mobile);
-        }
+        dlg.setText((adding ? "Add" : "Edit") + " Contact");
+        name.setText(c.name);
+        mobile.setText(c.mobile);
 
         FormBuilder fb = new FormBuilder();
         fb.label("Name").field(name).endRow();
         fb.label("Mobile").field(mobile).endRow();
 
-        d.setWidget(fb.getForm());
-        d.addButton(new CssButton("Save", new ClickHandler() {
+        dlg.setWidget(fb.getForm());
+        dlg.addButton(new CssButton("OK", new ClickHandler() {
             public void onClick(ClickEvent clickEvent) {
-                if (name.getText() == null || name.getText().length() == 0) {
-                    Window.alert("Name is mandatory");
+                if (name.getText().length() == 0 || mobile.getText().length() == 0) {
+                    Window.alert("Name and Mobile are required");
                     return;
                 }
-                if (mobile.getText() == null || mobile.getText().length() == 0) {
-                    Window.alert("Mobile is mandatory");
-                    return;
-                }
-
                 Factory f = new Factory(SimpleCrudPortlet.this);
                 Contact dto = new Contact();
                 dto.contactId = c.contactId;
                 dto.name = name.getText();
                 dto.mobile = mobile.getText();
-
                 f.updateContact = dto;
                 refresh(f, new AsyncCallback<WidgetFactory>() {
                     public void onFailure(Throwable throwable) {
-                        Window.alert(throwable.getMessage());
+                        // ignore - handled by main.client.Demo
                     }
-
-                    public void onSuccess(WidgetFactory widgetFactory) {
-                        d.hide();
+                    public void onSuccess(WidgetFactory f) {
+                        dlg.hide();
                     }
                 });
             }
         }));
-
-        d.addCloseButton("Cancel");
-
-        if (adding) {
-            d.showNextTo(add);
-        } else {
-            d.showNextTo(edit);
-        }
+        dlg.addCloseButton("Cancel");
+        dlg.showNextTo(grid);
     }
 
-    /**
-     * Delete the selected contact.
-     */
     private void delete() {
         Contact c = getSelectedContact();
-        if (c != null &&
-                Window.confirm("Are you sure you would like to delete " + c.name + "?")) {
-
+        if (Window.confirm("Are you sure you want to delete " + c.name + "?")) {
             Factory f = new Factory(this);
             f.deleteContactId = c.contactId;
             refresh(f);
-        } else {
-            Window.alert("Please select a contact to delete.");
         }
     }
 
-    /**
-     * Helper method which returns the selected contact from the grid. Returns
-     * null if no contact has been selected.
-     */
     private Contact getSelectedContact() {
-        Contact ans = null;
-        if (lastSelectedRow > 0) {
-            ans = contactList[lastSelectedRow -1];
-        }
-        return ans;
+        return selectedRow >= 1 ? contactList[selectedRow - 1] : null;
     }
 
     public WidgetFactory createWidgetFactory() {
@@ -273,5 +208,4 @@ public class SimpleCrudPortlet extends Portlet {
             return new SimpleCrudPortlet();
         }
     }
-
 }

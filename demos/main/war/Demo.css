@@ -52,18 +52,18 @@ PRE FONT {
     padding: 4px;
 }
 
-.grid_header {
-    background-color: darkcyan;
+TABLE.data TD {
+    border: 1px solid #E8E8E8;
+    cursor: pointer;
 }
 
-.grid_even {
-    background-color: gainsboro;
+TABLE.data TR.portlet-form-first TD {
+    font-weight: bold;
+    color: #000000;
+    background-color: #E8E8E8;
+    text-align: center;
 }
 
-.grid_odd {
-    background-color: aliceblue;
-}
-
-.grid_selected {
-    background-color: palegoldenrod;
+TABLE.data TR.selected {
+    background-color: #ffff99;
 }

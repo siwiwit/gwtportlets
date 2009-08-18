@@ -123,6 +123,10 @@ public class DemoPageProvider extends PageProvider {
     protected void handleRefreshException(PageRequest req, WidgetFactory top,
             WidgetFactory wf, Exception e) {
         log.error(e, e);
+        if (e instanceof RuntimeException) {
+            throw (RuntimeException)e;
+        }
+        throw new RuntimeException(e);
     }
 
     /**

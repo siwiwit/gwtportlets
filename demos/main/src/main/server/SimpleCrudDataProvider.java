@@ -28,11 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A Simple data provider which demonstrates how one can write CRUD user interfaces
- * with GWT portlets.
- * <p>
- * Contacts are loaded the first time the dataprovider loads. The list is stored
- * on the Session to mimic persistent storage.
+ * Grid of contacts with add, edit and delete buttons. The Portlet refresh
+ * mechanism is used to carry out the add, edit and delete operations. The
+ * list of contacts is stored in the session to mimic a database.
  */
 public class SimpleCrudDataProvider
         implements WidgetDataProvider<SimpleCrudPortlet.Factory> {
@@ -44,12 +42,12 @@ public class SimpleCrudDataProvider
     }
 
     public void refresh(SimpleCrudPortlet.Factory f, PageRequest req) {
-
         if (f.updateContact != null) {
             update(req, f.updateContact);
         }
 
         List<SimpleCrudPortlet.Contact> list = getContacts(req);
+
         if (f.deleteContactId > 0) {
             for (int i = 0; i < list.size(); i++) {
                 SimpleCrudPortlet.Contact c =  list.get(i);
@@ -77,7 +75,6 @@ public class SimpleCrudDataProvider
     private List<SimpleCrudPortlet.Contact> getContacts(PageRequest req) {
         List<SimpleCrudPortlet.Contact> contactList = (List<SimpleCrudPortlet.Contact>)
                 req.getServletRequest().getSession().getAttribute(DATA);
-
         if (contactList == null) {
             contactList = createTestData();
             save(req, contactList);
@@ -96,7 +93,8 @@ public class SimpleCrudDataProvider
         // check if the name is unique
         for (SimpleCrudPortlet.Contact dto : contactList) {
             if (c.name != null && c.name.equalsIgnoreCase(dto.name)) {
-                throw new IllegalArgumentException("Duplicate contact found for " + c.name);
+                throw new IllegalArgumentException("Duplicate contact: '" +
+                        c.name + "'");
             }
         }
 
@@ -134,13 +132,11 @@ public class SimpleCrudDataProvider
      */
     private List<SimpleCrudPortlet.Contact> createTestData() {
         List<SimpleCrudPortlet.Contact> list = new ArrayList();
-
         list.add(createContact(1, "Bobby Test", "1234567890"));
         list.add(createContact(2, "John Doe", "+1234567890"));
         list.add(createContact(3, "Steve Bob", "+1234567890"));
         list.add(createContact(4, "Tommy Goat", "+1234567890"));
         list.add(createContact(5, "Sleepy Simon", "+1234567890"));
-
         return list;
     }
 

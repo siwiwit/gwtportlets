@@ -97,7 +97,12 @@ Run "ant -p" in the root of this project to see available targets.
         </copy>
     </target>
 
-    <target name="hosted" description="Run main demo in hosted mode with -noserver"
+    <target name="hosted" description="Run main demo in hosted mode"
+            depends="jar,copy-files-to-demos">
+        <ant dir="demos/main" target="hosted" inheritAll="false"/>
+    </target>
+
+    <target name="hosted-noserver" description="Run main demo in hosted mode with -noserver"
             depends="jar,copy-files-to-demos">
         <ant dir="demos/main" target="hosted-noserver" inheritAll="false"/>
     </target>
