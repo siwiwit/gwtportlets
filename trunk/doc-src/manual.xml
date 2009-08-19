@@ -22,23 +22,42 @@
   </bookinfo>
   <chapter id="introduction">
     <title>Introduction</title>
-    <para>GWT Portlets (<ulink url="http://code.google.com/p/gwtportlets/">http://code.google.com/p/gwtportlets/</ulink>) is a free open source web framework for building modular GWT (Google Web Toolkit) applications. GWT provides the low level building blocks required to build web applications (Java to Javascript compiler, basic UI widgets, an RPC mechanism etc.) but typical business applications can benefit from the additional scaffolding provided by GWT Portlets. In traditional web applications this role would be fulfilled by Struts and other web frameworks as well as portal servers.</para>
-    <para>The GWT Portlets framework is a library does not force a particular structure on an application. The programming model resembles that offered by JSR168 portlets and portal servers but the application creates and controls the &quot;portal server&quot; environment instead of just being deployed into it. </para>
-    <para>GWT Portlets includes the following functionality:
-
-    </para>
+    <para>GWT Portlets (<ulink url="http://code.google.com/p/gwtportlets/">http://code.google.com/p/gwtportlets/</ulink>) is a free open source web framework for building GWT (Google Web Toolkit) applications. It defines a very simple &amp; productive, yet powerful programming model to build good looking, modular GWT applications.</para>
+    <figure>
+      <title>Overview Of Functionality</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata width="100%" contentdepth="100%" scalefit="1" fileref="img/what_you_get.gif"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>The programming model is somewhat similar to writing JSR168 portlets for a portal server (Liferay, JBoss Portal etc.).
+The &quot;portal&quot; is your application built using the GWT Portlets framework as a library. Application functionality is developed as loosely coupled Portlets each with an optional server side DataProvider. </para>
+    <para>Every Portlet knows how to externalize its state into a serializable PortletFactory subclass (momento / DTO / factory pattern) making important functionality possible:</para>
     <itemizedlist>
       <listitem>
-        <para>A model for developing business functionality in decoupled widgets (portlets) with server side support</para>
+        <para>CRUD operations are handled by a single GWT RPC for all Portlets</para>
       </listitem>
       <listitem>
-        <para>An absolute positioning framework with pluggable layout managers (similar to Swing and other thick client GUI toolkits</para>
+        <para>The layout of Portlets on a &quot;page&quot; can be represented as a tree of WidgetFactory&apos;s (an interface implemented by PortletFactory)</para>
       </listitem>
       <listitem>
-        <para>An in-browser runtime layout editor for arranging widgets and portlets into page layouts stored on the server</para>
+        <para>Trees of WidgetFactory&apos;s can be serialized and marshalled to/from XML on the server, to store GUI layouts (or &quot;pages&quot;) in XML page files</para>
+      </listitem>
+    </itemizedlist>
+    <para>Other important features of the framework are listed below:</para>
+    <itemizedlist>
+      <listitem>
+        <para>Pages can be edited in the browser at runtime (by developers and/or users) using the framework layout editor</para>
       </listitem>
       <listitem>
-        <para>Some widgets including a styled dialog box and theme support, but this is not the main focus of the projec</para>
+        <para>Portlets are positioned absolutely so can use scrolling regions</para>
+      </listitem>
+      <listitem>
+        <para>Portlets are configurable, indicate when they are busy loading for automatic &quot;loading spinner&quot; display and can be maximized </para>
+      </listitem>
+      <listitem>
+        <para>Themed widgets including a styled dialog box, a CSS styled button replacement, small toolbuttons and a HTML template driven menu</para>
       </listitem>
     </itemizedlist>
     <para>GWT Portlets is implemented in Java code and does not wrap any external Javascript libraries. It does not impose any server side framework (e.g. Spring or J2EE) but is designed to work well in conjunction with such frameworks.</para>
@@ -243,7 +262,7 @@ public class HelloWorldDataProvider
       <para>Example: If the history token at the time of refresh is &quot;#hello_world?foo=bar&quot; then req.get(&quot;foo&quot;) will return &quot;bar&quot;. A more complex data provider might use this parameter and information from the factory to execute a database query.</para>
       <para>The page request also includes the HttpServletRequest and HttpServletResponse for the call. </para>
     </section>
-    <section>
+    <section id="crud">
       <title>Simple CRUD Portlet</title>
       <para>This section describes the different parts of the &quot;simple crud&quot;portlet from the main demo (demos/main). This portlet displays a list of contacts on a grid with buttons to add, edit and delete contacts.</para>
       <para>The static inner class Contact is a data transfer object (DTO) which is used to transfer data between the portlet and the data povider.  </para>
@@ -288,7 +307,6 @@ public class HelloWorldDataProvider
   private FlexTable grid;
   ...
   private void restore(Factory f) {
-      panel.clear();
       contactList = f.contactList;
       ...
       for (int i = 0; i &lt; contactList.length; i++) {
