@@ -1,8 +1,7 @@
   * [Introduction]
   * [Portlets]
   * [Concepts]
-  * [AppStructure Application
-Structure]
+  * [AppStructure Application Structure]
   * [Layouts]
   * [PageEditor Page Editor]
   * [Widgets Widgets]
