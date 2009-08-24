@@ -1,7 +1,5 @@
 #summary Manual Chapter 1. Introduction
 
-<wiki:toc max_depth="3" />
-
 == Chapter 1. Introduction ==
 
 GWT Portlets (http://code.google.com/p/gwtportlets/) is a free open source web framework for building GWT (Google Web Toolkit) applications. It defines a very simple & productive, yet powerful programming model to build good looking, modular GWT applications.
