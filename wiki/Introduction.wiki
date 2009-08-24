@@ -1,4 +1,5 @@
 #summary Manual Chapter 1. Introduction
+#sidebar ManualSidebar
 
 == Chapter 1. Introduction ==
 
