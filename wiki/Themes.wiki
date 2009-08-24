@@ -1,4 +1,4 @@
-# Chapter 8. Theme Support
+#summary Chapter 8. Theme Support
 
 == Chapter 8. Theme Support ==
 

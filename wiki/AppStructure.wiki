@@ -1,4 +1,4 @@
-#Chapter 4. Application Structure
+#summary Chapter 4. Application Structure
 
 == Chapter 4. Application Structure ==
 
