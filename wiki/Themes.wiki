@@ -1,4 +1,4 @@
-#summary Chapter 8. Theme Support
+#summary Manual Chapter 8. Theme Support
 
 == Chapter 8. Theme Support ==
 

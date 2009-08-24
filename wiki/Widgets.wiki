@@ -1,4 +1,4 @@
-#summary Chapter 7. UI Widgets
+#summary Manual Chapter 7. UI Widgets
 
 == Chapter 7. UI Widgets ==
 

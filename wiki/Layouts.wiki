@@ -1,4 +1,4 @@
-#summary Chapter 5. Layouts
+#summary Manual Chapter 5. Layouts
 
 == Chapter 5. Layouts ==
 

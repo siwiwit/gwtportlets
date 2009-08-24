@@ -1,4 +1,4 @@
-#summary Chapter 6. The Page Editor
+#summary Manual Chapter 6. The Page Editor
 
 == Chapter 6. The Page Editor ==
 

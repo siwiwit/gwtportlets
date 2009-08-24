@@ -1,4 +1,4 @@
-#summary Chapter 3. Other Concepts
+#summary Manual Chapter 3. Other Concepts
 
 == Chapter 3. Other Concepts ==
 

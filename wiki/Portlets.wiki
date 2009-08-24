@@ -1,4 +1,4 @@
-#summary Chapter 2. Portlets
+#summary Manual Chapter 2. Portlets
 
 == Chapter 2. Portlets ==
 
