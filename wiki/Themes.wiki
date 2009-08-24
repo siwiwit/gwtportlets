@@ -1,7 +1,4 @@
-|| Chapter 8. Theme Support ||
-|| [Widgets.html Prev] ||  || [Spring.html Next] ||
-
-----
+# Chapter 8. Theme Support
 
 == Chapter 8. Theme Support ==
 
@@ -120,8 +117,3 @@ public class Theme {
 }}}
 
 If you want your own widgets to use the same mechanism you may need to extend Theme and call Theme.set(Theme instance) in onModuleLoad.
-
-----
-
-|| [Widgets.html Prev] ||  || [Spring.html Next] ||
-|| Chapter 7. UI Widgets || [index.html Home] || Chapter 9. Integrating with Spring ||

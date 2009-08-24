@@ -1,7 +1,4 @@
-|| Chapter 2. Portlets ||
-|| [Introduction.html Prev] ||  || [Concepts.html Next] ||
-
-----
+# Chapter 2. Portlets
 
 == Chapter 2. Portlets ==
 
@@ -258,8 +255,3 @@ Deleting a Contact is done when the delete button is clicked, the deleteContactI
 The update method in SimpleCrudDataProvider throws an IllegalArgumentException on duplicate names. This causes the refresh to fail and an error alert is displayed on the client side.
 
 Using the Portlet refresh machanism for updates and deletes removes the need for additional RPC methods and associated complexity.
-
-----
-
-|| [Introduction.html Prev] ||  || [Concepts.html Next] ||
-|| Chapter 1. Introduction || [index.html Home] || Chapter 3. Other Concepts ||

@@ -1,7 +1,4 @@
-|| Chapter 7. UI Widgets ||
-|| [PageEditor.html Prev] ||  || [Themes.html Next] ||
-
-----
+# Chapter 7. UI Widgets
 
 == Chapter 7. UI Widgets ==
 
@@ -153,8 +150,3 @@ ShadowPanel adds a fuzzy shadow to a single widget. The look of the shadow is co
 Widget w = ...
 ShadowPanel sp = new ShadowPanel(w);
 }}}
-
-----
-
-|| [PageEditor.html Prev] ||  || [Themes.html Next] ||
-|| Chapter 6. The Page Editor || [index.html Home] || Chapter 8. Theme Support ||

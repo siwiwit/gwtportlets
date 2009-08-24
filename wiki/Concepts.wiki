@@ -1,7 +1,4 @@
-|| Chapter 3. Other Concepts ||
-|| [Portlets.html Prev] ||  || [AppStructure.html Next] ||
-
-----
+# Chapter 3. Other Concepts
 
 == Chapter 3. Other Concepts ==
 
@@ -105,7 +102,7 @@ It aliases all the framework classes in its constructor. Applications will usual
 
 As mentioned in the Javadoc comment in the code fragment, fields annotated with DoNotPersist or DoNotSendToServer are not included in the XML. This is useful when fields in a PortletFactory are used only on the client side (DoNotSendToServer) or are used to pass information back to the server (DoNotPersist) that should not not end up in page XML files.
 
-== 3.5. Containers &amp; Layouts ==
+== 3.5. Containers & Layouts ==
 
 The framework provides support for absolute positioning of widgets within each other and the browser viewport. Widgets (e.g. Portlets) are arranged using constraints and layout managers in a manner similar to Swing and AWT. This approach makes it possible to create scrolling regions and to build a browser based "desktop style" application. Static (i.e. normal browser flow) positioning can still be used for the "contents" of widgets and is often easier than trying to control the position and size of every button and label using absolute positioning.
 
@@ -151,8 +148,3 @@ panel.layout(); // adding widgets does not automatically redo the layout
 ----
 
 ^[[#d0e371 1]] ^http://xstream.codehaus.org/
-
-----
-
-|| [Portlets.html Prev] ||  || [AppStructure.html Next] ||
-|| Chapter 2. Portlets || [index.html Home] || Chapter 4. Application Structure ||

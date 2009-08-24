@@ -1,7 +1,4 @@
-|| Chapter 4. Application Structure ||
-|| [Concepts.html Prev] ||  || [Layouts.html Next] ||
-
-----
+# Chapter 4. Application Structure
 
 == Chapter 4. Application Structure ==
 
@@ -96,7 +93,7 @@ public class PagePortlet extends ContainerPortlet implements BroadcastListener {
         if (ev instanceof PageChangeEvent) {
             onPageChange((PageChangeEvent)ev);
         } else if (ev instanceof WidgetChangeEvent
-                &amp;&amp; ((WidgetChangeEvent)ev).getSource() == titlePortlet) {
+                && ((WidgetChangeEvent)ev).getSource() == titlePortlet) {
             updateTitle();
         }
     }
@@ -229,8 +226,3 @@ public abstract class PageProvider {
 }}}
 
 Each WidgetFactory in the tree is visited and refreshed by a WidgetDataProvider. The provider is found by a simple map lookup using the class of the factory as the key. Note that WidgetDataProvider implementations need to be thread safe.
-
-----
-
-|| [Concepts.html Prev] ||  || [Layouts.html Next] ||
-|| Chapter 3. Other Concepts || [index.html Home] || Chapter 5. Layouts ||

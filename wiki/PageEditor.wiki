@@ -1,7 +1,4 @@
-|| Chapter 6. The Page Editor ||
-|| [Layouts.html Prev] ||  || [Widgets.html Next] ||
-
-----
+# Chapter 6. The Page Editor
 
 == Chapter 6. The Page Editor ==
 
@@ -93,8 +90,3 @@ Each widget on the current level on the tree is outlined by a blue rectangle. Th
   * Add > Select a new widget or container and click to drop it
 
 Don't forget to click Save to save changes.
-
-----
-
-|| [Layouts.html Prev] ||  || [Widgets.html Next] ||
-|| Chapter 5. Layouts || [index.html Home] || Chapter 7. UI Widgets ||

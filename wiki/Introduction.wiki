@@ -1,11 +1,8 @@
-|| Chapter 1. Introduction ||
-|| [index.html Prev] ||  || [Portlets.html Next] ||
-
-----
+# Chapter 1. Introduction
 
 == Chapter 1. Introduction ==
 
-GWT Portlets (http://code.google.com/p/gwtportlets/) is a free open source web framework for building GWT (Google Web Toolkit) applications. It defines a very simple &amp; productive, yet powerful programming model to build good looking, modular GWT applications.
+GWT Portlets (http://code.google.com/p/gwtportlets/) is a free open source web framework for building GWT (Google Web Toolkit) applications. It defines a very simple & productive, yet powerful programming model to build good looking, modular GWT applications.
 
 [http://gwtportlets.googlecode.com/svn/wiki/doc/img/what_you_get.gif]
 
@@ -28,7 +25,7 @@ Other important features of the framework are listed below:
 
 GWT Portlets is implemented in Java code and does not wrap any external Javascript libraries. It does not impose any server side framework (e.g. Spring or J2EE) but is designed to work well in conjunction with such frameworks.
 
-== 1.1. Contents &amp; Usage ==
+== 1.1. Contents & Usage ==
 
 The download distribution includes binaries, source code, demos and documentation. Everything required to use and build the framework is included. Some files required to build this manual have been excluded to reduce the size of the distribution i.e. the documentation must be built from a subversion checkout.
 
@@ -73,8 +70,3 @@ The framework package layout follows standard GWT conventions:
 || org.gwtportlets.portlet.rebind || GWT compile time code generators ||
 || org.gwtportlets.portlet.public || Stylesheets and images ||
 || org.gwtportlets.portlet.server || Server side support ||
-
-----
-
-|| [index.html Prev] ||  || [Portlets.html Next] ||
-|| GWT Portlets Framework User Manual || [index.html Home] || Chapter 2. Portlets ||

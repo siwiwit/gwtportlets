@@ -1,7 +1,4 @@
-|| Chapter 5. Layouts ||
-|| [AppStructure.html Prev] ||  || [PageEditor.html Next] ||
-
-----
+# Chapter 5. Layouts
 
 == Chapter 5. Layouts ==
 
@@ -185,8 +182,3 @@ public class LDOM {
     public static Rectangle getContentBounds(Widget w) {...}
 ...
 }}}
-
-----
-
-|| [AppStructure.html Prev] ||  || [PageEditor.html Next] ||
-|| Chapter 4. Application Structure || [index.html Home] || Chapter 6. The Page Editor ||
