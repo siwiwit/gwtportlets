@@ -15,7 +15,7 @@ Copyright © 2009 Business Systems Group (Africa)
 
 GWT Portlets (http://code.google.com/p/gwtportlets/) is a free open source web framework for building GWT (Google Web Toolkit) applications. It defines a very simple &amp; productive, yet powerful programming model to build good looking, modular GWT applications.
 
-[doc/img/what_you_get.gif]
+[http://gwtportlets.googlecode.com/svn/wiki/doc/img/what_you_get.gif]
 
 *Figure 1.1. Overview Of Functionality*
 
@@ -93,7 +93,7 @@ A portlet is a GWT Widget (it extends Composite) with features that make it easi
   * It notifies its parent (and its parent's parent recursively) when its state changes (e.g. busy with refresh, title changed) for automatic display of AJAX loading pizza's etc.
   * It can be positioned absolutely and is aware of its position and size and hence can use scrolling regions effectively
 
-[doc/img/portlet_heirachy.gif]
+[http://gwtportlets.googlecode.com/svn/wiki/doc/img/portlet_heirachy.gif]
 
 *Figure 2.1. Portlet Class Heirachy*
 
@@ -346,7 +346,7 @@ This chapter describes the key concepts and ideas used by the framework.
 
 Page layouts are loaded when the history token changes e.g. the user clicks on an internal link or bookmark. The history token is used to select a page file to load as shown in the following diagram:
 
-[doc/img/open_page_process.gif]
+[http://gwtportlets.googlecode.com/svn/wiki/doc/img/open_page_process.gif]
 
 *Figure 3.1. Open Page Process*
 
@@ -354,7 +354,7 @@ Page layouts are loaded when the history token changes e.g. the user clicks on a
 
 All portlets can be refreshed by calling `Portlet.refresh()`. This might be triggered by a user clicking the refresh button on a TitlePanel containing a Portlet or by the Portlet itself. The Portlet is asked to provide a PortletFactory instance containing its state and this is sent to the server to be updated as shown in the following diagram:
 
-[doc/img/refresh_process.gif]
+[http://gwtportlets.googlecode.com/svn/wiki/doc/img/refresh_process.gif]
 
 *Figure 3.2. Portlet Refresh Process*
 
@@ -495,7 +495,7 @@ This chapter describes how to pull the different parts of the framework together
 
 The main client side classes (main.client package) are shown in the class diagram below (blue classes are part of the GWT portlets framework, yellow classes are part of GWT):
 
-[doc/img/demo_client_classes.gif]
+[http://gwtportlets.googlecode.com/svn/wiki/doc/img/demo_client_classes.gif]
 
 *Figure 4.1. Main Demo Client Side Classes*
 
@@ -507,7 +507,7 @@ The main client side classes (main.client package) are shown in the class diagra
 
 The server side classes (main.server package):
 
-[doc/img/demo_server_classes.gif]
+[http://gwtportlets.googlecode.com/svn/wiki/doc/img/demo_server_classes.gif]
 
 *Figure 4.2. Main Demo Server Side Classes*
 
@@ -518,7 +518,7 @@ The server side classes (main.server package):
 
 The following (abridged) sequence diagram shows how the EntryPoint class for the demo application bootstraps the GUI from onModuleLoad():
 
-[doc/img/get_root_page_seq.gif]
+[http://gwtportlets.googlecode.com/svn/wiki/doc/img/get_root_page_seq.gif]
 
 *Figure 4.3. Main Demo Application Bootstrap Process*
 
@@ -960,7 +960,7 @@ The only thing required from a PageEditor subclass is a savePage method. Overrid
 
 The following screenshot (taken from a modifled version of the demo home page) shows the major components of the editor:
 
-[doc/img/page_editor1.gif]
+[http://gwtportlets.googlecode.com/svn/wiki/doc/img/page_editor1.gif]
 
 *Figure 6.1. Layout Editor Screenshot*
 
@@ -968,7 +968,7 @@ The Dialog titled "Layout Editor" displays a button for each level in the Contai
 
 The image below shows how levels in the editor correspond to levels in the container tree. You can click the buttons or use the mouse wheel to change levels. There is also a context sensitive message explaining what do ("Drag widgets to move or resize") and a save button. Closing this dialog stops editing.
 
-[doc/img/page_editor_tree.gif]
+[http://gwtportlets.googlecode.com/svn/wiki/doc/img/page_editor_tree.gif]
 
 *Figure 6.2. Page Editor Container Tree Levels*
 
@@ -996,7 +996,7 @@ The framework includes useful portlets and the widgets needed for its own UI (to
 
 Dialog is a replacement for the standard GWT dialog box. It includes a title bar with maximize/restore and close buttons, content area, button bar, is styled using CSS and image sprites, is themable, prevents the application from receiving events (even mouse overs and so on) when modal, triggers close when escape is presssed and absolutely positions its contents.
 
-[doc/img/dialog.gif]
+[http://gwtportlets.googlecode.com/svn/wiki/doc/img/dialog.gif]
 
 *Figure 7.1. Dialog and CssButton*
 
@@ -1036,7 +1036,7 @@ The showNextTo method will position the dialog next to another widget. If there 
 
 FormBuilder is not actually a widget itself, it creates a form (labels and fields etc.) based on a GWT FlexTable
 
-[doc/img/formbuilder1.gif]
+[http://gwtportlets.googlecode.com/svn/wiki/doc/img/formbuilder1.gif]
 
 *Figure 7.2. FormBuilder*
 
@@ -1058,7 +1058,7 @@ FormBuilder styles the table so that the spacing between TDs inside is even (def
 
 TitlePanel is a Portlet and Container that contains other portlets. Each of the portlets in the home page of the demo is contained in a TitlePanel. It provides a title bar, refresh, configure and maximize buttons and displays an AJAX loading pizza when the first Portlet it contains is refreshing.
 
-[doc/img/title_panel_dialog.gif]
+[http://gwtportlets.googlecode.com/svn/wiki/doc/img/title_panel_dialog.gif]
 
 *Figure 7.3. TitlePanel*
 
