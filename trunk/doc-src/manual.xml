@@ -174,13 +174,14 @@ The &quot;portal&quot; is your application built using the GWT Portlets framewor
         <para>It can be positioned absolutely and is aware of its position and size and hence can use scrolling regions effectively </para>
       </listitem>
     </itemizedlist>
-    <informalfigure>
+    <figure>
+      <title>Portlet Class Heirachy</title>
       <mediaobject>
         <imageobject>
           <imagedata scale="75" fileref="img/portlet_heirachy.gif"/>
         </imageobject>
       </mediaobject>
-    </informalfigure>
+    </figure>
     <section id="hello_world">
       <title>Hello World Portlet</title>
       <para>This section describes the different parts of the &quot;hello world&quot;portlet from the main demo (demos/main). The Portlet class is as follows:</para>
@@ -499,13 +500,14 @@ public class WidgetFactoryXmlIO {
     <section id="app_classes">
       <title>Classes</title>
       <para>The main client side classes (main.client package) are shown in the class diagram below (blue classes are part of the GWT portlets framework, yellow classes are part of GWT):</para>
-      <informalfigure>
+      <figure>
+        <title>Main Demo Client Side Classes</title>
         <mediaobject>
           <imageobject>
             <imagedata width="100%" contentdepth="100%" scalefit="1" fileref="img/demo_client_classes.gif"/>
           </imageobject>
         </mediaobject>
-      </informalfigure>
+      </figure>
       <itemizedlist>
         <listitem>
           <para><code>Demo</code> The EntryPoint (main) class </para>
@@ -524,13 +526,14 @@ public class WidgetFactoryXmlIO {
         </listitem>
       </itemizedlist>
       <para>The server side classes (main.server package):</para>
-      <informalfigure>
+      <figure>
+        <title>Main Demo Server Side Classes</title>
         <mediaobject>
           <imageobject>
             <imagedata width="100%" contentdepth="100%" scalefit="1" fileref="img/demo_server_classes.gif"/>
           </imageobject>
         </mediaobject>
-      </informalfigure>
+      </figure>
       <itemizedlist>
         <listitem>
           <para><code>DemoServiceImpl</code> GWT RemoteServiceServlet implementing demo.client.DemoService methods </para>
@@ -546,13 +549,14 @@ public class WidgetFactoryXmlIO {
         </listitem>
       </itemizedlist>
       <para>The following (abridged) sequence diagram shows how the EntryPoint class for the demo application bootstraps the GUI from onModuleLoad():</para>
-      <informalfigure>
+      <figure>
+        <title>Main Demo Application Bootstrap Process</title>
         <mediaobject>
           <imageobject>
             <imagedata width="100%" contentdepth="100%" scalefit="1" fileref="img/get_root_page_seq.gif"/>
           </imageobject>
         </mediaobject>
-      </informalfigure>
+      </figure>
       <para>The DemoPage DTO contains a WidgetFactory tree for the root page and for the page loaded for the history token. It a real application it would also contain information about the currently logged on user and so on. The rootWidgetFactory is used to create a tree of Widgets that is added to the ClientAreaPanel. The root page tree should contain a PagePortlet (and other widgets and portlets).</para>
       <programlisting>public class DemoPage implements Serializable {
     public String pageName;
@@ -923,22 +927,24 @@ public class DemoPageEditor extends PageEditor {
     <section id="using_page_editor">
       <title>Using The Editor</title>
       <para>The following screenshot (taken from a modifled version of the demo home page) shows the major components of the editor:</para>
-      <informalfigure>
+      <figure>
+        <title>Layout Editor Screenshot</title>
         <mediaobject>
           <imageobject>
             <imagedata width="100%" contentdepth="100%" scalefit="1" fileref="img/page_editor1.gif"/>
           </imageobject>
         </mediaobject>
-      </informalfigure>
+      </figure>
       <para>The Dialog titled &quot;Layout Editor&quot; displays a button for each level in the Container tree being edited (&quot;1&quot;, &quot;2&quot; etc.) with the selected level highlighted.</para>
       <para>The image below shows how levels in the editor correspond to levels in the container tree. You can click the buttons or use the mouse wheel to change levels. There is also a context sensitive message explaining what do (&quot;Drag widgets to move or resize&quot;) and a save button. Closing this dialog stops editing.</para>
-      <informalfigure>
+      <figure>
+        <title>Page Editor Container Tree Levels</title>
         <mediaobject>
           <imageobject>
             <imagedata scale="75" fileref="img/page_editor_tree.gif"/>
           </imageobject>
         </mediaobject>
-      </informalfigure>
+      </figure>
       <para>Each widget on the current level on the tree is outlined by a blue rectangle. These rectangles can be dragged around to move widgets to different positions at the same level in the tree. The thick edge of the rectangle resizes the widget and left click opens a context sensitive menu (not all the options listed below are visible in the screenshot):</para>
       <itemizedlist>
         <listitem>
@@ -984,13 +990,14 @@ public class DemoPageEditor extends PageEditor {
     <section id="dialog_and_cssbutton">
       <title>Dialog and CssButton</title>
       <para>Dialog is a replacement for the standard GWT dialog box. It includes a title bar with maximize/restore and close buttons, content area, button bar, is styled using CSS and image sprites, is themable, prevents the application from receiving events (even mouse overs and so on) when modal, triggers close when escape is presssed and absolutely positions its contents.</para>
-      <informalfigure>
+      <figure>
+        <title>Dialog and CssButton</title>
         <mediaobject>
           <imageobject>
             <imagedata scale="75" fileref="img/dialog.gif"/>
           </imageobject>
         </mediaobject>
-      </informalfigure>
+      </figure>
       <para>CssButton is a Button subclass styled using a CSS background image sprite. It is lightweight (rendered using a single BUTTON element) and supports rollover. It selects different background sprites based on the width of the button avoiding scaling effects.</para>
       <para>Here is a code fragment taken from FreeMemoryPortlet that creates its configuration dialog:</para>
       <programlisting>package demo.client.ui;
@@ -1019,13 +1026,14 @@ public class FreeMemoryPortlet extends Portlet {
     <section id="form_builder">
       <title>FormBuilder</title>
       <para>FormBuilder is not actually a widget itself, it creates a form (labels and fields etc.) based on a GWT FlexTable</para>
-      <informalfigure>
+      <figure>
+        <title>FormBuilder</title>
         <mediaobject>
           <imageobject>
             <imagedata scale="75" fileref="img/formbuilder1.gif"/>
           </imageobject>
         </mediaobject>
-      </informalfigure>
+      </figure>
       <para>It keeps track of the current row and column in the table and creates labels and fields using standard styles. Some methods add new cells and others operate on the most recently added cell as shown in the following code fragment:</para>
       <programlisting>CheckBox column = new CheckBox(&quot;Layout in column&quot;);
 TextBox spacing = new TextBox();
@@ -1039,12 +1047,15 @@ FlexTable form = b.getForm();</programlisting>
     <section id="title_panel">
       <title>TitlePanel</title>
       <para>TitlePanel is a Portlet and Container that contains other portlets. Each of the portlets in the home page of the demo is contained in a TitlePanel. It provides a title bar, refresh, configure and maximize buttons and displays an AJAX loading pizza when the first Portlet it contains is refreshing.</para>
-      <mediaobject>
-        <imageobject>
-          <imagedata scale="75" fileref="img/title_panel_dialog.gif"/>
-        </imageobject>
-      </mediaobject>
-      <para>The dialog on the right is displayed by clicking a TitlePanel in the page editor and selecting Edit Title... from the popup menu. The options are as follows:</para>
+      <figure>
+        <title>TitlePanel</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata scale="75" fileref="img/title_panel_dialog.gif"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>The dialog above is displayed by clicking a TitlePanel in the page editor and selecting Edit Title... from the popup menu. The options are as follows:</para>
       <itemizedlist>
         <listitem>
           <para><emphasis role="italic">Automatically use title from content</emphasis> Display the title provide by the first portlet in the panel or use the title captured here </para>
