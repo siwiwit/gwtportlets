@@ -3,7 +3,7 @@
   * [Concepts]
   * [AppStructure Application Structure]
   * [Layouts]
-  * [PageEditor]
+  * [PageEditor Page Editor]
   * [Widgets Widgets]
   * [Themes]
   * [Spring]
