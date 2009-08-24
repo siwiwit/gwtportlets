@@ -193,6 +193,18 @@ Run "ant -p" in the root of this project to see available targets.
         </java>
     </target>
 
+    <!-- Generate chunked HTML for conversion to Google Code Wiki markup -->
+    <target name="manual-wiki"  depends="manual-prep">
+        <java classname="com.icl.saxon.StyleSheet" fork="true"
+              dir="${basedir}/build/doc"
+              classpathref="cp">
+            <jvmarg value="-Xmx256M"/>
+            <jvmarg value="-XX:MaxPermSize=128m"/>
+            <arg value="${basedir}/build/doc/manual.xml"/>
+            <arg value="${basedir}/doc-src/xsl/html_wiki.xsl"/>
+        </java>
+    </target>
+
     <target name="manual-pdf" description="Generate PDF manual"
             depends="manual-fo">
         <!-- You need to have Apache FOP installed for this task:
