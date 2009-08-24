@@ -1,6 +1,6 @@
 #summary Manual Chapter 1. Introduction
 
-<wiki:toc max_depth="1" />
+<wiki:toc max_depth="3" />
 
 == Chapter 1. Introduction ==
 
