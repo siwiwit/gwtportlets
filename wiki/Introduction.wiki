@@ -1,6 +1,6 @@
 #summary Manual Chapter 1. Introduction
 
-[Introduction] / [Portlets] / [Concepts] / [AppStructure Application Structure] / [Layouts] / [PageEditor Page Editor] / [Widgets Widgets] / [Themes] / [Spring]
+> [Introduction] / [Portlets] / [Concepts] / [AppStructure Application Structure] / [Layouts] / [PageEditor Page Editor] / [Widgets Widgets] / [Themes] / [Spring]
 
 == Chapter 1. Introduction ==
 
