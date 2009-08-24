@@ -44,7 +44,7 @@ The framework is packaged as `gwt-portlets.jar` and this file must be on the cla
 
 Add the following line to the GWT module file for your application to use GWT Portlets:
 
-`&lt;inherits name="org.gwtportlets.portlet.Portlets"/&gt;`
+`<inherits name="org.gwtportlets.portlet.Portlets"/>`
 
 == 1.2. System Requirements ==
 
@@ -127,7 +127,7 @@ public class HelloWorldPortlet extends Portlet {
         return new Factory(this);
     }
 
-    public static class Factory extends PortletFactory&lt;HelloWorldPortlet&gt; {
+    public static class Factory extends PortletFactory<HelloWorldPortlet> {
 
         @DoNotSendToServer public String serverTime;
 
@@ -171,7 +171,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class HelloWorldDataProvider
-        implements WidgetDataProvider&lt;HelloWorldPortlet.Factory&gt; {
+        implements WidgetDataProvider<HelloWorldPortlet.Factory> {
 
     private static final SimpleDateFormat DATE_FORMAT =
             new SimpleDateFormat("dd MMM yyyy HH:mm:ss Z");
@@ -219,7 +219,7 @@ The portlet factory also has two other attributes` int deleteContactId` and `Con
 {{{
 public class SimpleCrudPortlet extends Portlet {
 ...
-    public static class Factory extends PortletFactory&lt;SimpleCrudPortlet&gt; {
+    public static class Factory extends PortletFactory<SimpleCrudPortlet> {
 
       @DoNotSendToServer
       public Contact[] contactList;
@@ -235,11 +235,11 @@ The data provider's `refresh(SimpleCRUDPortlet.Factory f, PageRequest req) {...}
 
 {{{
 public class SimpleCrudDataProvider
-      implements WidgetDataProvider&lt;SimpleCrudPortlet.Factory&gt; {
+      implements WidgetDataProvider<SimpleCrudPortlet.Factory> {
   ...
   public void refresh(SimpleCrudPortlet.Factory f, PageRequest req) {
       ...
-      List&lt;SimpleCrudPortlet.Contact&gt; list = getContacts(req); // get from session
+      List<SimpleCrudPortlet.Contact> list = getContacts(req); // get from session
       ...
       f.contactList = list.toArray(new SimpleCrudPortlet.Contact[list.size()]);
       ...
@@ -257,7 +257,7 @@ public class SimpleCrudPortlet extends Portlet {
   private void restore(Factory f) {
       contactList = f.contactList;
       ...
-      for (int i = 0; i &lt; contactList.length; i++) {
+      for (int i = 0; i < contactList.length; i++) {
           Contact contact = contactList[i];
           int row = i + 1;
           grid.setText(row, 0, "" + contact.contactId);
@@ -315,14 +315,14 @@ The SimpleCrudDataProvider handles the refresh as shown below:
 
 {{{
 public class SimpleCrudDataProvider
-        implements WidgetDataProvider&lt;SimpleCrudPortlet.Factory&gt; {
+        implements WidgetDataProvider<SimpleCrudPortlet.Factory> {
     ...
     public void refresh(SimpleCrudPortlet.Factory f, PageRequest req) {
-        List&lt;SimpleCrudPortlet.Contact&gt; list = getContacts(req);
+        List<SimpleCrudPortlet.Contact> list = getContacts(req);
         if (f.update != null) {
             update(list, f.update);
         }
-        if (f.deleteContactId &gt; 0) {
+        if (f.deleteContactId > 0) {
             delete(list, f.deleteContactId);
         }
         save(req, list);
@@ -392,24 +392,24 @@ The framework supports the conversion of WidgetFactory trees to/from XML using X
 Here is part of the hello_world page from the demo:
 
 {{{
-&lt;LayoutPanel styleName="" limitMaximize="false"&gt;
-  &lt;widgets&gt;
-    &lt;LayoutPanel styleName="" limitMaximize="false"&gt;
-      &lt;widgets&gt;
-        &lt;LayoutPanel styleName="" limitMaximize="false"&gt;
-          &lt;widgets&gt;
-            &lt;TitlePanel styleName="portlet-title" title="Title" titleAuto="true"
+<LayoutPanel styleName="" limitMaximize="false">
+  <widgets>
+    <LayoutPanel styleName="" limitMaximize="false">
+      <widgets>
+        <LayoutPanel styleName="" limitMaximize="false">
+          <widgets>
+            <TitlePanel styleName="portlet-title" title="Title" titleAuto="true"
                     refresh="true"
-                    configure="true" edit="false" maximize="true" limitMaximize="true"&gt;
-              &lt;widgets&gt;
-                &lt;HelloWorldPortlet styleName=""/&gt;
-              &lt;/widgets&gt;
-              &lt;constraints&gt;
-                &lt;RowLayout-Constraints size="0.0" weight="1.0" maxSize="0"
-                    overflow="hidden"/&gt;
-              &lt;/constraints&gt;
+                    configure="true" edit="false" maximize="true" limitMaximize="true">
+              <widgets>
+                <HelloWorldPortlet styleName=""/>
+              </widgets>
+              <constraints>
+                <RowLayout-Constraints size="0.0" weight="1.0" maxSize="0"
+                    overflow="hidden"/>
+              </constraints>
 ...
-&lt;/LayoutPanel&gt;
+</LayoutPanel>
 }}}
 
 Storing the layout of an application GUI in XML files on the server has several advantages over hardcoding it into the Javascript:
@@ -427,9 +427,9 @@ public class WidgetFactoryXmlIO {
 ...
     /**
      * Add an alias for cls. The alias is the simple name of the class (i.e.
-     * without package) with the following modifications:&lt;br&gt;
-     * &lt;li&gt;Any 'Factory' suffix is removed
-     * &lt;li&gt;Any '$' is replaced with '-' (inner class names)
+     * without package) with the following modifications:<br>
+     * <li>Any 'Factory' suffix is removed
+     * <li>Any '$' is replaced with '-' (inner class names)
      * Also omits fields annotated with DoNotPersist or DoNotSendToServer.
      */
     public void alias(Class cls) {...}
@@ -536,12 +536,12 @@ public class DemoPage implements Serializable {
 The PagePortlet portlet displays the current page by listening for PageChangeEvents and swapping out a new tree of widgets in a content area on page changes. If the page is editable then an edit button is displayed that launches the online layout editor on click. After the ClientAreaPanel has been populated with the root page, a PageChageEvent containing the widgetFactory tree (page) for the history token is broadcast to all the widgets in the tree. This is picked up by the PagePortlet.
 
 {{{
-&lt;!-- Part of root.xml from the demo --&gt;
-&lt;LayoutPanel styleName="" limitMaximize="false"&gt;
+<!-- Part of root.xml from the demo -->
+<LayoutPanel styleName="" limitMaximize="false">
   ...
-  &lt;PagePortlet styleName="portlet-page"
+  <PagePortlet styleName="portlet-page"
         appTitle="GWT Portlets Demo"
-        prefix="GWT Portlets Demo: "/&gt;
+        prefix="GWT Portlets Demo: "/>
   ...
 }}}
 
@@ -638,7 +638,7 @@ public class Demo implements EntryPoint {
     public void onModuleLoad() {
         WidgetRefreshHook.App.set(new WidgetRefreshHook() {
             public void refresh(Widget w, WidgetFactory wf,
-                    AsyncCallback&lt;WidgetFactory&gt; cb) {
+                    AsyncCallback<WidgetFactory> cb) {
                 DemoService.App.get().refresh(History.getToken(), wf, cb);
             }
             public void onRefreshCallFailure(Widget w, Throwable caught) {
@@ -703,7 +703,7 @@ public abstract class PageProvider {
     }
 
     public void add(WidgetDataProvider p) {
-        Class&lt;? extends WidgetFactory&gt; key = p.getWidgetFactoryClass();
+        Class<? extends WidgetFactory> key = p.getWidgetFactoryClass();
         if (key == null) {
             throw new IllegalArgumentException("null not supported");
         }
@@ -725,7 +725,7 @@ The default layout of a LayoutPanel is RowLayout. This flexible layout manager s
 The size of each widget is controlled by a RowLayout.Constraints instance with the following properties:
 
   * `float size` The size of the widget in pixels (e.g. 100.0) or the fraction (0.3 for 30%) of available space it should take up
-  * `float weight` Weighting used to allocate extra space proportionally among widgets with weight &gt; 0
+  * `float weight` Weighting used to allocate extra space proportionally among widgets with weight > 0
   * `int maxSize` Maximum size of the widget in pixels or 0 for no limit
   * `String overflow` Value for overflow CSS style attribute to control scrollbars and clipping of the widgets content. Use one of the constants from LayoutConstraints: VISIBLE (don't clip), HIDDEN (clip), SCROLL (always show scrollbars) and AUTO (show scrollbars if needed but see warning below)
 
@@ -813,10 +813,10 @@ public class RowLayout implements Layout {
         /** Size=0.0, weight=1.0, MaxSize=0 */
         public Constraints(String overflow) {...}
 
-        /** MaxSize=0, if size &lt; 1.0 overflow=AUTO else overflow=HIDDEN */
+        /** MaxSize=0, if size < 1.0 overflow=AUTO else overflow=HIDDEN */
         public Constraints(float size, float weight) {...}
 
-        /** Weight=0.0, maxSize=0, if size &lt; 1.0 overflow=AUTO else overflow=HIDDEN */
+        /** Weight=0.0, maxSize=0, if size < 1.0 overflow=AUTO else overflow=HIDDEN */
         public Constraints(float size) {...}
 
         /** Size 0.0, weight 1.0, maxSize=0, overflow=AUTO */
@@ -977,14 +977,14 @@ Each widget on the current level on the tree is outlined by a blue rectangle. Th
   * Edit Constraints... Opens a dialog to edit layout constraints for the widget
   * Pickup Pickup the widget and click to drop it somewhere else. Change levels (use the mouse wheel) while "holding" a widget to move widgets between levels in the tree
   * Delete... Delete the widget
-  * Replace With &gt; Replace the widget with a different widget. If the new widget is a Container then the widget is placed inside the container. This is very useful for "splitting" the space occupied by a widget into a row or column and for putting widgets inside TitlePanel's
-  * Style &gt; Set the CSS style for the widget. The list of styles can be changed by overriding PageEditor.getStyleNamesFor(Widget)
+  * Replace With > Replace the widget with a different widget. If the new widget is a Container then the widget is placed inside the container. This is very useful for "splitting" the space occupied by a widget into a row or column and for putting widgets inside TitlePanel's
+  * Style > Set the CSS style for the widget. The list of styles can be changed by overriding PageEditor.getStyleNamesFor(Widget)
   * Edit... Edit settings for the widget that was clicked (in this case a TitlePanel)
   * Configure... Configure the Portlet that was clicked (if it supports configure e.g. FreeMemoryPortlet)
-  * Parent Container &gt; Edit settiings for the parent container of the clicked widget
+  * Parent Container > Edit settiings for the parent container of the clicked widget
   * Undo Undo the last action
   * Redo Redo the last undone action
-  * Add &gt; Select a new widget or container and click to drop it
+  * Add > Select a new widget or container and click to drop it
 
 Don't forget to click Save to save changes.
 
@@ -1082,28 +1082,28 @@ The MenuPortlet displays a lightweight HTML menu generated from an HTML template
 The template for the demo application (menu.html) is shown below:
 
 {{{
-&lt;a href="#home"&gt;Home&lt;/a&gt;
-&lt;a href="#portlets()"&gt;Portlets&lt;/a&gt;
-&lt;a href="#commands()"&gt;Commands&lt;/a&gt;
+<a href="#home">Home</a>
+<a href="#portlets()">Portlets</a>
+<a href="#commands()">Commands</a>
 
-&lt;div id="portlets"&gt;
-    &lt;a href="#hello_world"&gt;Hello World&lt;/a&gt;
-    &lt;a href="#free_memory"&gt;Free Memory&lt;/a&gt;
-    &lt;a href="#web_app_content"&gt;Web App Content&lt;/a&gt;
-    &lt;a href="#row_layout"&gt;Row Layout&lt;/a&gt;
-&lt;/div&gt;
+<div id="portlets">
+    <a href="#hello_world">Hello World</a>
+    <a href="#free_memory">Free Memory</a>
+    <a href="#web_app_content">Web App Content</a>
+    <a href="#row_layout">Row Layout</a>
+</div>
 
-&lt;div id="commands"&gt;
-    &lt;a href="#command_demo"&gt;Command Demo&lt;/a&gt;
-    &lt;a href="#command1(arg1,arg2)"&gt;Command1&lt;/a&gt;
-    &lt;a href="#command2()"&gt;Command2&lt;/a&gt;
-    &lt;a href="#command3()"&gt;Command3&lt;/a&gt;
-&lt;/div&gt;
+<div id="commands">
+    <a href="#command_demo">Command Demo</a>
+    <a href="#command1(arg1,arg2)">Command1</a>
+    <a href="#command2()">Command2</a>
+    <a href="#command3()">Command3</a>
+</div>
 }}}
 
   * Menu items are normal links and can contain history tokens ('`#home`'), external links and commands ('`#command1(arg1,arg2)`'). Note that other HTML elements may be present
-  * Submenus are identified by top level DIVs with id attributes e.g. `&lt;div id="portlets"&gt;`
-  * Menu items that activate sub menus have a matching href attribute and round brackets e.g. `&lt;a href="#portlets()"&gt;Portlets&lt;/a&gt;`
+  * Submenus are identified by top level DIVs with id attributes e.g. `<div id="portlets">`
+  * Menu items that activate sub menus have a matching href attribute and round brackets e.g. `<a href="#portlets()">Portlets</a>`
   * History token links with round brackets that do not activate sub menus broadcast a CommandEvent to all widgets when clicked
 
 The CommandDemoPortlet on command demo page displays the most recent CommandEvent received.
@@ -1162,11 +1162,11 @@ public class Theme {
 
     /**
      * Change to a different theme or NOP if the theme is already active.
-     * Expects to find a gwt-portlets-&lt;name&gt;.css stylesheet (unless the default
+     * Expects to find a gwt-portlets-<name>.css stylesheet (unless the default
      * 'BlueGradient' theme is selected) and an optional
-     * gwt_portlets_&lt;name&gt; Javascript object with overrides for dimensions
-     * of dialog headers and whatnot. &lt;b&gt;NB: This method reloads the
-     * application if the theme is changed.&lt;/b&gt;
+     * gwt_portlets_<name> Javascript object with overrides for dimensions
+     * of dialog headers and whatnot. <b>NB: This method reloads the
+     * application if the theme is changed.</b>
      */
     public void changeTheme(String name) {...}
 ...
@@ -1177,11 +1177,11 @@ The demo includes a ThemeListPortlet to display and change the theme.
 The list of available themes may be changed by defining a Javascript object in your bootstrap HTML file:
 
 {{{
-&lt;script type="text/javascript"&gt;
+<script type="text/javascript">
 var gwt_portlets = {
     themes: "BlueGradient, LightBlue, MyTheme"
 };
-&lt;/script&gt;
+</script>
 }}}
 
 == 8.2. Creating Themes ==
@@ -1224,13 +1224,13 @@ Defining a new theme that has the same dimensions for UI elements (e.g. dialog t
 If your theme changes the dimensions of things (e.g. dialog title bar height) then you also need to define a Javascript object (typically in your bootstrap HTML file):
 
 {{{
-&lt;script type="text/javascript"&gt;
+<script type="text/javascript">
 var gwt_portlets_MyTheme = {
     titleBarHeight: 20;
     titleBarLeftWidth : 6;
     ...
 };
-&lt;/script&gt;
+</script>
 }}}
 
 The framework widgets ask the Theme singleton to apply the selected theme, typically when their style is set:
