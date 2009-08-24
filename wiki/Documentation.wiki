@@ -3,8 +3,19 @@
 
 The GWT Portlets framework user manual is included in the download distribution (PDF and single HTML page). It is also available online in several formats:
 
-  * [Introduction Introduction (on this Wiki)]
   * [http://gwtportlets.googlecode.com/svn/wiki/doc/manual.pdf PDF]
   * [http://gwtportlets.googlecode.com/svn/wiki/doc/manual.html Single HTML page]
+
+The manual is also available on this Wiki:
+
+  * [Introduction]
+  * [Portlets]
+  * [Concepts]
+  * [AppStructure Application Structure]
+  * [Layouts]
+  * [PageEditor Page Editor]
+  * [Widgets Widgets]
+  * [Themes]
+  * [Spring]
 
 The manual Docbook V4.5 XML source and stylesheets are not included in the download bundle. The manual must be built from the Subversion source.
