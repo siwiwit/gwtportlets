@@ -1,5 +1,7 @@
 #summary Manual Chapter 3. Other Concepts
 
+>> [Introduction] / [Portlets] / [Concepts] / [AppStructure Application Structure] / [Layouts] / [PageEditor Page Editor] / [Widgets Widgets] / [Themes] / [Spring] <<
+
 == Chapter 3. Other Concepts ==
 
 This chapter describes the key concepts and ideas used by the framework.
@@ -148,3 +150,5 @@ panel.layout(); // adding widgets does not automatically redo the layout
 ----
 
 ^[[#d0e371 1]] ^http://xstream.codehaus.org/
+
+>> [Introduction] / [Portlets] / [Concepts] / [AppStructure Application Structure] / [Layouts] / [PageEditor Page Editor] / [Widgets Widgets] / [Themes] / [Spring] <<

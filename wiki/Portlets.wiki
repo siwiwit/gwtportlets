@@ -1,5 +1,7 @@
 #summary Manual Chapter 2. Portlets
 
+>> [Introduction] / [Portlets] / [Concepts] / [AppStructure Application Structure] / [Layouts] / [PageEditor Page Editor] / [Widgets Widgets] / [Themes] / [Spring] <<
+
 == Chapter 2. Portlets ==
 
 A portlet is a GWT Widget (it extends Composite) with features that make it easier to build GWT applications composed of decoupled components:
@@ -255,3 +257,5 @@ Deleting a Contact is done when the delete button is clicked, the deleteContactI
 The update method in SimpleCrudDataProvider throws an IllegalArgumentException on duplicate names. This causes the refresh to fail and an error alert is displayed on the client side.
 
 Using the Portlet refresh machanism for updates and deletes removes the need for additional RPC methods and associated complexity.
+
+>> [Introduction] / [Portlets] / [Concepts] / [AppStructure Application Structure] / [Layouts] / [PageEditor Page Editor] / [Widgets Widgets] / [Themes] / [Spring] <<

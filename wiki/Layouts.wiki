@@ -1,5 +1,7 @@
 #summary Manual Chapter 5. Layouts
 
+>> [Introduction] / [Portlets] / [Concepts] / [AppStructure Application Structure] / [Layouts] / [PageEditor Page Editor] / [Widgets Widgets] / [Themes] / [Spring] <<
+
 == Chapter 5. Layouts ==
 
 GWT Portlets provides an absolute positioning framework with pluggable layout managers (similar to Swing and other thick client GUI toolkits). This chapter explains how LayoutPanel and its default RowLayout work.
@@ -182,3 +184,5 @@ public class LDOM {
     public static Rectangle getContentBounds(Widget w) {...}
 ...
 }}}
+
+>> [Introduction] / [Portlets] / [Concepts] / [AppStructure Application Structure] / [Layouts] / [PageEditor Page Editor] / [Widgets Widgets] / [Themes] / [Spring] <<

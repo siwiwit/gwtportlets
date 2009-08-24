@@ -1,5 +1,7 @@
 #summary Manual Chapter 6. The Page Editor
 
+>> [Introduction] / [Portlets] / [Concepts] / [AppStructure Application Structure] / [Layouts] / [PageEditor Page Editor] / [Widgets Widgets] / [Themes] / [Spring] <<
+
 == Chapter 6. The Page Editor ==
 
 The framework supports editing of pages (actually any tree of Containers and Portlets) in the browser. The application using the framework controls how the page editor is launched and what happens when the user "saves" a page or tree. The demo application uses the PagePortlet to display pages and this portlet displays a spanner icon on the bottom right hand corner of the client area for editable pages.
@@ -90,3 +92,5 @@ Each widget on the current level on the tree is outlined by a blue rectangle. Th
   * Add > Select a new widget or container and click to drop it
 
 Don't forget to click Save to save changes.
+
+>> [Introduction] / [Portlets] / [Concepts] / [AppStructure Application Structure] / [Layouts] / [PageEditor Page Editor] / [Widgets Widgets] / [Themes] / [Spring] <<

@@ -1,5 +1,7 @@
 #summary Manual Chapter 9. Integrating with Spring
 
+>> [Introduction] / [Portlets] / [Concepts] / [AppStructure Application Structure] / [Layouts] / [PageEditor Page Editor] / [Widgets Widgets] / [Themes] / [Spring] <<
+
 == Chapter 9. Integrating with Spring ==
 
 Spring is a platform for building Enterprise Java applications. It provides lifecycle management and wiring for application components (among other features). A Spring / GWT Portlets application will typically do the following:
@@ -8,3 +10,5 @@ Spring is a platform for building Enterprise Java applications. It provides life
   * Make the application PageProvider a Spring bean with an `@Autowired` WidgetDataProvider[] property to discover all WidgetDataProviders
 
 A complete demo application using Spring and JPA (Java Persistence API) will added to the distribution soon.
+
+>> [Introduction] / [Portlets] / [Concepts] / [AppStructure Application Structure] / [Layouts] / [PageEditor Page Editor] / [Widgets Widgets] / [Themes] / [Spring] <<

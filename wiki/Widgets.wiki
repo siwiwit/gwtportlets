@@ -1,5 +1,7 @@
 #summary Manual Chapter 7. UI Widgets
 
+>> [Introduction] / [Portlets] / [Concepts] / [AppStructure Application Structure] / [Layouts] / [PageEditor Page Editor] / [Widgets Widgets] / [Themes] / [Spring] <<
+
 == Chapter 7. UI Widgets ==
 
 The framework includes useful portlets and the widgets needed for its own UI (to avoid having to depend on other GWT libraries). The aim of the GWT Portlets framework is to make it easier to produce modular, decoupled business applications using GWT, not to create a widget library.
@@ -150,3 +152,5 @@ ShadowPanel adds a fuzzy shadow to a single widget. The look of the shadow is co
 Widget w = ...
 ShadowPanel sp = new ShadowPanel(w);
 }}}
+
+>> [Introduction] / [Portlets] / [Concepts] / [AppStructure Application Structure] / [Layouts] / [PageEditor Page Editor] / [Widgets Widgets] / [Themes] / [Spring] <<
