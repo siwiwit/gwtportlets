@@ -1,4 +1,4 @@
-# Chapter 9. Integrating with Spring
+#summary Chapter 9. Integrating with Spring
 
 == Chapter 9. Integrating with Spring ==
 
