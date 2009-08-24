@@ -383,43 +383,29 @@ public class HelloWorldDataProvider
   <chapter id="concepts">
     <title>Other Concepts</title>
     <para>This chapter describes the key concepts and ideas used by the framework.</para>
-    <section id="containers_and_layouts">
-      <title>Containers &amp; Layouts</title>
-      <para>The framework provides support for absolute positioning of widgets within each other and the browser viewport. Widgets (e.g. Portlets) are arranged using constraints and layout managers in a manner similar to Swing and AWT. This approach makes it possible to create scrolling regions and to build a browser based &quot;desktop style&quot; application. Static (i.e. normal browser flow) positioning can still be used for the &quot;contents&quot; of widgets and is often easier than trying to control the position and size of every button and label using absolute positioning.</para>
-      <para>The Container interface extends GWTs concept of a &quot;Panel&quot; to add support for pluggable layout managers and layout constraints:</para>
-      <programlisting>package org.gwtportlets.portlet.client.layout;
-...
-public interface Container extends HasWidgets, IndexedPanel, WidgetFactoryProvider,
-          PositionAware {
-    ...
-    public Layout getLayout();
-    public void setLayout(Layout layout);
-    public LayoutConstraints getLayoutConstraints(Widget widget);
-    public void setLayoutConstraints(Widget widget, LayoutConstraints constraints);
- 
-    /**
-     * Redo this containers layout. Note that containers do not automatically
-     * call layout() when widgets are added/removed etc. Only resizing the
-     * container triggers automatic layout.
-     */
-    public void layout();
-    ...
-}</programlisting>
-      <para>Note that Container extends PositionAware. PositionAware widgets are notified when their position and/or size may have been updated by a call to the boundsUpdated() method from the interface. Containers redo their layouts and reposition their children in response to a boundsUpdated() call.</para>
-      <para>Two layouts are included with the framework:</para>
-      <itemizedlist>
-        <listitem>
-          <para><code>RowLayout</code> Lays out widgets in a row or a column with using minimum sizes and weights to make use of available space. Nested containers using RowLayout can be used to construct &quot;border layout&quot; and others </para>
-        </listitem>
-        <listitem>
-          <para><code>DeckLayout</code> Places widgets on top of each other. Useful for creating &quot;tab panels&quot; and for putting AJAX loading pizzas above other widgets etc. </para>
-        </listitem>
-      </itemizedlist>
-      <para>LayoutPanel is a general purpose Container implementation used by many of the Widgets in the framework. It is covered in detail on this page and here is a small sample:</para>
-      <programlisting>LayoutPanel panel = new LayoutPanel(); // defaults to RowLayout in a column
-panel.add(chart); // use all free space and include scrollbars if needed 
-panel.add(label, 24); // 24 pixels high, no scrollbars (overflow is hidden)
-panel.layout(); // adding widgets does not automatically redo the layout</programlisting>
+    <section>
+      <title>The Open Page Process</title>
+      <para>Page layouts are loaded when the history token changes e.g. the user clicks on an internal link or bookmark. The history token is used to select a page file to load as shown in the following diagram:</para>
+        <figure>
+          <title>Open Page Process</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata width="100%" contentdepth="100%" scalefit="1"  fileref="img/open_page_process.gif"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+    </section>
+    <section>
+      <title>The Portlet Refresh Process</title>
+      <para>All portlets can be refreshed by calling <code>Portlet.refresh()</code>. This might be triggered by a user clicking the refresh button on a TitlePanel containing a Portlet or by the Portlet itself. The Portlet is asked to provide a PortletFactory instance containing its state and this is sent to the server to be updated as shown in the following diagram:</para>
+        <figure>
+          <title>Portlet Refresh Process</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata width="100%" contentdepth="100%" scalefit="1"  fileref="img/refresh_process.gif"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
     </section>
     <section id="widget_factory_trees">
       <title>WidgetFactory Trees</title>
@@ -492,6 +478,44 @@ public class WidgetFactoryXmlIO {
 ...</programlisting>
       <para>It aliases all the framework classes in its constructor. Applications will usually use Spring or a similar framework to discover all of the PortletFactory&apos;s and alias them at initialisation time.</para>
       <para>As mentioned in the Javadoc comment in the code fragment, fields annotated with DoNotPersist or DoNotSendToServer are not included in the XML. This is useful when fields in a PortletFactory are used only on the client side (DoNotSendToServer) or are used to pass information back to the server (DoNotPersist) that should not not end up in page XML files.</para>
+    </section>
+    <section id="containers_and_layouts">
+      <title>Containers &amp; Layouts</title>
+      <para>The framework provides support for absolute positioning of widgets within each other and the browser viewport. Widgets (e.g. Portlets) are arranged using constraints and layout managers in a manner similar to Swing and AWT. This approach makes it possible to create scrolling regions and to build a browser based &quot;desktop style&quot; application. Static (i.e. normal browser flow) positioning can still be used for the &quot;contents&quot; of widgets and is often easier than trying to control the position and size of every button and label using absolute positioning.</para>
+      <para>The Container interface extends GWTs concept of a &quot;Panel&quot; to add support for pluggable layout managers and layout constraints:</para>
+      <programlisting>package org.gwtportlets.portlet.client.layout;
+...
+public interface Container extends HasWidgets, IndexedPanel, WidgetFactoryProvider,
+          PositionAware {
+    ...
+    public Layout getLayout();
+    public void setLayout(Layout layout);
+    public LayoutConstraints getLayoutConstraints(Widget widget);
+    public void setLayoutConstraints(Widget widget, LayoutConstraints constraints);
+ 
+    /**
+     * Redo this containers layout. Note that containers do not automatically
+     * call layout() when widgets are added/removed etc. Only resizing the
+     * container triggers automatic layout.
+     */
+    public void layout();
+    ...
+}</programlisting>
+      <para>Note that Container extends PositionAware. PositionAware widgets are notified when their position and/or size may have been updated by a call to the boundsUpdated() method from the interface. Containers redo their layouts and reposition their children in response to a boundsUpdated() call.</para>
+      <para>Two layouts are included with the framework:</para>
+      <itemizedlist>
+        <listitem>
+          <para><code>RowLayout</code> Lays out widgets in a row or a column with using minimum sizes and weights to make use of available space. Nested containers using RowLayout can be used to construct &quot;border layout&quot; and others </para>
+        </listitem>
+        <listitem>
+          <para><code>DeckLayout</code> Places widgets on top of each other. Useful for creating &quot;tab panels&quot; and for putting AJAX loading pizzas above other widgets etc. </para>
+        </listitem>
+      </itemizedlist>
+      <para>LayoutPanel is a general purpose Container implementation used by many of the Widgets in the framework. It is covered in detail on this page and here is a small sample:</para>
+      <programlisting>LayoutPanel panel = new LayoutPanel(); // defaults to RowLayout in a column
+panel.add(chart); // use all free space and include scrollbars if needed 
+panel.add(label, 24); // 24 pixels high, no scrollbars (overflow is hidden)
+panel.layout(); // adding widgets does not automatically redo the layout</programlisting>
     </section>
   </chapter>
   <chapter id="app_structure">
