@@ -1,4 +1,5 @@
 #summary Manual Chapter 1. Introduction
+#labels Featured
 
 >> [Introduction] / [Portlets] / [Concepts] / [AppStructure Application Structure] / [Layouts] / [PageEditor Page Editor] / [Widgets Widgets] / [Themes] / [Spring] <<
 
