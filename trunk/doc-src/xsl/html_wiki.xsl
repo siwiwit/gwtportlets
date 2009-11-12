@@ -111,11 +111,14 @@
 	<!-- use title as Google Code Wiki page summary line -->
     <xsl:template name="header.navigation">
         <xsl:text>#summary Manual </xsl:text><xsl:apply-templates select="." mode="object.title.markup"/>
+        <p><xsl:text>&gt;&gt; [Introduction] / [Portlets] / [Concepts] / [AppStructure Application Structure] / [Layouts] / [PageEditor Page Editor] / [Widgets Widgets] / [Themes] / [Spring] &lt;&lt;</xsl:text></p>
     </xsl:template>
 
     <!-- no footer navigation -->
-    <xsl:template name="footer.navigation"/>
-    
+    <xsl:template name="footer.navigation">
+        <p><xsl:text>&gt;&gt; [Introduction] / [Portlets] / [Concepts] / [AppStructure Application Structure] / [Layouts] / [PageEditor Page Editor] / [Widgets Widgets] / [Themes] / [Spring] &lt;&lt;</xsl:text></p>
+    </xsl:template>
+
     <!--<xsl:param name="navig.showtitles">1</xsl:param>-->
 
     <!-- let's have a Powered by Interface21 banner across the bottom of each page -->
