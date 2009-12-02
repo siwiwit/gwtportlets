@@ -48,7 +48,7 @@ public class RefreshHelper {
      * @see org.gwtportlets.portlet.client.WidgetRefreshHook.App#get()
      */
     public void refresh(final Widget w, AsyncCallback<WidgetFactory> callback) {
-        refresh(w, ((WidgetFactoryProvider)w).createWidgetFactory(), callback);
+        refresh(w, ((WidgetFactoryProvider)w).createWidgetFactory(), callback, false);
     }
 
     /**
@@ -56,26 +56,35 @@ public class RefreshHelper {
      * WidgetRefreshHandler has been set.
      *
      * @param callback Invoked after completion or failure if not null
-     *
+     * @param quiet If true then {@link #isRefreshBusy()} will return false
+     *              for this refresh i.e. spinners etc will not deploy
      * @see org.gwtportlets.portlet.client.WidgetRefreshHook.App#get()
      */
     public void refresh(final Widget w, WidgetFactory wf,
-            final AsyncCallback<WidgetFactory> callback) {
+            final AsyncCallback<WidgetFactory> callback, final boolean quiet) {
         WidgetRefreshHook rh = WidgetRefreshHook.App.get();
         if (rh == null) {
             return;
         }
         LayoutUtil.clearDoNotSendToServerFields(wf);
-        ++refreshBusy;
+        if (!quiet) {
+            ++refreshBusy;
+        }
         fireChangeEvent(w);
         rh.refresh(w, wf, new AsyncCallback<WidgetFactory>() {
             public void onFailure(Throwable caught) {
+                if (!quiet) {
+                    --refreshBusy;
+                }
                 RefreshHelper.this.onRefreshCallFailure(w, caught);
                 if (callback != null) {
                     callback.onFailure(caught);
                 }
             }
             public void onSuccess(WidgetFactory wf) {
+                if (!quiet) {
+                    --refreshBusy;
+                }
                 RefreshHelper.this.onRefreshCallSuccess(w, wf);
                 if (callback != null) {
                     callback.onSuccess(wf);
@@ -89,14 +98,12 @@ public class RefreshHelper {
     }
 
     public void onRefreshCallFailure(Widget w, Throwable caught) {
-        --refreshBusy;
         fireChangeEvent(w);
         GWT.log("Refresh failed: " + caught, caught);
         WidgetRefreshHook.App.get().onRefreshCallFailure(w, caught);
     }
 
     public void onRefreshCallSuccess(Widget w, WidgetFactory wf) {
-        --refreshBusy;
         try {
             wf.refresh(w);
         } catch (Exception e) {

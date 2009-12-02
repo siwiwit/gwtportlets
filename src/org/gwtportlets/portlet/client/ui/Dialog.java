@@ -523,6 +523,9 @@ public class Dialog extends PopupPanel implements AsyncCallback<WidgetFactory> {
     }
 
     public void onFailure(Throwable caught) {
+        if (!isShowing()) {
+            show();
+        }
     }
 
     public void onSuccess(WidgetFactory result) {
