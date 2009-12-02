@@ -131,8 +131,21 @@ public abstract class Portlet extends PositionAwareComposite
      * @param callback Invoked after completion or failure if not null
      */
     public void refresh(WidgetFactory wf, AsyncCallback<WidgetFactory> callback) {
+        refresh(wf, callback, false);
+    }
+
+
+    /**
+     * Refresh using the supplied WidgetFactory.
+     *
+     * @param callback Invoked after completion or failure if not null
+     * @param quiet If true then spinners and so on will not deploy for this
+ *              refresh
+     */
+    public void refresh(WidgetFactory wf, AsyncCallback<WidgetFactory> callback,
+            boolean quiet) {
         ensureRefreshHelper();
-        refreshHelper.refresh(this, wf, callback);
+        refreshHelper.refresh(this, wf, callback, quiet);
     }
 
     /**
