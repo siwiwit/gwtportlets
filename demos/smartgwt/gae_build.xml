@@ -1,0 +1,52 @@
+<project name="gae" default="runserver" basedir=".">
+    <property file="build.properties"/>
+    <property name="APP.ENGINE.SDK.HOME" location=""/>
+
+    <import file="${APP.ENGINE.SDK.HOME}/config/user/ant-macros.xml"/>
+    <import file="build.xml"/>
+
+    <target name="runserver" depends="gwtc"
+            description="Starts the development server.">
+        <dev_appserver war="war">
+        </dev_appserver>
+    </target>
+
+    <target name="debugserver" depends="gwtc"
+            description="Starts the development server.">
+        <copy todir="war">
+            <fileset dir="web"/>
+        </copy>
+        <dev_appserver war="war">
+            <options>
+                <arg value="--jvm_flag=-Xdebug"/>
+                <arg value="--jvm_flag=-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9999"/>
+            </options>
+        </dev_appserver>
+    </target>
+    <target name="update" depends="gwtc"
+            description="Uploads the application to App Engine.">
+        <copy todir="war/WEB-INF/lib" flatten="true">
+            <fileset dir="${APP.ENGINE.SDK.HOME}/lib/user" includes="**/*.jar"/>
+        </copy>
+
+        <appcfg action="update" war="war">
+        </appcfg>
+    </target>
+
+    <target name="rollback" depends="gwtc"
+            description="Rolls back an interrupted application update.">
+        <appcfg action="rollback" war="war"/>
+    </target>
+
+    <target name="request_logs"
+            description="Downloads log data from App Engine for the application.">
+        <appcfg action="request_logs" war="war">
+            <options>
+                <arg value="--num_days=5"/>
+            </options>
+            <args>
+                <arg value="logs.txt"/>
+            </args>
+        </appcfg>
+    </target>
+</project>

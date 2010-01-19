@@ -7,6 +7,9 @@ gwtc.style=PRETTY
 # Some demos can run in hosted mode without Tomcat
 tomcat.home=/usr/local/apache-tomcat-5.5.26
 
+# SmartGwt is only required to compile gwt-portlets-smartgwt.jar and to run the smartgwt demo
+smartgwt.sdk=/usr/local/smartgwt-2.0
+
 # Only needed to generate PDF documentation
 fop.home=/usr/local/fop-0.95
 

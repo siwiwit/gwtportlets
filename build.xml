@@ -46,6 +46,7 @@ Run "ant -p" in the root of this project to see available targets.
     <property name="gwt.sdk" value=""/>
     <property name="fop.home" value=""/>
     <property name="classes" value="build/classes"/>
+    <property name="classes-smartgwt" value="build/classes-smartgwt"/>
 
     <!-- jars from lib that are copied to each demo -->
     <property name="lib.jars" value="**/log4j*.jar,**/xmlpull*.jar,**/xpp3*.jar,**/xstream*.jar"/>
@@ -56,15 +57,24 @@ Run "ant -p" in the root of this project to see available targets.
         <fileset dir="${gwt.sdk}" includes="gwt-user.jar,gwt-servlet.jar,gwt-dev*.jar"/>
     </path>
 
+    <path id="cp-smartgwt">
+        <path refid="cp"/>
+        <fileset dir="${smartgwt.sdk}" includes="smartgwt.jar,smartgwt-skins.jar"/>
+        <fileset dir="." includes="gwt-portlets.jar"/>
+    </path>
+
     <tstamp>
         <format property="TODAY" pattern="dd MMMM yyyy"/> 
     </tstamp>
 
     <target name="clean" description="Nuke all generated files">
         <delete dir="build"/>
-        <delete dir="." includes="gwt-portlets.jar"/>
-        <delete dir="demos" includes="**/gwt-portlets.jar,${lib.jars}"/>
+        <delete dir="." includes="gwt-portlets.jar,gwt-portlets-smartgwt.jar"/>
+        <delete dir="demos" includes="**/gwt-portlets.jar,**/gwt-portlets-smartgwt.jar,${lib.jars}"/>
+        <delete dir="demos/main/lib-hosted"/>
+        <delete dir="demos/smartgwt/lib-hosted"/>
         <ant dir="demos/main" target="clean" inheritall="false"/>
+        <ant dir="demos/smartgwt" target="clean" inheritall="false"/>
     </target>
 
     <target name="javac" depends="check-props">
@@ -78,11 +88,30 @@ Run "ant -p" in the root of this project to see available targets.
         </copy>
     </target>
 
+    <target name="javac-smartgwt" depends="check-props-smartgwt">
+        <mkdir dir="${classes-smartgwt}"/>
+        <javac srcdir="src-smartgwt" destdir="${classes-smartgwt}" debug="true" source="1.5"
+               target="1.5" classpathref="cp-smartgwt"/>
+        <copy todir="${classes-smartgwt}" verbose="false">
+            <fileset dir="src-smartgwt">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+
     <target name="jar" depends="javac"
             description="Create gwt-portlets.jar">
         <jar destfile="gwt-portlets.jar">
             <fileset dir="${classes}"/>
             <fileset dir="src" includes="**/*.java"/>
+        </jar>
+    </target>
+
+    <target name="jar-smartgwt" depends="jar, javac-smartgwt"
+            description="Create gwt-portlets-smartgwt.jar">
+        <jar destfile="gwt-portlets-smartgwt.jar">
+            <fileset dir="${classes-smartgwt}"/>
+            <fileset dir="src-smartgwt" includes="**/*.java"/>
         </jar>
     </target>
 
@@ -93,6 +122,15 @@ Run "ant -p" in the root of this project to see available targets.
         </copy>
         <copy todir="demos/main/war/WEB-INF/lib">
             <fileset dir="." includes="gwt-portlets.jar"/>
+            <fileset dir="lib" includes="${lib.jars}"/>
+        </copy>
+
+        <copy todir="demos/smartgwt" file="build.properties"/>
+        <copy todir="demos/smartgwt">
+            <fileset dir="." includes="lib-hosted/**"/>
+        </copy>
+        <copy todir="demos/smartgwt/war/WEB-INF/lib">
+            <fileset dir="." includes="gwt-portlets.jar,gwt-portlets-smartgwt.jar"/>
             <fileset dir="lib" includes="${lib.jars}"/>
         </copy>
     </target>
@@ -155,6 +193,27 @@ Run "ant -p" in the root of this project to see available targets.
         <java2html destination="${html.src.dir}" header="false" footer="false">
             <fileset dir="src" includes="**/*.java"/>
             <fileset dir="demos/main/src" includes="**/*.java"/>
+        </java2html>
+        <replace dir="${html.src.dir}">
+            <replacetoken><![CDATA[</BODY>]]></replacetoken>
+            <replacevalue><![CDATA[<BR>
+                <p style="font-size:12px;color:#666666">
+                // Part of <a href="http://code.google.com/p/gwtportlets/">GWT Portlets</a> @RELEASE@
+                - Copyright &#169; 2009 <a href="http://www.bsg.co.za/web/guest/software_solutions">BSG(Africa)</a>
+                - Released under <a href="http://www.gnu.org/licenses/lgpl.html">LGPL license</a>
+                </p></BODY>]]></replacevalue>
+            <replacefilter token="@RELEASE@" value="${release}"/>
+        </replace>
+    </target>
+
+    <target name="java2html-smartgwt" description="Generate HTML of src into demos/smartgwt">
+        <taskdef name="java2html" classname="com.java2html.Java2HTMLTask"
+                 classpathref="cp-smartgwt"/>
+        <property name="html.src.dir" value="demos/smartgwt/war/src"/>
+        <mkdir dir="${html.src.dir}"/>
+        <java2html destination="${html.src.dir}" header="false" footer="false">
+            <fileset dir="src" includes="**/*.java"/>
+            <fileset dir="demos/smartgwt/src" includes="**/*.java"/>
         </java2html>
         <replace dir="${html.src.dir}">
             <replacetoken><![CDATA[</BODY>]]></replacetoken>
@@ -277,6 +336,17 @@ to build.properties and edit it to match your environment
         <available property="gwt.sdk.exists" file="${gwt.sdk}"/>
         <fail unless="gwt.sdk.exists"
               message="gwt.sdk does not exist: ${gwt.sdk}"/>
+    </target>
+
+    <target name="check-props-smartgwt" depends="check-props">
+        <fail message="smartgwt.sdk not set in build.properties">
+            <condition>
+                <equals arg1="${smartgwt.sdk}" arg2=""/>
+            </condition>
+        </fail>
+        <available property="smartgwt.sdk.exists" file="${smartgwt.sdk}"/>
+        <fail unless="smartgwt.sdk.exists"
+              message="smartgwt.sdk does not exist: ${smartgwt.sdk}"/>
     </target>
 
 </project>
