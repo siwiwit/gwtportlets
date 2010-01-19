@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ GWT Portlets Framework (http://code.google.com/p/gwtportlets/)
+  ~ Copyright 2009 Business Systems Group (Africa)
+  ~
+  ~ This file is part of GWT Portlets.
+  ~
+  ~ GWT Portlets is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Lesser General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ GWT Portlets is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ along with GWT Portlets.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<web-app>
+
+    <welcome-file-list>
+        <welcome-file>Demo.html</welcome-file>
+    </welcome-file-list>
+
+    <filter>
+        <filter-name>cacheHeaderFilter</filter-name>
+        <filter-class>org.gwtportlets.portlet.server.CacheHeaderFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>cacheHeaderFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-class>smartgwt.server.DemoServiceImpl</servlet-class>
+        <servlet-name>DemoService</servlet-name>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DemoService</servlet-name>
+        <url-pattern>/smartgwt/rpc</url-pattern>
+    </servlet-mapping>
+
+    <!-- This makes sure that the Jetty JSP compiler (used in hosted mode)
+         allows JDK 1.5 source. Otherwise it expects 1.4.
+         http://code.google.com/p/raisercostin/wiki/GwtEclipsePluginDebug
+         Comment out this servlet when deploying to google app engine.
+         -->
+    <servlet>
+        <servlet-name>jsp</servlet-name>                  <servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
+        <init-param>
+            <param-name>compilerSourceVM</param-name>
+            <param-value>1.5</param-value>
+        </init-param>
+        <init-param>
+            <param-name>compilerTargetVM</param-name>
+            <param-value>1.5</param-value>
+        </init-param>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+
+</web-app>

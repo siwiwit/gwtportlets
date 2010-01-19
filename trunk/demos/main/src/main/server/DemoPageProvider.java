@@ -32,6 +32,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.lang.reflect.Modifier;
 
 /**
  * Loads our pages to/from XML files. This implementation checks for the
@@ -74,11 +75,14 @@ public class DemoPageProvider extends PageProvider {
 
         // create an instance of each DataProvider
         for (Class cls : cf.findClasses("DataProvider", WidgetDataProvider.class)) {
-            log.info("Data provider: " + cls.getName());
-            try {
-                add((WidgetDataProvider)cls.newInstance());
-            } catch (Exception e) {
-                log.error(e, e);
+            int mod = cls.getModifiers();
+            if (!Modifier.isAbstract(mod) && !Modifier.isInterface(mod)) {
+                log.info("Data provider: " + cls.getName());
+                try {
+                    add((WidgetDataProvider)cls.newInstance());
+                } catch (Exception e) {
+                    log.error(e, e);
+                }
             }
         }
     }
