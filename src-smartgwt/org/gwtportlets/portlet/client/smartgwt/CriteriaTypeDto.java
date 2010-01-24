@@ -29,15 +29,12 @@ public enum CriteriaTypeDto implements IsSerializable {
 	ALL_EQUAL, //TODO: Implement usage for this filter
 	BETWEEN,
 	EQUAL,
-    NOT_EQUAL,
 	GREATER_THAN_OR_EQUAL,
 	GREATER_THAN,
     LESS_THAN_OR_EQUAL,
     LESS_THAN,
 	IN, //TODO: Implement usage for this filter
 	IS_EMPTY, //TODO: Implement usage for this filter
-	IS_NOT_EMPTY, //TODO: Implement usage for this filter
-	IS_NOT_NULL,
 	IS_NULL,
 
     // Logical operators
@@ -49,12 +46,8 @@ public enum CriteriaTypeDto implements IsSerializable {
     STARTS_WITH,
 	ENDS_WITH,
     CONTAINS,
-    NOT_STARTS_WITH,
-	NOT_ENDS_WITH,
-	NOT_CONTAINS,
 
     // Field comparisons
-	EQUAL_FIELD,
-    NOT_EQUAL_FIELD
+	EQUAL_FIELD
 }
 

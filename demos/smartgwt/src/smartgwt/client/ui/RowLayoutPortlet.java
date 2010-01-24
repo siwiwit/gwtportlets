@@ -32,6 +32,7 @@ import org.gwtportlets.portlet.client.WidgetFactory;
 import org.gwtportlets.portlet.client.edit.row.RowConstraintsDialog;
 import org.gwtportlets.portlet.client.layout.*;
 import org.gwtportlets.portlet.client.ui.*;
+import org.gwtportlets.portlet.client.ui.LayoutPanel;
 import org.gwtportlets.portlet.client.util.FormBuilder;
 
 /**

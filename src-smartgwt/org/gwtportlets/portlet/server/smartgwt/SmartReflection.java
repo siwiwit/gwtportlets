@@ -91,9 +91,7 @@ public class SmartReflection<T> {
             field = getPublicField(cls, fieldName);
         }
         if (field != null) {
-//            log.info("Got Field");
             fieldCls = field.getClass();
-//            log.info("Class = " + fieldCls);
             try {
                 fieldValue = field.get(obj);
             } catch (IllegalAccessException e) {
@@ -107,9 +105,7 @@ public class SmartReflection<T> {
             if (method == null) {
                 throw new SmartReflectionException("Could not access the field: \"" + fieldName + "\" or its getter");
             }
-//            log.info("Got method");
             fieldCls = method.getReturnType();
-//            log.info("Class = " + fieldCls);
             try {
                 fieldValue = method.invoke(obj);
             } catch (IllegalAccessException e) {
@@ -157,11 +153,14 @@ public class SmartReflection<T> {
         if (fieldCls.equals(String.class)) {
             return fieldStringValue;
         }
-        if (fieldCls.equals(Integer.class)) {
+        if (fieldCls.equals(Integer.class) || fieldCls.equals(Integer.TYPE)) {
             return Integer.valueOf(fieldStringValue);
         }
-        if (fieldCls.equals(Double.class)) {
+        if (fieldCls.equals(Double.class) || fieldCls.equals(Double.TYPE)) {
             return Double.valueOf(fieldStringValue);
+        }
+        if (fieldCls.equals(Float.class) || fieldCls.equals(Float.TYPE)) {
+            return Float.valueOf(fieldStringValue);
         }
         if (fieldCls.equals(Date.class)) {
             try {

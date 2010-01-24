@@ -98,7 +98,7 @@ the demo will still run but no source will be displayed.
 
     <target name="hosted" description="Run demo in hosted mode" depends="javac">
         <java fork="true" failonerror="true" classpathref="dev-cp"
-              classname="com.google.gwt.dev.HostedMode">
+              classname="com.google.gwt.dev.DevMode">
             <arg value="-startupUrl"/>
             <arg value="/"/>
             <arg value="smartgwt.Main"/>
@@ -115,7 +115,7 @@ the demo will still run but no source will be displayed.
 
     <target name="hosted-noserver" description="Run demo in hosted mode with -noserver" depends="javac">
         <java fork="true" failonerror="true" classpathref="dev-cp"
-              classname="com.google.gwt.dev.HostedMode">
+              classname="com.google.gwt.dev.DevMode">
             <arg value="-noserver"/>
             <arg value="-port"/>
             <arg value="8080"/>

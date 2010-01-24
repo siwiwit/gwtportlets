@@ -37,6 +37,7 @@ public class CriteriaUtil {
     public static final String DATE_FORMAT = "yyyyMMddHHmmssZ";
     private static DateTimeFormat dateFormat;
     private static Map<String, CriteriaTypeDto> operatorMap;
+    private static Map<String, String> notOperatorMap;
 
     public static Map<String, CriteriaTypeDto> getOperatorMap() {
         if (operatorMap == null) {
@@ -45,7 +46,6 @@ public class CriteriaUtil {
             operatorMap.put("or", CriteriaTypeDto.OR);
             operatorMap.put("not", CriteriaTypeDto.NOT);
             operatorMap.put("equals", CriteriaTypeDto.EQUAL);
-            operatorMap.put("notequals", CriteriaTypeDto.NOT_EQUAL);
             operatorMap.put("lessthan", CriteriaTypeDto.LESS_THAN);
             operatorMap.put("lessorequal", CriteriaTypeDto.LESS_THAN_OR_EQUAL);
             operatorMap.put("greaterthan", CriteriaTypeDto.GREATER_THAN);
@@ -53,16 +53,24 @@ public class CriteriaUtil {
             operatorMap.put("icontains", CriteriaTypeDto.CONTAINS);
             operatorMap.put("istartswith", CriteriaTypeDto.STARTS_WITH);
             operatorMap.put("iendswith", CriteriaTypeDto.ENDS_WITH);
-            operatorMap.put("inotcontains", CriteriaTypeDto.NOT_CONTAINS);
-            operatorMap.put("inotstartswith", CriteriaTypeDto.NOT_STARTS_WITH);
-            operatorMap.put("inotendswith", CriteriaTypeDto.NOT_ENDS_WITH);
             operatorMap.put("isnull", CriteriaTypeDto.IS_NULL);
-            operatorMap.put("notnull", CriteriaTypeDto.IS_NOT_NULL);
             operatorMap.put("equalsfield", CriteriaTypeDto.EQUAL_FIELD);
-            operatorMap.put("notequalfield", CriteriaTypeDto.NOT_EQUAL_FIELD);
             operatorMap.put("between", CriteriaTypeDto.BETWEEN);
         }
         return operatorMap;
+    }
+
+    public static Map<String, String> getNotOperatorMap() {
+        if (notOperatorMap == null) {
+            notOperatorMap = new HashMap<String, String>();
+            notOperatorMap.put("notequal", "equals");
+            notOperatorMap.put("inotcontains", "icontains");
+            notOperatorMap.put("inotstartswith", "istartswith");
+            notOperatorMap.put("inotendswith", "iendswith");
+            notOperatorMap.put("notnull", "isnull");
+            notOperatorMap.put("notequalfield", "equalsfield");
+        }
+        return notOperatorMap;
     }
 
     public static DateTimeFormat getDateFormat() {
@@ -72,7 +80,7 @@ public class CriteriaUtil {
         return dateFormat;
     }
 
-    public static CriteriaDto createCriteriaDto(DataSource dataSource, JavaScriptObject jsObj) {
+    public static CriteriaDto createCriteriaDto(DataSource dataSource, JavaScriptObject jsObj) throws CriteriaException {
         String[] properties = JSOHelper.getProperties(jsObj);
 
         if (properties == null || properties.length == 0) {
@@ -95,61 +103,58 @@ public class CriteriaUtil {
             }
             return new AdvancedCriteriaDto(CriteriaTypeDto.AND, arr);
         }
+        operator = operator.toLowerCase();
         Map<String, CriteriaTypeDto> operatorMap = getOperatorMap();
-        CriteriaTypeDto operatorTypeDto = operatorMap.get(operator.toLowerCase());
+        CriteriaTypeDto operatorTypeDto = operatorMap.get(operator);
+        boolean isNot = false;
         if (operatorTypeDto == null) {
-            return null;
-            //TODO: Do something about exceptions
-            //throw new Exception("bad operator (" + operator + ") for criteria: '" + properties + "'");
+            isNot = true;
+            Map<String, String> notOperatorMap = getNotOperatorMap();
+            String newOperator = notOperatorMap.get(operator);
+            if (newOperator != null) {
+                operatorTypeDto = operatorMap.get(newOperator.toLowerCase());
+            }
+        }
+        if (operatorTypeDto == null) {
+            throw new CriteriaException("Unsupported operator " + operator);
         }
 
         if ("AdvancedCriteria".equalsIgnoreCase(JSOHelper.getAttribute(jsObj, "_constructor"))) {
             // Read the AdvancedCriteria object
-            if (properties.length < 3) {
-                //throw new Exception("bad AdvancedCriteria format: '");// + properties + "'");
-                return null;
-            }
-
             JavaScriptObject[] criteria = JSOHelper.getAttributeAsJavaScriptObjectArray(jsObj, "criteria");
-
             if (criteria == null) {
-                //throw new Exception("bad operands for AdvancedCriteria: '");// + properties + "'");
-                return null;
+                throw new CriteriaException("No criteria provided for Advanced Criteria");
             }
-
             CriteriaDto[] criteriaDtoArray = new CriteriaDto[criteria.length];
             for (int i = 0; i < criteriaDtoArray.length; i++) {
                 criteriaDtoArray[i] = createCriteriaDto(dataSource, criteria[i]);
             }
-
             return new AdvancedCriteriaDto(operatorTypeDto, criteriaDtoArray);
         }
 
+        SimpleCriteriaDto dto;
         String fieldName = JSOHelper.getAttribute(jsObj, "fieldName");
         if (fieldName == null) {
-            return new SimpleCriteriaDto(CriteriaTypeDto.EQUAL, properties[0], JSOHelper.getAttribute(jsObj, properties[0]));
-        }
-        if (operatorTypeDto == CriteriaTypeDto.BETWEEN) {
-            return new SimpleCriteriaDto(CriteriaTypeDto.BETWEEN, fieldName,
+            dto = new SimpleCriteriaDto(CriteriaTypeDto.EQUAL, properties[0],
+                    JSOHelper.getAttribute(jsObj, properties[0]));
+        } else if (operatorTypeDto == CriteriaTypeDto.BETWEEN) {
+            dto = new SimpleCriteriaDto(CriteriaTypeDto.BETWEEN, fieldName,
                     getTypedValue(dataSource, jsObj, fieldName, "start"),
                     getTypedValue(dataSource, jsObj, fieldName, "end"));
+        } else if (operatorTypeDto == CriteriaTypeDto.IS_NULL) {
+            dto = new SimpleCriteriaDto(operatorTypeDto, fieldName);
+        } else {
+            String value = getTypedValue(dataSource, jsObj, fieldName, "value");
+            dto = new SimpleCriteriaDto(operatorTypeDto, fieldName, value);
         }
-
-        String value = getTypedValue(dataSource, jsObj, fieldName, "value");
-        switch (operatorTypeDto) {
-            case NOT_CONTAINS:
-            case NOT_STARTS_WITH:
-            case NOT_ENDS_WITH:
-                return new AdvancedCriteriaDto(CriteriaTypeDto.NOT, new SimpleCriteriaDto(operatorTypeDto, fieldName, value));
-            case IS_NULL:
-            case IS_NOT_NULL:
-                return new SimpleCriteriaDto(operatorTypeDto, fieldName);
-            default:
-                return new SimpleCriteriaDto(operatorTypeDto, fieldName, value);
+        if (isNot) {
+            return new AdvancedCriteriaDto(CriteriaTypeDto.NOT, dto);
         }
+        return dto;
     }
 
-    protected static String getTypedValue(DataSource dataSource, JavaScriptObject jsObj, String fieldName, String valueFieldName) {
+    protected static String getTypedValue(DataSource dataSource, JavaScriptObject jsObj, String fieldName,
+                                          String valueFieldName) {
     	DataSourceField[] fields = dataSource.getFields();
     	for (DataSourceField field : fields) {
     		if(field.getName().equalsIgnoreCase(fieldName)) {
@@ -180,11 +185,20 @@ public class CriteriaUtil {
     	return null;
     }
 
-//    public static String getJsoAttributes(JavaScriptObject jso) {
-//        String arr[] = JSOHelper.getProperties(jso);
-//        StringBuilder b = new StringBuilder();
-//        for (String name : arr) {
-//            b.append(name).append(" = ").append(JSOHelper.getProperties)
-//        }
-//    }
+    public static class CriteriaException extends Exception {
+        public CriteriaException() {
+        }
+
+        public CriteriaException(String message) {
+            super(message);
+        }
+
+        public CriteriaException(String message, Throwable cause) {
+            super(message, cause);
+        }
+
+        public CriteriaException(Throwable cause) {
+            super(cause);
+        }
+    }
 }

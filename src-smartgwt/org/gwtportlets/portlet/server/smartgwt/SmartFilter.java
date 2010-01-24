@@ -145,37 +145,23 @@ public class SmartFilter<T> {
         CriteriaTypeDto t = c.getType();
         if (arr.length == 1) {
             Comparable value = reflection.getFieldValue(obj, arr[0]);
-            switch (t) {
-                case IS_NULL:
-                    return value == null;
-                case IS_NOT_NULL:
-                    return value != null;
+            if (t == CriteriaTypeDto.IS_NULL) {
+                return value == null;
             }
         } else if (arr.length == 2) {
             Comparable value = reflection.getFieldValue(obj, arr[0]);
-            if (t == CriteriaTypeDto.EQUAL_FIELD || t == CriteriaTypeDto.NOT_EQUAL_FIELD) {
+            if (t == CriteriaTypeDto.EQUAL_FIELD) {
                 Comparable valueComparison = reflection.getFieldValue(obj, arr[1]);
-                boolean b = value == valueComparison ||
+                return value == valueComparison ||
                         (value != null && valueComparison != null && value.compareTo(valueComparison) == 0);
-                if (t == CriteriaTypeDto.EQUAL_FIELD) {
-                    return b;
-                }
-                return !b;
             }
 
             Comparable valueComparison = reflection.parseFieldValue((Class<T>)obj.getClass(), arr[0], arr[1]);
-            boolean not = false;
             boolean bothNotNull = value != null && valueComparison != null;
             boolean bothNull = value == null && valueComparison == null;
             switch (t) {
-                case BETWEEN:
-                    Comparable valueComparison2 = reflection.parseFieldValue((Class<T>)obj.getClass(), arr[0], arr[2]);
-                    return bothNotNull && valueComparison2 != null &&
-                            value.compareTo(valueComparison) >= 0 && value.compareTo(valueComparison2) <= 0;
-                case NOT_EQUAL:
-                    not = true;
                 case EQUAL:
-                    return not ^ (bothNull || (bothNotNull && value.compareTo(valueComparison) == 0));
+                    return bothNull || (bothNotNull && value.compareTo(valueComparison) == 0);
                 case LESS_THAN:
                     return bothNotNull && value.compareTo(valueComparison) < 0;
                 case LESS_THAN_OR_EQUAL:
@@ -190,27 +176,66 @@ public class SmartFilter<T> {
             String valueComparisonString = (valueComparison instanceof String) ?
                     (String)valueComparison : valueComparison.toString();
             switch (t) {
-                case NOT_CONTAINS:
-                    not = true;
                 case CONTAINS:
-                    return not ^ (bothNotNull && valueString.contains(valueComparisonString));
-                case NOT_STARTS_WITH:
-                    not = true;
+                    return bothNotNull && valueString.contains(valueComparisonString);
                 case STARTS_WITH:
-                    return not ^ (bothNotNull && valueString.startsWith(valueComparisonString));
-                case NOT_ENDS_WITH:
-                    not = true;
+                    return bothNotNull && valueString.startsWith(valueComparisonString);
                 case ENDS_WITH:
-                    return not ^ (bothNotNull && valueString.endsWith(valueComparisonString));
-                case NOT_EQUAL_FIELD:
-                    not = true;
-                case EQUAL_FIELD:
-                    return not ^ (bothNotNull && valueString.startsWith(valueComparisonString));
+                    return bothNotNull && valueString.endsWith(valueComparisonString);
+            }
+        } else if (arr.length == 3) {
+            if (t == CriteriaTypeDto.BETWEEN) {
+                Comparable value = reflection.getFieldValue(obj, arr[0]);
+                Comparable valueComparison = reflection.parseFieldValue((Class<T>)obj.getClass(), arr[0], arr[1]);
+                Comparable valueComparison2 = reflection.parseFieldValue((Class<T>)obj.getClass(), arr[0], arr[2]);
+                return value != null && valueComparison != null && valueComparison2 != null &&
+                        value.compareTo(valueComparison) >= 0 && value.compareTo(valueComparison2) <= 0;
             }
         }
         //TODO: Implement usage for the filters: ALL_EQUAL, IN, IS_EMPTY, IS_NOT_EMPTY
         throw new SmartFilterException("Simple operator " + t + " with " + arr.length +
                 " parameters is not implemented");
+    }
+
+    public void walk(CriteriaDto c, FilterWalker walker) throws SmartFilterException {
+        walk(c, walker, null, 0, 0);
+    }
+
+    public void walk(CriteriaDto c, FilterWalker walker, Object obj, int index, int length) throws SmartFilterException {
+        walker.visit(obj, index, length, c.getType());
+        if (c instanceof AdvancedCriteriaDto) {
+            walk((AdvancedCriteriaDto)c, walker, obj, index, length);
+        }
+        if (c instanceof SimpleCriteriaDto) {
+            walk((SimpleCriteriaDto)c, walker, obj, index, length);
+        }
+    }
+
+    public void walk(AdvancedCriteriaDto c, FilterWalker walker, Object obj, int index, int length) throws SmartFilterException {
+        CriteriaDto arr[] = c.getCriteriaArray();
+        CriteriaTypeDto t = c.getType();
+        Object childObj = walker.visitAdvancedBefore(t);
+        for (int i = 0; i < arr.length; i++) {
+            CriteriaDto dto = arr[i];
+            walk(dto, walker, childObj, i, arr.length);
+        }
+        walker.visitAdvancedAfter(childObj, index, length, t);
+    }
+
+    public void walk(SimpleCriteriaDto c, FilterWalker walker, Object obj, int index, int length) throws SmartFilterException {
+        CriteriaTypeDto t = c.getType();
+        String arr[] = c.getParameters();
+        switch (arr.length) {
+            case 1:
+                walker.visitUnary(obj, index, length, t, arr[0]);
+                break;
+            case 2:
+                walker.visitBinary(obj, index, length, t, arr[0], arr[1]);
+                break;
+            case 3:
+                walker.visitTrinary(obj, index, length, t, arr[0], arr[1], arr[2]);
+                break;
+        }
     }
 
     /**
@@ -230,6 +255,152 @@ public class SmartFilter<T> {
 
         public SmartFilterException(Throwable cause) {
             super(cause);
+        }
+    }
+
+    public static interface FilterWalker<T> {
+        public T visitAdvancedBefore(CriteriaTypeDto type) throws SmartFilterException;
+        public void visitAdvancedAfter(T obj, int index, int length, CriteriaTypeDto type) throws SmartFilterException;
+        public void visit(T obj, int index, int length, CriteriaTypeDto type) throws SmartFilterException;
+        public void visitUnary(T obj, int index, int length, CriteriaTypeDto type, String field) throws SmartFilterException;
+        public void visitBinary(T obj, int index, int length, CriteriaTypeDto type, String field, String value) throws SmartFilterException;
+        public void visitTrinary(T obj, int index, int length, CriteriaTypeDto type, String field, String value1, String value2) throws SmartFilterException;
+    }
+
+    public static class SqlFilterWalker implements FilterWalker<String> {
+        public static final SqlFilterWalker MYSQL_FILTER_WALKER =
+            new SqlFilterWalker("[", "]", "'", "'", "and", "or", "is null", "!", "=", "<", "<=", ">", ">=", "like", "%");
+
+        public static final SqlFilterWalker APP_ENGINE_FILTER_WALKER =
+            new SqlFilterWalker("[", "]", "'", "'", "&&", "||", "is null", "!", "==", "<", "<=", ">", ">=", "=", "");
+
+        private StringBuilder sql;
+
+        private final String fieldQuoteLeft;
+        private final String fieldQuoteRight;
+        private final String stringQuoteLeft;
+        private final String stringQuoteRight;
+        private final String andOp;
+        private final String orOp;
+        private final String notOp;
+        private final String isNullOp;
+        private final String equalsOp;
+        private final String lessThanOp;
+        private final String lessThanEqualsOp;
+        private final String greaterThanOp;
+        private final String greaterThanEqualsOp;
+        private final String stringLikeOp;
+        private final String stringWildCard;
+
+        public SqlFilterWalker(String fieldQuoteLeft, String fieldQuoteRight, String stringQuoteLeft, String stringQuoteRight, String andOp, String orOp, String notOp, String nullOp, String equalsOp, String lessThanOp, String lessThanEqualsOp, String greaterThanOp, String greaterThanEqualsOp, String stringLikeOp, String stringWildCard) {
+            sql = new StringBuilder();
+            this.fieldQuoteLeft = fieldQuoteLeft;
+            this.fieldQuoteRight = fieldQuoteRight;
+            this.stringQuoteLeft = stringQuoteLeft;
+            this.stringQuoteRight = stringQuoteRight;
+            this.andOp = andOp;
+            this.orOp = orOp;
+            this.notOp = notOp;
+            this.isNullOp = nullOp;
+            this.equalsOp = equalsOp;
+            this.lessThanOp = lessThanOp;
+            this.lessThanEqualsOp = lessThanEqualsOp;
+            this.greaterThanOp = greaterThanOp;
+            this.greaterThanEqualsOp = greaterThanEqualsOp;
+            this.stringLikeOp = stringLikeOp;
+            this.stringWildCard = stringWildCard;
+        }
+
+        public String toString() {
+            return sql.toString();
+        }
+
+        public String visitAdvancedBefore(CriteriaTypeDto type) throws SmartFilterException {
+            switch (type) {
+                case AND:
+                    sql.append("(");
+                    return andOp;
+                case OR:
+                    sql.append("(");
+                    return orOp;
+                case NOT:
+                    sql.append(notOp).append("(");
+                    return notOp;
+            }
+            throw new SmartFilterException("Unsupported advanced filter type " + type);
+        }
+
+        public void visitAdvancedAfter(String str, int index, int length, CriteriaTypeDto type) throws SmartFilterException {
+            sql.append(") ");
+        }
+
+        public void visit(String str, int index, int length, CriteriaTypeDto type) throws SmartFilterException {
+            if (str != null && index > 0) {
+                sql.append(" ").append(str).append(" ");
+            }
+        }
+
+        public void visitUnary(String str, int index, int length, CriteriaTypeDto type,
+                               String field) throws SmartFilterException {
+            if (type == CriteriaTypeDto.IS_NULL) {
+                sql.append("(").append(getQuotedField(field)).append(" ").append(isNullOp).append(")");
+                return;
+            }
+            throw new SmartFilterException("Unsupported Unary operation type " + type);
+        }
+
+        public void visitBinary(String str, int index, int length, CriteriaTypeDto type,
+                                String field, String value) throws SmartFilterException {
+            sql.append(getQuotedField(field)).append(" ");
+            switch (type) {
+                case EQUAL:
+                    sql.append(equalsOp).append(" ").append(getQuotedValue(value));
+                    return;
+                case LESS_THAN:
+                    sql.append(lessThanOp).append(" ").append(getQuotedValue(value));
+                    return;
+                case LESS_THAN_OR_EQUAL:
+                    sql.append(lessThanEqualsOp).append(" ").append(getQuotedValue(value));
+                    return;
+                case GREATER_THAN:
+                    sql.append(greaterThanOp).append(" ").append(getQuotedValue(value));
+                    return;
+                case GREATER_THAN_OR_EQUAL:
+                    sql.append(greaterThanEqualsOp).append(" ").append(getQuotedValue(value));
+                    return;
+                case EQUAL_FIELD:
+                    sql.append(equalsOp).append(" ").append(getQuotedField(value));
+                    return;
+                case CONTAINS:
+                    sql.append(stringLikeOp).append(" ").append(getQuotedValue(stringWildCard + value + stringWildCard));
+                    return;
+                case STARTS_WITH:
+                    sql.append(stringLikeOp).append(" ").append(getQuotedValue(value + stringWildCard));
+                    return;
+                case ENDS_WITH:
+                    sql.append(stringLikeOp).append(" ").append(getQuotedValue(stringWildCard + value));
+                    return;
+            }
+
+            throw new SmartFilterException("Unsupported Binary operation type " + type);
+        }
+
+        public void visitTrinary(String str, int index, int length, CriteriaTypeDto type,
+                                 String field, String value1, String value2) throws SmartFilterException {
+            if (type == CriteriaTypeDto.BETWEEN) {
+                sql.append("(").append(getQuotedField(field)).append(greaterThanEqualsOp).append(getQuotedValue(value1))
+                        .append(" ").append(andOp).append(" ").append(getQuotedField(field)).append(greaterThanEqualsOp)
+                        .append(getQuotedValue(value2)).append(")");
+            }
+            throw new SmartFilterException("Unsupported Trinary operation type " + type);
+        }
+
+        public String getQuotedField(String field) {
+            return fieldQuoteLeft + field + fieldQuoteRight;
+        }
+
+        public String getQuotedValue(String value) {
+            return stringQuoteLeft + value + stringQuoteRight;
         }
     }
 }
