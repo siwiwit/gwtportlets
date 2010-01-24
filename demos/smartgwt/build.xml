@@ -187,5 +187,9 @@ the demo will still run but no source will be displayed.
               message="smartgwt.sdk does not exist: ${smartgwt.sdk}"/>
     </target>
 
-    
+    <target name="smartgwt jar">
+        <ant dir="../../" target="jar-smartgwt" inheritall="false"/>
+        <ant dir="../../" target="copy-files-to-demos" inheritall="false"/>
+    </target>
+
 </project>

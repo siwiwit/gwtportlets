@@ -62,8 +62,15 @@ public class CriteriaDto implements IsSerializable {
             }
         } else if (this instanceof SimpleCriteriaDto) {
             SimpleCriteriaDto simpleCriteriaDto = (SimpleCriteriaDto)this;
-            for (String s : simpleCriteriaDto.parameters) {
-                b.append(prefix).append(s.getClass().getName()).append(": ").append(s).append("\n");
+            if (simpleCriteriaDto.parameters.length > 0) {
+                b.append(prefix).append(simpleCriteriaDto.parameters[0]).append(": ");
+                for (int i = 1, parametersLength = simpleCriteriaDto.parameters.length; i < parametersLength; i++) {
+                    b.append(simpleCriteriaDto.parameters[i]);
+                    if (i+1 < parametersLength) {
+                        b.append(", ");
+                    }
+                }
+                b.append("\n");
             }
         } else {
             b.append(prefix).append(getClass().getName()).append(": ").append(toString()).append("\n");

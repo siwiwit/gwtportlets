@@ -37,11 +37,18 @@ import com.smartgwt.client.types.DSProtocol;
 public class SmartPortletDataSource extends DataSource {
     private SmartPortlet portlet;
 
-    public SmartPortletDataSource(SmartPortlet portlet) {
-        this.portlet = portlet;
+    public SmartPortletDataSource() {
         setDataProtocol (DSProtocol.CLIENTCUSTOM);
         setDataFormat (DSDataFormat.CUSTOM);
         setClientOnly (false);
+    }
+
+    public SmartPortlet getPortlet() {
+        return portlet;
+    }
+
+    public void setPortlet(SmartPortlet portlet) {
+        this.portlet = portlet;
     }
 
     /**
@@ -51,6 +58,9 @@ public class SmartPortletDataSource extends DataSource {
      */
     @Override
     protected Object transformRequest(DSRequest request) {
+        if (portlet == null) {
+            return request.getData();
+        }
         portlet.addRequest(request);
         SmartPortletFactory wf = (SmartPortletFactory)portlet.createWidgetFactory();
         wf.setRequestId(request.getRequestId());

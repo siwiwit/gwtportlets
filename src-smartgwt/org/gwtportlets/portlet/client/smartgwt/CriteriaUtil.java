@@ -26,9 +26,7 @@ import com.smartgwt.client.data.DataSource;
 import com.smartgwt.client.data.DataSourceField;
 import com.smartgwt.client.util.JSOHelper;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Util methods to create filtering objects.
@@ -82,8 +80,20 @@ public class CriteriaUtil {
         }
         // If the attribute operator is present we have either an AdvancedCriteria object or a criteria item
         String operator = JSOHelper.getAttribute(jsObj, "operator");
+        // The fields are listed in the properties
         if(operator == null) {
-            return null;
+            List<SimpleCriteriaDto> list = new ArrayList<SimpleCriteriaDto>();
+            for (String p : properties) {
+                String v = getTypedValue(dataSource, jsObj, p, p);
+                if (v != null) {
+                    list.add(new SimpleCriteriaDto(CriteriaTypeDto.CONTAINS, p, v));
+                }
+            }
+            SimpleCriteriaDto arr[] = new SimpleCriteriaDto[list.size()];
+            for (int i = 0, arrLength = arr.length; i < arrLength; i++) {
+                arr[i] = list.get(i);
+            }
+            return new AdvancedCriteriaDto(CriteriaTypeDto.AND, arr);
         }
         Map<String, CriteriaTypeDto> operatorMap = getOperatorMap();
         CriteriaTypeDto operatorTypeDto = operatorMap.get(operator.toLowerCase());
@@ -169,4 +179,12 @@ public class CriteriaUtil {
 		}
     	return null;
     }
+
+//    public static String getJsoAttributes(JavaScriptObject jso) {
+//        String arr[] = JSOHelper.getProperties(jso);
+//        StringBuilder b = new StringBuilder();
+//        for (String name : arr) {
+//            b.append(name).append(" = ").append(JSOHelper.getProperties)
+//        }
+//    }
 }
