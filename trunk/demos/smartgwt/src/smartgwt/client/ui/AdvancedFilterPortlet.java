@@ -1,3 +1,23 @@
+/*
+ * GWT Portlets Framework (http://code.google.com/p/gwtportlets/)
+ * Copyright 2010 Business Systems Group (Africa)
+ *
+ * This file is part of GWT Portlets.
+ *
+ * GWT Portlets is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * GWT Portlets is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with GWT Portlets.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package smartgwt.client.ui;
 
 import com.google.gwt.i18n.client.NumberFormat;
@@ -25,6 +45,10 @@ import smartgwt.client.data.CountryRecord;
 
 import java.util.List;
 
+/**
+ * A portlet which demonstrates Advanced filtering.
+ * This is based on the Advanced Filter SmartGwt showcase example.
+ */
 public class AdvancedFilterPortlet extends SmartPortlet {
     final SmartPortletDataSource dataSource;
 
@@ -32,7 +56,8 @@ public class AdvancedFilterPortlet extends SmartPortlet {
         VStack vStack = new VStack(10);
         initWidget(vStack);
              
-        dataSource = new CountryDataSource(this);
+        dataSource = new CountryDataSource();
+        dataSource.setPortlet(this);
 
         final FilterBuilder filterBuilder = new FilterBuilder();
         filterBuilder.setDataSource(dataSource);
@@ -45,8 +70,6 @@ public class AdvancedFilterPortlet extends SmartPortlet {
 
         ListGridField nameField = new ListGridField("countryName", "Country");
         ListGridField continentField = new ListGridField("continent", "Continent");
-        ListGridField memberG8Field = new ListGridField("member_g8", "Member G8");
-        memberG8Field.setCanEdit(false);
 
         ListGridField populationField = new ListGridField("population", "Population");
         populationField.setType(ListGridFieldType.INTEGER);
@@ -62,16 +85,12 @@ public class AdvancedFilterPortlet extends SmartPortlet {
             }
         });
         ListGridField independenceField = new ListGridField("independence", "Independence");
-        countryGrid.setFields(nameField,continentField, memberG8Field, populationField, independenceField);
+        countryGrid.setFields(nameField,continentField, populationField, independenceField);
 
         IButton filterButton = new IButton("Filter");
         filterButton.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 countryGrid.filterData(filterBuilder.getCriteria());
-//                CriteriaDto dto = CriteriaUtil.createCriteriaDto(dataSource, filterBuilder.getCriteria().getJsObj()); //TODO: Remove
-//                if (dto != null) {
-//                    Window.alert(dto.toString());
-//                }
             }
         });
 
@@ -79,10 +98,6 @@ public class AdvancedFilterPortlet extends SmartPortlet {
         vStack.addMember(filterButton);
         vStack.addMember(countryGrid);
 
-    }
-
-    public SmartPortletDataSource getDataSource() {
-        return dataSource;
     }
 
     public WidgetFactory createWidgetFactory() {

@@ -1,16 +1,42 @@
+/*
+ * GWT Portlets Framework (http://code.google.com/p/gwtportlets/)
+ * Copyright 2010 Business Systems Group (Africa)
+ *
+ * This file is part of GWT Portlets.
+ *
+ * GWT Portlets is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * GWT Portlets is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with GWT Portlets.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package smartgwt.client.data;
 
 import com.smartgwt.client.data.Record;
-import com.smartgwt.client.data.fields.*;
+import com.smartgwt.client.data.fields.DataSourceDateField;
+import com.smartgwt.client.data.fields.DataSourceFloatField;
+import com.smartgwt.client.data.fields.DataSourceIntegerField;
+import com.smartgwt.client.data.fields.DataSourceTextField;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
-import org.gwtportlets.portlet.client.smartgwt.SmartPortlet;
 import org.gwtportlets.portlet.client.smartgwt.SmartPortletDataSource;
 
-
+/**
+ * A datasource for the CountryRecord data type.
+ *
+ * This is based on a sample from the SmartGwt showcase.
+ */
 public class CountryDataSource extends SmartPortletDataSource {
 
-    public CountryDataSource(SmartPortlet portlet) {
-        super(portlet);
+    public CountryDataSource() {
+        super();
         DataSourceIntegerField pkField = new DataSourceIntegerField("pk");
         pkField.setHidden(true);
         pkField.setPrimaryKey(true);
@@ -24,8 +50,6 @@ public class CountryDataSource extends SmartPortletDataSource {
         DataSourceTextField capitalField = new DataSourceTextField("capital", "Capital");
         DataSourceTextField governmentField = new DataSourceTextField("government", "Government", 500);
 
-        DataSourceBooleanField memberG8Field = new DataSourceBooleanField("member_g8", "G8");
-
         DataSourceTextField continentField = new DataSourceTextField("continent", "Continent");
         continentField.setValueMap("Europe", "Asia", "North America", "Australia/Oceania", "South America", "Africa");
 
@@ -35,7 +59,7 @@ public class CountryDataSource extends SmartPortletDataSource {
         DataSourceFloatField gdpField = new DataSourceFloatField("gdp", "GDP ($M)");
 
         setFields(pkField, countryCodeField, countryNameField, capitalField, governmentField,
-                memberG8Field, continentField, independenceField, areaField, populationField,
+                continentField, independenceField, areaField, populationField,
                 gdpField);
 
     }

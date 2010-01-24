@@ -1,3 +1,23 @@
+/*
+ * GWT Portlets Framework (http://code.google.com/p/gwtportlets/)
+ * Copyright 2010 Business Systems Group (Africa)
+ *
+ * This file is part of GWT Portlets.
+ *
+ * GWT Portlets is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * GWT Portlets is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with GWT Portlets.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package smartgwt.client.ui;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -29,6 +49,10 @@ import smartgwt.client.data.TownRecord;
 
 import java.util.List;
 
+/**
+ * A portlet example which demonstrates a CRUD application.
+ * This is based on the Compound Editor demo in the SmartGwt showcase.
+ */
 public class CompoundEditorPortlet extends SmartPortlet {
     final SmartPortletDataSource dataSource;
 
@@ -36,7 +60,8 @@ public class CompoundEditorPortlet extends SmartPortlet {
 
     public CompoundEditorPortlet() {
 
-        dataSource = new TownDataSource(this);
+        dataSource = new TownDataSource();
+        dataSource.setPortlet(this);
 
         cEditor = new CompoundEditor(dataSource);
         cEditor.setDatasource(dataSource);
@@ -86,11 +111,6 @@ public class CompoundEditorPortlet extends SmartPortlet {
         if (select) {
             cEditor.selectSingleRecord(list[0]);
         }
-    }
-
-
-    public SmartPortletDataSource getDataSource() {
-        return dataSource;
     }
 
     public WidgetFactory createWidgetFactory() {
@@ -199,7 +219,9 @@ public class CompoundEditorPortlet extends SmartPortlet {
             grid.setWidth(360);
             grid.setHeight(200);
             grid.setDataSource(datasource);
+            grid.setAlternateRecordStyles(true);
             grid.setAutoFetchData(true);
+            grid.setShowFilterEditor(true);
             grid.setSelectionType(SelectionStyle.SINGLE);
             grid.addSelectionChangedHandler(new SelectionChangedHandler() {
                 public void onSelectionChanged(SelectionEvent selectionEvent) {

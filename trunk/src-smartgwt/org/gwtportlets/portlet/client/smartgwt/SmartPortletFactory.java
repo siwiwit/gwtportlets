@@ -79,7 +79,9 @@ public abstract class SmartPortletFactory<T extends SmartPortlet> extends Portle
         endRow = request.getEndRow();
         this.sort = SortSpecifierUtil.createSortSpecifierDtoArray(request);
         Criteria criteria = request.getCriteria();
-        this.criteria = CriteriaUtil.createCriteriaDto(dataSource, criteria.getJsObj());
+        if (criteria != null) {
+            this.criteria = CriteriaUtil.createCriteriaDto(dataSource, criteria.getJsObj());
+        }
     }
 
     /**

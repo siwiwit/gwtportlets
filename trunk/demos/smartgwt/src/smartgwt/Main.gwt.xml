@@ -29,7 +29,7 @@
 
     <!--<set-property name="layout.perf" value="enabled"/>    -->
 
-    <set-property name="user.agent" value="ie6"/>
+    <!--<set-property name="user.agent" value="ie6"/>-->
     <!--<set-property name="user.agent" value="gecko1_8"/>-->
     <!--<set-property name="user.agent" value="safari"/>-->
     <!-- ie6, opera, safari, gecko and gecko1_8 -->

@@ -18,47 +18,24 @@
  * along with GWT Portlets.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package smartgwt.client.data;
+package org.gwtportlets.portlet.server.smartgwt;
 
-import java.io.Serializable;
-import java.util.Date;
-
-public class TownRecord implements Serializable {
-
-    private Integer id;
-    private String name;
-    private Date date;
-
-    public TownRecord() {
+/**
+ * @author Carl Crous
+ */
+public class SmartException extends Exception {
+    public SmartException() {
     }
 
-    public TownRecord(Integer id, String name, Date date) {
-        this.id = id;
-        this.name = name;
-        this.date = date;
+    public SmartException(String message) {
+        super(message);
     }
 
-    public Integer getId () {
-        return id;
+    public SmartException(String message, Throwable cause) {
+        super(message, cause);
     }
 
-    public void setId (Integer id) {
-        this.id = id;
-    }
-
-    public String getName () {
-        return name;
-    }
-
-    public void setName (String name) {
-        this.name = name;
-    }
-
-    public Date getDate () {
-        return date;
-    }
-
-    public void setDate (Date date) {
-        this.date = date;
+    public SmartException(Throwable cause) {
+        super(cause);
     }
 }

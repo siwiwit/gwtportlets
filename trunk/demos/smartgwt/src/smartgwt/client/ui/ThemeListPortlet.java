@@ -1,6 +1,6 @@
 /*
  * GWT Portlets Framework (http://code.google.com/p/gwtportlets/)
- * Copyright 2009 Business Systems Group (Africa)
+ * Copyright 2010 Business Systems Group (Africa)
  *
  * This file is part of GWT Portlets.
  *

@@ -1,6 +1,6 @@
 /*
  * GWT Portlets Framework (http://code.google.com/p/gwtportlets/)
- * Copyright 2009 Business Systems Group (Africa)
+ * Copyright 2010 Business Systems Group (Africa)
  *
  * This file is part of GWT Portlets.
  *
@@ -21,20 +21,27 @@
 package smartgwt.server;
 
 import org.apache.log4j.Logger;
+import org.gwtportlets.portlet.server.smartgwt.SmartComparator;
+import org.gwtportlets.portlet.server.smartgwt.SmartException;
+import org.gwtportlets.portlet.server.smartgwt.SmartFilter;
 import org.gwtportlets.portlet.server.smartgwt.SmartWidgetDataProvider;
+import smartgwt.client.data.CountryRecord;
 import smartgwt.client.data.TownRecord;
 import smartgwt.client.ui.CompoundEditorPortlet;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 /**
- * 
+ * The data provider for the Compound Editor portlet demo.
+ *
+ * @author Carl Crous
  */
 public class CompoundEditorDataProvider extends SmartWidgetDataProvider<CompoundEditorPortlet.Factory> {
-
     private static final Logger log = Logger.getLogger(CompoundEditorDataProvider.class);
+    private static final SmartFilter<TownRecord> filter = new SmartFilter<TownRecord>(CountryRecord.class);
 
     public Class getWidgetFactoryClass() {
         return CompoundEditorPortlet.Factory.class;
@@ -43,10 +50,27 @@ public class CompoundEditorDataProvider extends SmartWidgetDataProvider<Compound
     static List<TownRecord> list;
 
     public void executeFetch(CompoundEditorPortlet.Factory f) {
+        List<TownRecord> list = CompoundEditorDataProvider.list;
         log.info("Doing fetch: " + f.getStartRow() + " -> " + f.getEndRow());
-        f.data = new ArrayList<TownRecord>(list.subList(f.getStartRow(), Math.min(f.getEndRow(), list.size())));
+        if (f.getSort() != null) {
+            Collections.sort(list, new SmartComparator<TownRecord>(TownRecord.class, f.getSort()));
+        }
+        if (f.getCriteria() != null) {
+            log.info("Filtering " + list.size() + " records");
+            log.info("\n" + f.getCriteria().toString());
+            try {
+                list = filter.filter(f.getCriteria(), list);
+            } catch (SmartException e) {
+                log.error("Could not filter", e);
+            }
+        } else {
+            log.info("No filtering");
+        }
+
+        f.data = new ArrayList<TownRecord>(list.subList(Math.min(f.getStartRow(), list.size()), Math.min(f.getEndRow(), list.size())));
         f.setTotalRows(list.size());
     }
+
 
     public void executeAdd(CompoundEditorPortlet.Factory f) {
         log.info("Doing add");
