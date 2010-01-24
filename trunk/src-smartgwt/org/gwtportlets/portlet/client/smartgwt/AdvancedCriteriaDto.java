@@ -43,10 +43,10 @@ public class AdvancedCriteriaDto extends CriteriaDto implements IsSerializable {
         this.criteriaArray = criteriaArray;
     }
 
-    public AdvancedCriteriaDto(CriteriaTypeDto type, CriteriaDto criteriaArray) {
+    public AdvancedCriteriaDto(CriteriaTypeDto type, CriteriaDto dto) {
         this.type = type;
         this.criteriaArray = new CriteriaDto[1];
-        this.criteriaArray[1] = criteriaArray;
+        this.criteriaArray[0] = dto;
     }
 
     public CriteriaDto[] getCriteriaArray() {

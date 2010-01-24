@@ -62,6 +62,13 @@ public class AdvancedFilterDataProvider extends SmartWidgetDataProvider<Advanced
             } catch (SmartException e) {
                 log.error("Could not filter", e);
             }
+            SmartFilter.FilterWalker walker = SmartFilter.SqlFilterWalker.MYSQL_FILTER_WALKER;
+            try {
+                filter.walk(f.getCriteria(), walker);
+                log.info("SQL:\n" + walker.toString());
+            } catch (SmartFilter.SmartFilterException e) {
+                log.error("Could not get SQL filter", e);
+            }
         }
         log.info("Got " + list.size() + " records");
         f.data = new ArrayList<CountryRecord>(list.subList(Math.min(f.getStartRow(), list.size()), Math.min(f.getEndRow(), list.size())));

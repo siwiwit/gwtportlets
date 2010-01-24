@@ -20,6 +20,7 @@
 
 package org.gwtportlets.portlet.client.smartgwt;
 
+import com.google.gwt.user.client.Window;
 import com.smartgwt.client.data.Criteria;
 import com.smartgwt.client.data.DSRequest;
 import org.gwtportlets.portlet.client.ui.Portlet;
@@ -80,7 +81,11 @@ public abstract class SmartPortletFactory<T extends SmartPortlet> extends Portle
         this.sort = SortSpecifierUtil.createSortSpecifierDtoArray(request);
         Criteria criteria = request.getCriteria();
         if (criteria != null) {
-            this.criteria = CriteriaUtil.createCriteriaDto(dataSource, criteria.getJsObj());
+            try {
+                this.criteria = CriteriaUtil.createCriteriaDto(dataSource, criteria.getJsObj());
+            } catch (CriteriaUtil.CriteriaException e) {
+                Window.alert("Could not get criteria: " + e.getMessage());
+            }
         }
     }
 
