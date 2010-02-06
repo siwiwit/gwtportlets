@@ -20,8 +20,10 @@
 
 package org.gwtportlets.portlet.client.smartgwt;
 
+import com.google.gwt.user.client.ui.Widget;
 import com.smartgwt.client.data.DSRequest;
 import com.smartgwt.client.data.DSResponse;
+import com.smartgwt.client.widgets.Canvas;
 import org.gwtportlets.portlet.client.ui.Portlet;
 
 import java.util.ArrayList;
@@ -33,11 +35,20 @@ import java.util.List;
  * @author Carl Crous
  */
 public abstract class SmartPortlet extends Portlet {
-    /** * The list of pending requests. */
+    /** The list of pending requests. */
     protected List<DSRequest> requestList;
     
     protected SmartPortlet() {
         requestList = new ArrayList<DSRequest>();
+    }
+
+    @Override
+    protected void initWidget(Widget widget) {
+        super.initWidget(widget);
+        if (widget instanceof Canvas) {
+            Canvas canvas = (Canvas)widget;
+            canvas.setZIndex(0);
+        }
     }
 
     /**
