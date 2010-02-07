@@ -36,14 +36,14 @@ public class TownDataSource extends SmartPortletDataSource {
         super();
         DataSourceField field;
         field = new DataSourceIntegerField ("id", "Id");
-        field.setPrimaryKey (true);
-        field.setRequired (false);
+        field.setPrimaryKey(true);
+        field.setRequired(false);
         addField(field);
         field = new DataSourceTextField ("name", "Name");
-        field.setRequired (true);
+        field.setRequired(true);
         addField(field);
         field = new DataSourceDateField ("date", "Date");
-        field.setRequired (false);
+        field.setRequired(false);
         addField(field);
     }
 

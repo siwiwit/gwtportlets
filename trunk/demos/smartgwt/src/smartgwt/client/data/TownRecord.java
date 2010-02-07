@@ -20,10 +20,11 @@
 
 package smartgwt.client.data;
 
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 import java.util.Date;
 
-public class TownRecord implements Serializable {
+public class TownRecord implements IsSerializable {
 
     private Integer id;
     private String name;
