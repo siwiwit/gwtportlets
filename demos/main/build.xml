@@ -42,6 +42,7 @@ the demo will still run but no source will be displayed.
 
     <property name="gwt.sdk" value=""/>
     <property name="gwtc.style" value="PRETTY"/>
+    <property name="gwtc.workers" value="1"/>
 
     <path id="cp">
         <fileset dir="war/WEB-INF/lib" includes="*.jar"/>
@@ -86,6 +87,8 @@ the demo will still run but no source will be displayed.
             <arg value="-style"/>
             <arg value="${gwtc.style}"/>
             <arg value="main.Main"/>
+            <arg value="-localWorkers"/>
+            <arg value="${gwtc.workers}"/>
         </java>
     </target>
 
