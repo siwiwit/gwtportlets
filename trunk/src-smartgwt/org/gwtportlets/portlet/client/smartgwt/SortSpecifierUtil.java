@@ -37,7 +37,7 @@ public class SortSpecifierUtil {
         SortSpecifier sort[];
         try {
             sort = request.getSortBy();
-        } catch (ClassCastException e) {
+        } catch (Exception e) {
             String sortString = request.getAttribute("sortBy");
             return createSortSpecifierDtoArray(sortString);
         }
