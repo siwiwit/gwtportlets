@@ -42,6 +42,7 @@ the demo will still run but no source will be displayed.
 
     <property name="gwt.sdk" value=""/>
     <property name="gwtc.style" value="PRETTY"/>
+    <property name="gwtc.workers" value="1"/>
     <property name="smartgwt.sdk" value=""/>
 
     <path id="cp">
@@ -93,6 +94,8 @@ the demo will still run but no source will be displayed.
             <arg value="-style"/>
             <arg value="${gwtc.style}"/>
             <arg value="smartgwt.Main"/>
+            <arg value="-localWorkers"/>
+            <arg value="${gwtc.workers}"/>
         </java>
     </target>
 
