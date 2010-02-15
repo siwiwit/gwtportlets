@@ -1,4 +1,5 @@
 #summary SmartGwt Integration
+#labels Featured
 
 == !SmartGwt Integration ==
 
