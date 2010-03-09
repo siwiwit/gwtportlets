@@ -26,14 +26,15 @@ import com.smartgwt.client.data.fields.DataSourceDateField;
 import com.smartgwt.client.data.fields.DataSourceIntegerField;
 import com.smartgwt.client.data.fields.DataSourceTextField;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
-import org.gwtportlets.portlet.client.smartgwt.SmartPortletDataSource;
+import org.gwtportlets.portlet.smartgwt.client.SmartPortlet;
+import org.gwtportlets.portlet.smartgwt.client.SmartPortletDataSource;
 
 /**
  * The datasource for the TownRecord data type.
  */
 public class TownDataSource extends SmartPortletDataSource {
-    public TownDataSource() {
-        super();
+    public TownDataSource(SmartPortlet portlet) {
+        super(portlet);
         DataSourceField field;
         field = new DataSourceIntegerField ("id", "Id");
         field.setPrimaryKey(true);

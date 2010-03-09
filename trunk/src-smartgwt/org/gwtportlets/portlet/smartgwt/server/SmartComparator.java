@@ -18,10 +18,11 @@
  * along with GWT Portlets.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.gwtportlets.portlet.server.smartgwt;
+package org.gwtportlets.portlet.smartgwt.server;
 
-import org.apache.log4j.Logger;
-import org.gwtportlets.portlet.client.smartgwt.SortSpecifierDto;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.gwtportlets.portlet.smartgwt.client.SortSpecifierDto;
 
 import java.util.Comparator;
 
@@ -31,7 +32,7 @@ import java.util.Comparator;
  * @author Carl Crous
  */
 public class SmartComparator<T> implements Comparator<T> {
-    private static final Logger log = Logger.getLogger(SmartComparator.class);
+    private static final Log log = LogFactory.getLog(SmartComparator.class);
     private SortSpecifierDto[] sortArray;
     private SmartReflection<T> reflection;
 

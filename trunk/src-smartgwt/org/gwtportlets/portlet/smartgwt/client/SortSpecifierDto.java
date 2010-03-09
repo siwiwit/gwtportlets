@@ -18,24 +18,24 @@
  * along with GWT Portlets.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.gwtportlets.portlet.server.smartgwt;
+package org.gwtportlets.portlet.smartgwt.client;
+
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
+ * A DTO to represent data sorting.
+ *
  * @author Carl Crous
  */
-public class SmartException extends Exception {
-    public SmartException() {
+public class SortSpecifierDto implements IsSerializable{
+    public String field;
+    public boolean isAscending;
+
+    public SortSpecifierDto() {
     }
 
-    public SmartException(String message) {
-        super(message);
-    }
-
-    public SmartException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public SmartException(Throwable cause) {
-        super(cause);
+    public SortSpecifierDto(String field, boolean ascending) {
+        this.field = field;
+        isAscending = ascending;
     }
 }

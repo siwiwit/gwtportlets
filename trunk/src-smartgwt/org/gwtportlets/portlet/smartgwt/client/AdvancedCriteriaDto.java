@@ -18,7 +18,7 @@
  * along with GWT Portlets.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.gwtportlets.portlet.client.smartgwt;
+package org.gwtportlets.portlet.smartgwt.client;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 

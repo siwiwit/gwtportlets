@@ -18,7 +18,7 @@
  * along with GWT Portlets.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.gwtportlets.portlet.client.smartgwt;
+package org.gwtportlets.portlet.smartgwt.client;
 
 import com.smartgwt.client.data.DSRequest;
 import com.smartgwt.client.data.DataSource;
@@ -37,10 +37,14 @@ import com.smartgwt.client.types.DSProtocol;
 public class SmartPortletDataSource extends DataSource {
     private SmartPortlet portlet;
 
-    public SmartPortletDataSource() {
-        setDataProtocol (DSProtocol.CLIENTCUSTOM);
-        setDataFormat (DSDataFormat.CUSTOM);
-        setClientOnly (false);
+    public SmartPortletDataSource(SmartPortlet portlet) {
+        this.portlet = portlet;
+        setDataProtocol(DSProtocol.CLIENTCUSTOM);
+        setDataFormat(DSDataFormat.CUSTOM);
+        setClientOnly(false);
+    }
+
+    private SmartPortletDataSource() {
     }
 
     public SmartPortlet getPortlet() {
@@ -58,12 +62,14 @@ public class SmartPortletDataSource extends DataSource {
      */
     @Override
     protected Object transformRequest(DSRequest request) {
-        if (portlet == null) {
-            return request.getData();
-        }
+//        if (portlet == null) {
+//            return request.getData();
+//        }
         portlet.addRequest(request);
         SmartPortletFactory wf = (SmartPortletFactory)portlet.createWidgetFactory();
         wf.setRequestId(request.getRequestId());
+        wf.setComponentId(request.getComponentId());
+        
         switch (request.getOperationType()) {
             case FETCH:
                 wf.executeFetch(this, request);

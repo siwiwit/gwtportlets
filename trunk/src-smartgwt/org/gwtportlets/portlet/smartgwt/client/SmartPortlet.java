@@ -18,7 +18,7 @@
  * along with GWT Portlets.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.gwtportlets.portlet.client.smartgwt;
+package org.gwtportlets.portlet.smartgwt.client;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.smartgwt.client.data.DSRequest;
@@ -36,10 +36,15 @@ import java.util.List;
  */
 public abstract class SmartPortlet extends Portlet {
     /** The list of pending requests. */
-    protected List<DSRequest> requestList;
+    protected List<DSRequest> requestList = new ArrayList<DSRequest>();
+    /** If the child widget should be automatically re-sized. */
+    protected boolean autoSizeChild = true;
     
     protected SmartPortlet() {
-        requestList = new ArrayList<DSRequest>();
+    }
+
+    protected SmartPortlet(boolean autoSizeChild) {
+        this.autoSizeChild = autoSizeChild;
     }
 
     @Override
@@ -48,6 +53,15 @@ public abstract class SmartPortlet extends Portlet {
         if (widget instanceof Canvas) {
             Canvas canvas = (Canvas)widget;
             canvas.setZIndex(0);
+        }
+    }
+
+    @Override
+    public void boundsUpdated() {
+        super.boundsUpdated();
+        Widget widget = getWidget();
+        if (widget != null && autoSizeChild) {
+            widget.setSize(Integer.toString(getOffsetWidth()), Integer.toString(getOffsetHeight()));
         }
     }
 

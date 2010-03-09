@@ -26,7 +26,8 @@ import com.smartgwt.client.data.fields.DataSourceFloatField;
 import com.smartgwt.client.data.fields.DataSourceIntegerField;
 import com.smartgwt.client.data.fields.DataSourceTextField;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
-import org.gwtportlets.portlet.client.smartgwt.SmartPortletDataSource;
+import org.gwtportlets.portlet.smartgwt.client.SmartPortlet;
+import org.gwtportlets.portlet.smartgwt.client.SmartPortletDataSource;
 
 /**
  * A datasource for the CountryRecord data type.
@@ -35,8 +36,8 @@ import org.gwtportlets.portlet.client.smartgwt.SmartPortletDataSource;
  */
 public class CountryDataSource extends SmartPortletDataSource {
 
-    public CountryDataSource() {
-        super();
+    public CountryDataSource(SmartPortlet portlet) {
+        super(portlet);
         DataSourceIntegerField pkField = new DataSourceIntegerField("pk");
         pkField.setHidden(true);
         pkField.setPrimaryKey(true);
