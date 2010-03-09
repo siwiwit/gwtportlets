@@ -21,7 +21,8 @@
 package main.server;
 
 import main.client.ui.SourceBrowserPortlet;
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.gwtportlets.portlet.server.PageRequest;
 import org.gwtportlets.portlet.server.WidgetDataProvider;
 
@@ -36,7 +37,7 @@ import java.util.*;
 public class SourceBrowserDataProvider
         implements WidgetDataProvider<SourceBrowserPortlet.Factory> {
 
-    private Logger log = Logger.getLogger(getClass());
+    private Log log = LogFactory.getLog(getClass());
 
     private SourceBrowserPortlet.ClassSuggestion [] classes;
     private Map<File, String> htmlCache =
