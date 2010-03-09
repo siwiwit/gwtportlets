@@ -41,9 +41,9 @@ import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 import org.gwtportlets.portlet.client.DoNotSendToServer;
 import org.gwtportlets.portlet.client.WidgetFactory;
-import org.gwtportlets.portlet.client.smartgwt.SmartPortlet;
-import org.gwtportlets.portlet.client.smartgwt.SmartPortletDataSource;
-import org.gwtportlets.portlet.client.smartgwt.SmartPortletFactory;
+import org.gwtportlets.portlet.smartgwt.client.SmartPortlet;
+import org.gwtportlets.portlet.smartgwt.client.SmartPortletDataSource;
+import org.gwtportlets.portlet.smartgwt.client.SmartPortletFactory;
 import smartgwt.client.data.TownDataSource;
 import smartgwt.client.data.TownRecord;
 
@@ -60,7 +60,7 @@ public class CompoundEditorPortlet extends SmartPortlet {
 
     public CompoundEditorPortlet() {
 
-        dataSource = new TownDataSource();
+        dataSource = new TownDataSource(this);
         dataSource.setPortlet(this);
 
         cEditor = new CompoundEditor(dataSource);

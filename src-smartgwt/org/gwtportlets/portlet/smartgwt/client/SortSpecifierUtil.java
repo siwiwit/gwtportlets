@@ -18,7 +18,7 @@
  * along with GWT Portlets.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.gwtportlets.portlet.client.smartgwt;
+package org.gwtportlets.portlet.smartgwt.client;
 
 import com.smartgwt.client.data.DSRequest;
 import com.smartgwt.client.data.SortSpecifier;

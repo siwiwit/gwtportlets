@@ -21,10 +21,10 @@
 package smartgwt.server;
 
 import org.apache.log4j.Logger;
-import org.gwtportlets.portlet.server.smartgwt.SmartComparator;
-import org.gwtportlets.portlet.server.smartgwt.SmartException;
-import org.gwtportlets.portlet.server.smartgwt.SmartFilter;
-import org.gwtportlets.portlet.server.smartgwt.SmartWidgetDataProvider;
+import org.gwtportlets.portlet.smartgwt.server.SmartComparator;
+import org.gwtportlets.portlet.smartgwt.server.SmartException;
+import org.gwtportlets.portlet.smartgwt.server.SmartFilter;
+import org.gwtportlets.portlet.smartgwt.server.SmartWidgetDataProvider;
 import smartgwt.client.data.CountryRecord;
 import smartgwt.client.data.TownRecord;
 import smartgwt.client.ui.CompoundEditorPortlet;

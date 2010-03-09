@@ -18,11 +18,11 @@
  * along with GWT Portlets.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.gwtportlets.portlet.server.smartgwt;
+package org.gwtportlets.portlet.smartgwt.server;
 
-import org.gwtportlets.portlet.client.smartgwt.SmartPortletFactory;
 import org.gwtportlets.portlet.server.PageRequest;
 import org.gwtportlets.portlet.server.WidgetDataProvider;
+import org.gwtportlets.portlet.smartgwt.client.SmartPortletFactory;
 
 /**
  * The Data Provider which must be used for Smart Portlets.

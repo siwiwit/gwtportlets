@@ -18,9 +18,9 @@
  * along with GWT Portlets.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.gwtportlets.portlet.server.smartgwt;
+package org.gwtportlets.portlet.smartgwt.server;
 
-import org.gwtportlets.portlet.client.smartgwt.CriteriaUtil;
+import org.gwtportlets.portlet.smartgwt.client.CriteriaUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

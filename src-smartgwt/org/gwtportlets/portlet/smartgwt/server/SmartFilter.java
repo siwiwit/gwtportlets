@@ -18,12 +18,12 @@
  * along with GWT Portlets.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.gwtportlets.portlet.server.smartgwt;
+package org.gwtportlets.portlet.smartgwt.server;
 
-import org.gwtportlets.portlet.client.smartgwt.AdvancedCriteriaDto;
-import org.gwtportlets.portlet.client.smartgwt.CriteriaDto;
-import org.gwtportlets.portlet.client.smartgwt.CriteriaTypeDto;
-import org.gwtportlets.portlet.client.smartgwt.SimpleCriteriaDto;
+import org.gwtportlets.portlet.smartgwt.client.AdvancedCriteriaDto;
+import org.gwtportlets.portlet.smartgwt.client.CriteriaDto;
+import org.gwtportlets.portlet.smartgwt.client.CriteriaTypeDto;
+import org.gwtportlets.portlet.smartgwt.client.SimpleCriteriaDto;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -197,8 +197,50 @@ public class SmartFilter<T> {
                 " parameters is not implemented");
     }
 
+    public String getEqualsCriteriaValue(CriteriaDto c, String field) {
+        SimpleCriteriaDto dto = getCriteriaForField(c, CriteriaTypeDto.EQUAL, field);
+        if (dto != null) {
+            String arr[] = dto.getParameters();
+            if (arr.length == 2) {
+                return arr[1];
+            }
+        }
+        return null;
+    }
+
+    public SimpleCriteriaDto getCriteriaForField(CriteriaDto c, CriteriaTypeDto type, String field) {
+        if (c instanceof AdvancedCriteriaDto) {
+            return getCriteriaForField((AdvancedCriteriaDto)c, type, field);
+        }
+        if (c instanceof SimpleCriteriaDto) {
+            return getCriteriaForField((SimpleCriteriaDto)c, type, field);
+        }
+        return null;
+    }
+
+    private SimpleCriteriaDto getCriteriaForField(SimpleCriteriaDto c, CriteriaTypeDto type, String field) {
+        String arr[] = c.getParameters();
+        if (c.getType() == type && arr.length > 0 && arr[0].equals(field)) {
+            return c;
+        }
+        return null;
+    }
+
+    private SimpleCriteriaDto getCriteriaForField(AdvancedCriteriaDto c, CriteriaTypeDto type, String field) {
+        CriteriaDto arr[] = c.getCriteriaArray();
+        for (CriteriaDto anArr : arr) {
+            SimpleCriteriaDto dto = getCriteriaForField(anArr, type, field);
+            if (dto != null) {
+                return dto;
+            }
+        }
+        return null;
+    }
+
     public void walk(CriteriaDto c, FilterWalker walker) throws SmartFilterException {
+        walker.begin();
         walk(c, walker, null, 0, 0);
+        walker.end();
     }
 
     public void walk(CriteriaDto c, FilterWalker walker, Object obj, int index, int length) throws SmartFilterException {
@@ -259,12 +301,14 @@ public class SmartFilter<T> {
     }
 
     public static interface FilterWalker<T> {
+        public void begin();
         public T visitAdvancedBefore(CriteriaTypeDto type) throws SmartFilterException;
         public void visitAdvancedAfter(T obj, int index, int length, CriteriaTypeDto type) throws SmartFilterException;
         public void visit(T obj, int index, int length, CriteriaTypeDto type) throws SmartFilterException;
         public void visitUnary(T obj, int index, int length, CriteriaTypeDto type, String field) throws SmartFilterException;
         public void visitBinary(T obj, int index, int length, CriteriaTypeDto type, String field, String value) throws SmartFilterException;
         public void visitTrinary(T obj, int index, int length, CriteriaTypeDto type, String field, String value1, String value2) throws SmartFilterException;
+        public void end();
     }
 
     public static class SqlFilterWalker implements FilterWalker<String> {
@@ -272,7 +316,7 @@ public class SmartFilter<T> {
             new SqlFilterWalker("[", "]", "'", "'", "and", "or", "is null", "!", "=", "<", "<=", ">", ">=", "like", "%");
 
         public static final SqlFilterWalker APP_ENGINE_FILTER_WALKER =
-            new SqlFilterWalker("[", "]", "'", "'", "&&", "||", "is null", "!", "==", "<", "<=", ">", ">=", "=", "");
+            new SqlFilterWalker("", "", "'", "'", "&&", "||", "is null", "!", "==", "<", "<=", ">", ">=", "==", "");
 
         private StringBuilder sql;
 
@@ -293,7 +337,6 @@ public class SmartFilter<T> {
         private final String stringWildCard;
 
         public SqlFilterWalker(String fieldQuoteLeft, String fieldQuoteRight, String stringQuoteLeft, String stringQuoteRight, String andOp, String orOp, String notOp, String nullOp, String equalsOp, String lessThanOp, String lessThanEqualsOp, String greaterThanOp, String greaterThanEqualsOp, String stringLikeOp, String stringWildCard) {
-            sql = new StringBuilder();
             this.fieldQuoteLeft = fieldQuoteLeft;
             this.fieldQuoteRight = fieldQuoteRight;
             this.stringQuoteLeft = stringQuoteLeft;
@@ -313,6 +356,13 @@ public class SmartFilter<T> {
 
         public String toString() {
             return sql.toString();
+        }
+
+        public void begin() {
+            sql = new StringBuilder();
+        }
+
+        public void end() {
         }
 
         public String visitAdvancedBefore(CriteriaTypeDto type) throws SmartFilterException {

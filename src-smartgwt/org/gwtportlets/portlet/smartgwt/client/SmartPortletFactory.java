@@ -18,7 +18,7 @@
  * along with GWT Portlets.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.gwtportlets.portlet.client.smartgwt;
+package org.gwtportlets.portlet.smartgwt.client;
 
 import com.google.gwt.user.client.Window;
 import com.smartgwt.client.data.Criteria;
@@ -55,6 +55,8 @@ public abstract class SmartPortletFactory<T extends SmartPortlet> extends Portle
      * This must be set by the Portlet Data Provider in a FETCH response.
      */
     protected int totalRows;
+    /** The ID of the component which initiated the request */
+    protected String componentId;
     /** The sort specifiers which must be used to sort the data for a FETCH request. */
     protected SortSpecifierDto sort[];
     /** The advanced filtering criteria. This can be if client side filtering is also performed. */
@@ -154,6 +156,14 @@ public abstract class SmartPortletFactory<T extends SmartPortlet> extends Portle
 
     public void setTotalRows(int totalRows) {
         this.totalRows = totalRows;
+    }
+
+    public String getComponentId() {
+        return componentId;
+    }
+
+    public void setComponentId(String componentId) {
+        this.componentId = componentId;
     }
 
     public SortSpecifierDto[] getSort() {

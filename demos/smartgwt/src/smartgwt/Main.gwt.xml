@@ -23,6 +23,7 @@
     <inherits name='com.google.gwt.user.User'/>
     <inherits name='com.google.gwt.user.theme.standard.Standard'/>
     <inherits name="org.gwtportlets.portlet.Portlets"/>
+    <inherits name="org.gwtportlets.portlet.smartgwt.PortletsSmartGwt"/>
     <inherits name="com.smartgwt.SmartGwt"/>
     
     <entry-point class='smartgwt.client.Demo'/>

@@ -18,36 +18,40 @@
  * along with GWT Portlets.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.gwtportlets.portlet.client.smartgwt;
+package org.gwtportlets.portlet.smartgwt.client;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * A DTO to represent advanced filter types.
+ * A DTO to represent simple filters.
+ *
+ * Advanced filtering support was made possible with the use of Roberto Mozzicato's
+ * GwtCriterion demo in the SmartGwt forums.
+ * @see http://forums.smartclient.com/showthread.php?t=4814
+ *
+ * @author Carl Crous
  */
-public enum CriteriaTypeDto implements IsSerializable {
-	ALL_EQUAL, //TODO: Implement usage for this filter
-	BETWEEN,
-	EQUAL,
-	GREATER_THAN_OR_EQUAL,
-	GREATER_THAN,
-    LESS_THAN_OR_EQUAL,
-    LESS_THAN,
-	IN, //TODO: Implement usage for this filter
-	IS_EMPTY, //TODO: Implement usage for this filter
-	IS_NULL,
+public class SimpleCriteriaDto extends CriteriaDto implements IsSerializable {
 
-    // Logical operators
-    AND,
-	OR,
-    NOT,
+	protected String[] parameters;
 
-    // Sub string comparisons
-    STARTS_WITH,
-	ENDS_WITH,
-    CONTAINS,
+    public SimpleCriteriaDto(){
 
-    // Field comparisons
-	EQUAL_FIELD
+    }
+    
+	public SimpleCriteriaDto(CriteriaTypeDto type, String... parameters) {
+		this.type = type;
+		this.parameters = parameters;
+	}
+
+
+    public String[] getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(String[] parameters) {
+        this.parameters = parameters;
+    }
+
+
 }
-

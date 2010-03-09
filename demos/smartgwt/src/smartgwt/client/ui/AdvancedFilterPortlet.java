@@ -36,10 +36,10 @@ import com.smartgwt.client.widgets.grid.ListGridRecord;
 import com.smartgwt.client.widgets.layout.VStack;
 import org.gwtportlets.portlet.client.DoNotSendToServer;
 import org.gwtportlets.portlet.client.WidgetFactory;
-import org.gwtportlets.portlet.client.smartgwt.SmartPortlet;
-import org.gwtportlets.portlet.client.smartgwt.SmartPortletDataSource;
-import org.gwtportlets.portlet.client.smartgwt.SmartPortletFactory;
 import org.gwtportlets.portlet.client.ui.Portlet;
+import org.gwtportlets.portlet.smartgwt.client.SmartPortlet;
+import org.gwtportlets.portlet.smartgwt.client.SmartPortletDataSource;
+import org.gwtportlets.portlet.smartgwt.client.SmartPortletFactory;
 import smartgwt.client.data.CountryDataSource;
 import smartgwt.client.data.CountryRecord;
 
@@ -56,7 +56,7 @@ public class AdvancedFilterPortlet extends SmartPortlet {
         VStack vStack = new VStack(10);
         initWidget(vStack);
              
-        dataSource = new CountryDataSource();
+        dataSource = new CountryDataSource(this);
         dataSource.setPortlet(this);
 
         final FilterBuilder filterBuilder = new FilterBuilder();
