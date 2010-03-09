@@ -20,7 +20,8 @@
 
 package org.gwtportlets.portlet.server;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.gwtportlets.portlet.client.ui.WebAppContentPortlet;
 
 import javax.servlet.RequestDispatcher;
@@ -31,7 +32,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-
+                  
 /**
  * Displays any content served from our web application. This can
  * come from static HTML, JSP's etc etc. 
@@ -39,7 +40,7 @@ import java.io.PrintWriter;
 public class WebAppContentDataProvider
         implements WidgetDataProvider<WebAppContentPortlet.Factory> {
 
-    private Logger log = Logger.getLogger(getClass());
+    private static final Log log = LogFactory.getLog(WebAppContentDataProvider.class);
 
     public Class getWidgetFactoryClass() {
         return WebAppContentPortlet.Factory.class;

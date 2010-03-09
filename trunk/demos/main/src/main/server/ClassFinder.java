@@ -20,7 +20,8 @@
 
 package main.server;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.ServletContext;
 import java.io.File;
@@ -33,7 +34,7 @@ import java.util.List;
  */
 public class ClassFinder {
 
-    private Logger log = Logger.getLogger(getClass());
+    private Log log = LogFactory.getLog(getClass());
 
     private final String classesPath;
     private final File pkgDir;

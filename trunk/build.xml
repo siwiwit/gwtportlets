@@ -49,7 +49,7 @@ Run "ant -p" in the root of this project to see available targets.
     <property name="classes-smartgwt" value="build/classes-smartgwt"/>
 
     <!-- jars from lib that are copied to each demo -->
-    <property name="lib.jars" value="**/log4j*.jar,**/xmlpull*.jar,**/xpp3*.jar,**/xstream*.jar"/>
+    <property name="lib.jars" value="**/log4j*.jar,**/commons-logging-*.jar,**/xmlpull*.jar,**/xpp3*.jar,**/xstream*.jar"/>
 
     <path id="cp">
         <fileset dir="lib-build" includes="*.jar"/>

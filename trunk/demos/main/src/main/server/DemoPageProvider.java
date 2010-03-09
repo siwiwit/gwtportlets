@@ -20,7 +20,8 @@
 
 package main.server;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.gwtportlets.portlet.client.WidgetFactory;
 import org.gwtportlets.portlet.client.ui.PortletFactory;
 import org.gwtportlets.portlet.server.PageProvider;
@@ -46,7 +47,7 @@ import java.lang.reflect.Modifier;
  */
 public class DemoPageProvider extends PageProvider {
 
-    private Logger log = Logger.getLogger(getClass());
+    private Log log = LogFactory.getLog(getClass());
 
     private WidgetFactoryXmlIO xmlIO = new WidgetFactoryXmlIO();
     private File pageDir;
