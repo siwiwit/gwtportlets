@@ -62,14 +62,12 @@ public class SmartPortletDataSource extends DataSource {
      */
     @Override
     protected Object transformRequest(DSRequest request) {
-//        if (portlet == null) {
-//            return request.getData();
-//        }
         portlet.addRequest(request);
         SmartPortletFactory wf = (SmartPortletFactory)portlet.createWidgetFactory();
         wf.setRequestId(request.getRequestId());
+        wf.setDataSourceId(portlet.getBaseDataSourceId(getID()));
         wf.setComponentId(request.getComponentId());
-        
+
         switch (request.getOperationType()) {
             case FETCH:
                 wf.executeFetch(this, request);

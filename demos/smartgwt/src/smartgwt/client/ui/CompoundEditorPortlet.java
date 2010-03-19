@@ -20,11 +20,7 @@
 
 package smartgwt.client.ui;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.smartgwt.client.data.DSRequest;
-import com.smartgwt.client.data.DSResponse;
 import com.smartgwt.client.data.DataSource;
-import com.smartgwt.client.data.Record;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.DSOperationType;
 import com.smartgwt.client.types.SelectionStyle;
@@ -34,20 +30,16 @@ import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
-import com.smartgwt.client.widgets.grid.ListGridRecord;
 import com.smartgwt.client.widgets.grid.events.SelectionChangedHandler;
 import com.smartgwt.client.widgets.grid.events.SelectionEvent;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
-import org.gwtportlets.portlet.client.DoNotSendToServer;
 import org.gwtportlets.portlet.client.WidgetFactory;
+import org.gwtportlets.portlet.smartgwt.client.DataTransferObject;
 import org.gwtportlets.portlet.smartgwt.client.SmartPortlet;
 import org.gwtportlets.portlet.smartgwt.client.SmartPortletDataSource;
 import org.gwtportlets.portlet.smartgwt.client.SmartPortletFactory;
-import smartgwt.client.data.TownDataSource;
-import smartgwt.client.data.TownRecord;
-
-import java.util.List;
+import smartgwt.client.data.TownDto;
 
 /**
  * A portlet example which demonstrates a CRUD application.
@@ -60,7 +52,7 @@ public class CompoundEditorPortlet extends SmartPortlet {
 
     public CompoundEditorPortlet() {
 
-        dataSource = new TownDataSource(this);
+        dataSource = TownDto.getDataSource(this);
         dataSource.setPortlet(this);
 
         cEditor = new CompoundEditor(dataSource);
@@ -73,56 +65,11 @@ public class CompoundEditorPortlet extends SmartPortlet {
         layout.addMember(cEditor);
     }
 
-    private void restore(Factory f) {
-        DSRequest request = removeRequest(f);
-        if (request != null) {
-            switch (request.getOperationType()) {
-                case FETCH:
-                    fetchResponse(request, f);
-                    break;
-                case ADD:
-                case UPDATE:
-                    updateResponse(request, f, true);
-                    break;
-                case REMOVE:
-                    updateResponse(request, f, false);
-                    break;
-            }
-        }
-    }
-
-    private void fetchResponse(DSRequest request, Factory f) {
-        DSResponse response = SmartPortlet.createResponse(request, f);
-        Record[] list = new Record[f.data.size()];
-        for (int i = 0; i < list.length; i++) {
-            list[i] = TownDataSource.createRecord(f.data.get(i));
-        }
-        response.setData(list);
-        dataSource.processResponse(request.getRequestId(), response);
-    }
-
-    private void updateResponse(DSRequest request, Factory f, boolean select) {
-        DSResponse response = SmartPortlet.createResponse(request);
-        Record[] list = new Record[1];
-        list[0] = TownDataSource.createRecord(f.record);
-        response.setData(list);
-
-        dataSource.processResponse(request.getRequestId(), response);
-        if (select) {
-            cEditor.selectSingleRecord(list[0]);
-        }
-    }
-
     public WidgetFactory createWidgetFactory() {
         return new Factory(this);
     }
 
     public static class Factory extends SmartPortletFactory<CompoundEditorPortlet> {
-        @DoNotSendToServer
-        public List<TownRecord> data;
-
-        public TownRecord record;
-
         public Factory() {
         }
 
@@ -135,33 +82,8 @@ public class CompoundEditorPortlet extends SmartPortlet {
         }
 
         @Override
-        public void refresh(CompoundEditorPortlet p) {
-            super.refresh(p);
-            p.restore(this);
-        }
-
-        @Override
-        public void executeAdd(SmartPortletDataSource dataSource, DSRequest request) {
-            super.executeAdd(dataSource, request);
-            updateSelectedRecord(request);
-        }
-
-        @Override
-        public void executeUpdate(SmartPortletDataSource dataSource, DSRequest request) {
-            super.executeUpdate(dataSource, request);
-            updateSelectedRecord(request);
-        }
-
-        @Override
-        public void executeRemove(SmartPortletDataSource dataSource, DSRequest request) {
-            super.executeRemove(dataSource, request);
-            updateSelectedRecord(request);
-        }
-
-        private void updateSelectedRecord(DSRequest request) {
-            JavaScriptObject data = request.getData();
-            final ListGridRecord rec = new ListGridRecord(data);
-            record = TownDataSource.create(rec);
+        public DataTransferObject createDto() {
+            return new TownDto();
         }
     }
 
@@ -249,10 +171,6 @@ public class CompoundEditorPortlet extends SmartPortlet {
                 saveButton.disable();
                 grid.fetchData();
             }
-        }
-
-        public void selectSingleRecord(Record r) {
-            grid.selectSingleRecord(r);
         }
     }
 }

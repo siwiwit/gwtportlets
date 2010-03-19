@@ -109,24 +109,24 @@ public class SmartFilter<T> {
      */
     public boolean equals(AdvancedCriteriaDto c, T obj)
             throws SmartFilterException, SmartReflection.SmartReflectionException {
-        CriteriaDto arr[] = c.getCriteriaArray();
+        List<CriteriaDto> list = c.getCriteriaList();
         switch (c.getType()) {
             case AND:
-                for (CriteriaDto dto : arr) {
+                for (CriteriaDto dto : list) {
                     if (!equals(dto, obj)) {
                         return false;
                     }
                 }
                 return true;
             case OR:
-                for (CriteriaDto dto : arr) {
+                for (CriteriaDto dto : list) {
                     if (equals(dto, obj)) {
                         return true;
                     }
                 }
                 return false;
             case NOT:
-                return arr.length > 0 && !equals(arr[0], obj);
+                return list.size() > 0 && !equals(list.get(0), obj);
         }
         throw new SmartFilterException("Advanced operator " + c.getType() + " is not implemented");
     }
@@ -197,8 +197,8 @@ public class SmartFilter<T> {
                 " parameters is not implemented");
     }
 
-    public String getEqualsCriteriaValue(CriteriaDto c, String field) {
-        SimpleCriteriaDto dto = getCriteriaForField(c, CriteriaTypeDto.EQUAL, field);
+    public static String getSimpleCriteriaValue(CriteriaDto c, String field) {
+        SimpleCriteriaDto dto = getSimpleCriteriaForField(c, CriteriaTypeDto.CONTAINS, field);
         if (dto != null) {
             String arr[] = dto.getParameters();
             if (arr.length == 2) {
@@ -208,7 +208,7 @@ public class SmartFilter<T> {
         return null;
     }
 
-    public SimpleCriteriaDto getCriteriaForField(CriteriaDto c, CriteriaTypeDto type, String field) {
+    public static SimpleCriteriaDto getSimpleCriteriaForField(CriteriaDto c, CriteriaTypeDto type, String field) {
         if (c instanceof AdvancedCriteriaDto) {
             return getCriteriaForField((AdvancedCriteriaDto)c, type, field);
         }
@@ -218,7 +218,7 @@ public class SmartFilter<T> {
         return null;
     }
 
-    private SimpleCriteriaDto getCriteriaForField(SimpleCriteriaDto c, CriteriaTypeDto type, String field) {
+    private static SimpleCriteriaDto getCriteriaForField(SimpleCriteriaDto c, CriteriaTypeDto type, String field) {
         String arr[] = c.getParameters();
         if (c.getType() == type && arr.length > 0 && arr[0].equals(field)) {
             return c;
@@ -226,10 +226,10 @@ public class SmartFilter<T> {
         return null;
     }
 
-    private SimpleCriteriaDto getCriteriaForField(AdvancedCriteriaDto c, CriteriaTypeDto type, String field) {
-        CriteriaDto arr[] = c.getCriteriaArray();
-        for (CriteriaDto anArr : arr) {
-            SimpleCriteriaDto dto = getCriteriaForField(anArr, type, field);
+    private static SimpleCriteriaDto getCriteriaForField(AdvancedCriteriaDto c, CriteriaTypeDto type, String field) {
+        List<CriteriaDto> list = c.getCriteriaList();
+        for (CriteriaDto criteriaDto : list) {
+            SimpleCriteriaDto dto = getSimpleCriteriaForField(criteriaDto, type, field);
             if (dto != null) {
                 return dto;
             }
@@ -237,13 +237,13 @@ public class SmartFilter<T> {
         return null;
     }
 
-    public void walk(CriteriaDto c, FilterWalker walker) throws SmartFilterException {
+    public static void walk(CriteriaDto c, FilterWalker walker) throws SmartFilterException {
         walker.begin();
         walk(c, walker, null, 0, 0);
         walker.end();
     }
 
-    public void walk(CriteriaDto c, FilterWalker walker, Object obj, int index, int length) throws SmartFilterException {
+    public static void walk(CriteriaDto c, FilterWalker walker, Object obj, int index, int length) throws SmartFilterException {
         walker.visit(obj, index, length, c.getType());
         if (c instanceof AdvancedCriteriaDto) {
             walk((AdvancedCriteriaDto)c, walker, obj, index, length);
@@ -253,18 +253,18 @@ public class SmartFilter<T> {
         }
     }
 
-    public void walk(AdvancedCriteriaDto c, FilterWalker walker, Object obj, int index, int length) throws SmartFilterException {
-        CriteriaDto arr[] = c.getCriteriaArray();
+    public static void walk(AdvancedCriteriaDto c, FilterWalker walker, Object obj, int index, int length) throws SmartFilterException {
+        List<CriteriaDto> list = c.getCriteriaList();
         CriteriaTypeDto t = c.getType();
         Object childObj = walker.visitAdvancedBefore(t);
-        for (int i = 0; i < arr.length; i++) {
-            CriteriaDto dto = arr[i];
-            walk(dto, walker, childObj, i, arr.length);
+        for (int i = 0, len = list.size(); i < len; i++) {
+            CriteriaDto dto = list.get(i);
+            walk(dto, walker, childObj, i, len);
         }
         walker.visitAdvancedAfter(childObj, index, length, t);
     }
 
-    public void walk(SimpleCriteriaDto c, FilterWalker walker, Object obj, int index, int length) throws SmartFilterException {
+    public static void walk(SimpleCriteriaDto c, FilterWalker walker, Object obj, int index, int length) throws SmartFilterException {
         CriteriaTypeDto t = c.getType();
         String arr[] = c.getParameters();
         switch (arr.length) {

@@ -18,48 +18,25 @@
  * along with GWT Portlets.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package smartgwt.client.data;
+package org.gwtportlets.portlet.smartgwt.client;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.smartgwt.client.data.Record;
 
-import java.util.Date;
+/**
+ * Describes an object which is to be used to transfer data between the client and server.
+ * @author Carl Crous
+ */
+public interface DataTransferObject extends IsSerializable {
+    /**
+     * Copies the record in the widget framework into this DTO.
+     * @param from The record to copy into this DTO.
+     */
+    public void copyFromRecord(Record from);
 
-public class TownRecord implements IsSerializable {
-
-    private Integer id;
-    private String name;
-    private Date date;
-
-    public TownRecord() {
-    }
-
-    public TownRecord(Integer id, String name, Date date) {
-        this.id = id;
-        this.name = name;
-        this.date = date;
-    }
-
-    public Integer getId () {
-        return id;
-    }
-
-    public void setId (Integer id) {
-        this.id = id;
-    }
-
-    public String getName () {
-        return name;
-    }
-
-    public void setName (String name) {
-        this.name = name;
-    }
-
-    public Date getDate () {
-        return date;
-    }
-
-    public void setDate (Date date) {
-        this.date = date;
-    }
+    /**
+     * Copies the data in the DTO into a record in the widget framework.
+     * @param from The record to copy this DTO into. 
+     */
+    public void copyToRecord(Record to);
 }

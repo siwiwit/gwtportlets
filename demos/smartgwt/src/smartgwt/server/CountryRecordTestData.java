@@ -20,33 +20,33 @@
 
 package smartgwt.server;
 
-import smartgwt.client.data.CountryRecord;
+import smartgwt.client.data.CountryDto;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
- * Demo data for the CountryRecord data type.
+ * Demo data for the CountryDto data type.
  *
  * This data was based on the SmartGwt showcase Country data.
  */
 @SuppressWarnings({"deprecation"})
 public class CountryRecordTestData {
 
-    public static List<CountryRecord> list;
+    public static List<CountryDto> list;
     public static int id;
 
-    public static List<CountryRecord> getList() {
+    public static List<CountryDto> getList() {
         return list;
     }
 
     static {
         id = 1;
-        list = new ArrayList<CountryRecord>();
-        CountryRecord country;
+        list = new ArrayList<CountryDto>();
+        CountryDto country;
 
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Bermuda");
             country.setCountryCode("BD");
@@ -56,7 +56,7 @@ public class CountryRecordTestData {
             country.setGovernment("dependent territory of the UK");
             country.setCapital("Hamilton");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("United States");
             country.setCountryCode("US");
@@ -67,7 +67,7 @@ public class CountryRecordTestData {
             country.setGovernment("federal republic");
             country.setCapital("Washington");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Monaco");
             country.setCountryCode("MN");
@@ -78,7 +78,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional monarchy");
             country.setCapital("Monaco");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Norway");
             country.setCountryCode("NO");
@@ -89,7 +89,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional monarchy");
             country.setCapital("Oslo");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Hong Kong");
             country.setCountryCode("HK");
@@ -99,7 +99,7 @@ public class CountryRecordTestData {
             country.setGovernment("dependent territory of the UK scheduled to revert to China on 1 July 1997");
             country.setCapital("Victoria");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Canada");
             country.setCountryCode("CA");
@@ -110,7 +110,7 @@ public class CountryRecordTestData {
             country.setGovernment("confederation with parliamentary democracy");
             country.setCapital("Ottawa");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Luxembourg");
             country.setCountryCode("LU");
@@ -120,7 +120,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional monarchy");
             country.setCapital("Luxembourg");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("United Arab Emirates");
             country.setCountryCode("TC");
@@ -131,7 +131,7 @@ public class CountryRecordTestData {
             country.setGovernment("federation with specified powers delegated to the UAE central government and other powers reserved to member emirates");
             country.setCapital("Abu Dhabi");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Australia/Oceania");
             country.setCountryName("Australia");
             country.setCountryCode("AS");
@@ -142,7 +142,7 @@ public class CountryRecordTestData {
             country.setGovernment("federal parliamentary state");
             country.setCapital("Canberra");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Switzerland");
             country.setCountryCode("SZ");
@@ -152,7 +152,7 @@ public class CountryRecordTestData {
             country.setGovernment("federal republic");
             country.setCapital("Bern");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Cayman Islands");
             country.setCountryCode("CJ");
@@ -162,7 +162,7 @@ public class CountryRecordTestData {
             country.setGovernment("dependent territory of the UK");
             country.setCapital("George Town");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Denmark");
             country.setCountryCode("DA");
@@ -172,7 +172,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional monarchy");
             country.setCapital("Copenhagen");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Japan");
             country.setCountryCode("JA");
@@ -182,7 +182,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional monarchy");
             country.setCapital("Tokyo");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Liechtenstein");
             country.setCountryCode("LS");
@@ -193,7 +193,7 @@ public class CountryRecordTestData {
             country.setGovernment("hereditary constitutional monarchy");
             country.setCapital("Vaduz");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("France");
             country.setCountryCode("FR");
@@ -203,7 +203,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Paris");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Sweden");
             country.setCountryCode("SW");
@@ -213,7 +213,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional monarchy");
             country.setCapital("Stockholm");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Qatar");
             country.setCountryCode("QA");
@@ -224,7 +224,7 @@ public class CountryRecordTestData {
             country.setGovernment("traditional monarchy");
             country.setCapital("Doha");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("United Kingdom");
             country.setCountryCode("UK");
@@ -235,7 +235,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional monarchy");
             country.setCapital("London");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Singapore");
             country.setCountryCode("SN");
@@ -246,7 +246,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic within Commonwealth");
             country.setCapital("Singapore");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Netherlands");
             country.setCountryCode("NL");
@@ -257,7 +257,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional monarchy");
             country.setCapital("Amsterdam");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Belgium");
             country.setCountryCode("BE");
@@ -268,7 +268,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional monarchy");
             country.setCapital("Brussels");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Italy");
             country.setCountryCode("IT");
@@ -279,7 +279,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Rome");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Austria");
             country.setCountryCode("AU");
@@ -290,7 +290,7 @@ public class CountryRecordTestData {
             country.setGovernment("federal republic");
             country.setCapital("Vienna");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Bahamas");
             country.setCountryCode("BF");
@@ -301,7 +301,7 @@ public class CountryRecordTestData {
             country.setGovernment("commonwealth");
             country.setCapital("Nassau");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Iceland");
             country.setCountryCode("IC");
@@ -312,7 +312,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Reykjavik");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Finland");
             country.setCountryCode("FI");
@@ -323,7 +323,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Helsinki");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Aruba");
             country.setCountryCode("AA");
@@ -333,7 +333,7 @@ public class CountryRecordTestData {
             country.setGovernment("part of the Dutch realm");
             country.setCapital("Oranjestad");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Australia/Oceania");
             country.setCountryName("New Zealand");
             country.setCountryCode("NZ");
@@ -344,7 +344,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary democracy");
             country.setCapital("Wellington");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Germany");
             country.setCountryCode("GM");
@@ -355,7 +355,7 @@ public class CountryRecordTestData {
             country.setGovernment("federal republic");
             country.setCapital("Berlin");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Faroe Islands");
             country.setCountryCode("FO");
@@ -365,7 +365,7 @@ public class CountryRecordTestData {
             country.setGovernment("part of the Danish realm");
             country.setCapital("Torshavn");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Kuwait");
             country.setCountryCode("KU");
@@ -376,7 +376,7 @@ public class CountryRecordTestData {
             country.setGovernment("nominal constitutional monarchy");
             country.setCapital("Kuwait");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("San Marino");
             country.setCountryCode("SM");
@@ -387,7 +387,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("San Marino");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Brunei");
             country.setCountryCode("BX");
@@ -398,7 +398,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional sultanate");
             country.setCapital("Bandar Seri Begawan");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Greenland");
             country.setCountryCode("GL");
@@ -408,7 +408,7 @@ public class CountryRecordTestData {
             country.setGovernment("part of the Danish realm");
             country.setCapital("Nuuk");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Ireland");
             country.setCountryCode("EI");
@@ -419,7 +419,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Dublin");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Israel");
             country.setCountryCode("IS");
@@ -430,7 +430,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Jerusalem");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Spain");
             country.setCountryCode("SP");
@@ -441,7 +441,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary monarchy");
             country.setCapital("Madrid");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Andorra");
             country.setCountryCode("AN");
@@ -451,7 +451,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary democracy that retains as its heads of state a coprincipality");
             country.setCapital("Andorra la Vella");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Taiwan");
             country.setCountryCode("TW");
@@ -461,7 +461,7 @@ public class CountryRecordTestData {
             country.setGovernment("multiparty democratic regime");
             country.setCapital("Taipei");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("South Korea");
             country.setCountryCode("KS");
@@ -471,7 +471,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Seoul");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Macau");
             country.setCountryCode("MC");
@@ -481,7 +481,7 @@ public class CountryRecordTestData {
             country.setGovernment("overseas territory of Portugal scheduled to revert to China in 1999");
             country.setCapital("Macau");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Australia/Oceania");
             country.setCountryName("Guam");
             country.setCountryCode("GQ");
@@ -491,7 +491,7 @@ public class CountryRecordTestData {
             country.setGovernment("organized");
             country.setCapital("Agana");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Trinidad and Tobago");
             country.setCountryCode("TD");
@@ -502,7 +502,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary democracy");
             country.setCapital("Port of Spain");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Bahrain");
             country.setCountryCode("BA");
@@ -513,7 +513,7 @@ public class CountryRecordTestData {
             country.setGovernment("traditional monarchy");
             country.setCapital("Manama");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Virgin Islands");
             country.setCountryCode("VQ");
@@ -523,7 +523,7 @@ public class CountryRecordTestData {
             country.setGovernment("organized");
             country.setCapital("Charlotte Amalie");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Portugal");
             country.setCountryCode("PO");
@@ -534,7 +534,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Lisbon");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Malta");
             country.setCountryCode("MT");
@@ -545,7 +545,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary democracy");
             country.setCapital("Valletta");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Slovenia");
             country.setCountryCode("SI");
@@ -556,7 +556,7 @@ public class CountryRecordTestData {
             country.setGovernment("emerging democracy");
             country.setCapital("Ljubljana");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Man");
             country.setCountryCode("IM");
@@ -566,7 +566,7 @@ public class CountryRecordTestData {
             country.setGovernment("British crown dependency");
             country.setCapital("Douglas");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Cyprus");
             country.setCountryCode("CY");
@@ -577,7 +577,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Nicosia");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Czech Republic");
             country.setCountryCode("EZ");
@@ -588,7 +588,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary democracy");
             country.setCapital("Prague");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("British Virgin Islands");
             country.setCountryCode("VI");
@@ -598,7 +598,7 @@ public class CountryRecordTestData {
             country.setGovernment("dependent territory of the UK");
             country.setCapital("Road Town");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Australia/Oceania");
             country.setCountryName("Northern Mariana Islands");
             country.setCountryCode("CQ");
@@ -608,7 +608,7 @@ public class CountryRecordTestData {
             country.setGovernment("commonwealth in political union with the US");
             country.setCapital("Saipan");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Saint Pierre and Miquelon");
             country.setCountryCode("SB");
@@ -618,7 +618,7 @@ public class CountryRecordTestData {
             country.setGovernment("territorial collectivity of France");
             country.setCapital("Saint Pierre");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Martinique");
             country.setCountryCode("MB");
@@ -628,7 +628,7 @@ public class CountryRecordTestData {
             country.setGovernment("overseas department of France");
             country.setCapital("Fort de France");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Saudi Arabia");
             country.setCountryCode("SA");
@@ -639,7 +639,7 @@ public class CountryRecordTestData {
             country.setGovernment("monarchy");
             country.setCapital("Riyadh");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Australia/Oceania");
             country.setCountryName("Nauru");
             country.setCountryCode("NR");
@@ -650,7 +650,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("no official capital");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Barbados");
             country.setCountryCode("BB");
@@ -661,7 +661,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary democracy");
             country.setCapital("Bridgetown");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Malaysia");
             country.setCountryCode("MY");
@@ -672,7 +672,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional monarchy");
             country.setCapital("Kuala Lumpur");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Greece");
             country.setCountryCode("GR");
@@ -683,7 +683,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary republic");
             country.setCapital("Athens");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Mauritius");
             country.setCountryCode("MP");
@@ -694,7 +694,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary democracy");
             country.setCapital("Port Louis");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Netherlands Antilles");
             country.setCountryCode("NT");
@@ -704,7 +704,7 @@ public class CountryRecordTestData {
             country.setGovernment("part of the Dutch realm");
             country.setCapital("Willemstad");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("South America");
             country.setCountryName("Venezuela");
             country.setCountryCode("VE");
@@ -715,7 +715,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Caracas");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Oman");
             country.setCountryCode("MU");
@@ -726,7 +726,7 @@ public class CountryRecordTestData {
             country.setGovernment("monarchy");
             country.setCapital("Muscat");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Estonia");
             country.setCountryCode("EN");
@@ -737,7 +737,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Tallinn");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("South America");
             country.setCountryName("Argentina");
             country.setCountryCode("AR");
@@ -748,7 +748,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Buenos Aires");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("South America");
             country.setCountryName("Chile");
             country.setCountryCode("CI");
@@ -759,7 +759,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Santiago");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Australia/Oceania");
             country.setCountryName("French Polynesia");
             country.setCountryCode("FP");
@@ -769,7 +769,7 @@ public class CountryRecordTestData {
             country.setGovernment("overseas territory of France since 1946");
             country.setCapital("Papeete");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Puerto Rico");
             country.setCountryCode("RQ");
@@ -779,7 +779,7 @@ public class CountryRecordTestData {
             country.setGovernment("commonwealth associated with the US");
             country.setCapital("San Juan");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("South America");
             country.setCountryName("Uruguay");
             country.setCountryCode("UY");
@@ -790,7 +790,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Montevideo");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Mexico");
             country.setCountryCode("MX");
@@ -801,7 +801,7 @@ public class CountryRecordTestData {
             country.setGovernment("federal republic operating under a centralized government");
             country.setCapital("Mexico");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Slovakia");
             country.setCountryCode("LO");
@@ -812,7 +812,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary democracy");
             country.setCapital("Bratislava");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Hungary");
             country.setCountryCode("HU");
@@ -823,7 +823,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Budapest");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Gibraltar");
             country.setCountryCode("GI");
@@ -833,7 +833,7 @@ public class CountryRecordTestData {
             country.setGovernment("dependent territory of the UK");
             country.setCapital("Gibraltar");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Thailand");
             country.setCountryCode("TH");
@@ -844,7 +844,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional monarchy");
             country.setCapital("Bangkok");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Antigua and Barbuda");
             country.setCountryCode("AC");
@@ -855,7 +855,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary democracy");
             country.setCapital("Saint Johns");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Libya");
             country.setCountryCode("LY");
@@ -866,7 +866,7 @@ public class CountryRecordTestData {
             country.setGovernment("Jamahiriya in theory");
             country.setCapital("Tripoli");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Australia/Oceania");
             country.setCountryName("Fiji");
             country.setCountryCode("FJ");
@@ -877,7 +877,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Suva");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("South America");
             country.setCountryName("Brazil");
             country.setCountryCode("BR");
@@ -888,7 +888,7 @@ public class CountryRecordTestData {
             country.setGovernment("federal republic");
             country.setCapital("Brasilia");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Latvia");
             country.setCountryCode("LG");
@@ -899,7 +899,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Riga");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Poland");
             country.setCountryCode("PL");
@@ -910,7 +910,7 @@ public class CountryRecordTestData {
             country.setGovernment("democratic state");
             country.setCapital("Warsaw");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Syria");
             country.setCountryCode("SY");
@@ -921,7 +921,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic under military regime since March 1963");
             country.setCapital("Damascus");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Turks and Caicos Islands");
             country.setCountryCode("TK");
@@ -931,7 +931,7 @@ public class CountryRecordTestData {
             country.setGovernment("dependent territory of the UK");
             country.setCapital("Grand Turk");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Seychelles");
             country.setCountryCode("SE");
@@ -942,7 +942,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Victoria");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Turkey");
             country.setCountryCode("TU");
@@ -953,7 +953,7 @@ public class CountryRecordTestData {
             country.setGovernment("republican parliamentary democracy");
             country.setCapital("Ankara");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Russia");
             country.setCountryCode("RS");
@@ -964,7 +964,7 @@ public class CountryRecordTestData {
             country.setGovernment("federation");
             country.setCapital("Moscow");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Saint Kitts and Nevis");
             country.setCountryCode("SC");
@@ -975,7 +975,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional monarchy");
             country.setCapital("Basseterre");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Costa Rica");
             country.setCountryCode("CS");
@@ -986,7 +986,7 @@ public class CountryRecordTestData {
             country.setGovernment("democratic republic");
             country.setCapital("San Jose");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("South America");
             country.setCountryName("Colombia");
             country.setCountryCode("CO");
@@ -997,7 +997,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Bogota");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("South Africa");
             country.setCountryCode("SF");
@@ -1008,7 +1008,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Pretoria");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Panama");
             country.setCountryCode("PM");
@@ -1019,7 +1019,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional republic");
             country.setCapital("Panama");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Gabon");
             country.setCountryCode("GB");
@@ -1030,7 +1030,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Libreville");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Anguilla");
             country.setCountryCode("AV");
@@ -1040,7 +1040,7 @@ public class CountryRecordTestData {
             country.setGovernment("dependent territory of the UK");
             country.setCapital("The Valley");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Bulgaria");
             country.setCountryCode("BU");
@@ -1051,7 +1051,7 @@ public class CountryRecordTestData {
             country.setGovernment("emerging democracy");
             country.setCapital("Sofia");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Iran");
             country.setCountryCode("IR");
@@ -1062,7 +1062,7 @@ public class CountryRecordTestData {
             country.setGovernment("theocratic republic");
             country.setCapital("Tehran");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Romania");
             country.setCountryCode("RO");
@@ -1073,7 +1073,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Bucharest");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Lebanon");
             country.setCountryCode("LE");
@@ -1084,7 +1084,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Beirut");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Australia/Oceania");
             country.setCountryName("Palau");
             country.setCountryCode("PS");
@@ -1095,7 +1095,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional government in free association with the US");
             country.setCapital("Koror");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Belarus");
             country.setCountryCode("BO");
@@ -1106,7 +1106,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Minsk");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Jordan");
             country.setCountryCode("JO");
@@ -1117,7 +1117,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional monarchy");
             country.setCapital("Amman");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Montserrat");
             country.setCountryCode("MH");
@@ -1127,7 +1127,7 @@ public class CountryRecordTestData {
             country.setGovernment("dependent territory of the UK");
             country.setCapital("Plymouth");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Tunisia");
             country.setCountryCode("TS");
@@ -1138,7 +1138,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Tunis");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Saint Lucia");
             country.setCountryCode("ST");
@@ -1149,7 +1149,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary democracy");
             country.setCapital("Castries");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Croatia");
             country.setCountryCode("HR");
@@ -1160,7 +1160,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary democracy");
             country.setCapital("Zagreb");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("South America");
             country.setCountryName("Ecuador");
             country.setCountryCode("EC");
@@ -1171,7 +1171,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Quito");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Algeria");
             country.setCountryCode("AG");
@@ -1182,7 +1182,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Algiers");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Lithuania");
             country.setCountryCode("LH");
@@ -1193,7 +1193,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Vilnius");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Swaziland");
             country.setCountryCode("WZ");
@@ -1204,7 +1204,7 @@ public class CountryRecordTestData {
             country.setGovernment("monarchy");
             country.setCapital("Mbabane");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("South America");
             country.setCountryName("Peru");
             country.setCountryCode("PE");
@@ -1215,7 +1215,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Lima");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Sri Lanka");
             country.setCountryCode("CE");
@@ -1226,7 +1226,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Colombo");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Namibia");
             country.setCountryCode("WA");
@@ -1237,7 +1237,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Windhoek");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Indonesia");
             country.setCountryCode("ID");
@@ -1248,7 +1248,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Jakarta");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Ukraine");
             country.setCountryCode("UP");
@@ -1259,7 +1259,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Kiev");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Dominican Republic");
             country.setCountryCode("DR");
@@ -1270,7 +1270,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Santo Domingo");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Guatemala");
             country.setCountryCode("GT");
@@ -1281,7 +1281,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Guatemala");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Jamaica");
             country.setCountryCode("JM");
@@ -1292,7 +1292,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary democracy");
             country.setCapital("Kingston");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("South America");
             country.setCountryName("Paraguay");
             country.setCountryCode("PA");
@@ -1303,7 +1303,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Asuncion");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Congo");
             country.setCountryCode("CF");
@@ -1314,7 +1314,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Brazzaville");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Botswana");
             country.setCountryCode("BC");
@@ -1325,7 +1325,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary republic");
             country.setCapital("Gaborone");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Grenada");
             country.setCountryCode("GJ");
@@ -1336,7 +1336,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary democracy");
             country.setCapital("Saint Georges");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("South America");
             country.setCountryName("Suriname");
             country.setCountryCode("NS");
@@ -1347,7 +1347,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Paramaribo");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Morocco");
             country.setCountryCode("MO");
@@ -1358,7 +1358,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional monarchy");
             country.setCapital("Rabat");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Australia/Oceania");
             country.setCountryName("Cook Islands");
             country.setCountryCode("CW");
@@ -1368,7 +1368,7 @@ public class CountryRecordTestData {
             country.setGovernment("self governing parliamentary government in free association with New Zealand");
             country.setCapital("Avarua");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("China");
             country.setCountryCode("CH");
@@ -1378,7 +1378,7 @@ public class CountryRecordTestData {
             country.setGovernment("Communist state");
             country.setCapital("Beijing");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("South America");
             country.setCountryName("Bolivia");
             country.setCountryCode("BL");
@@ -1389,7 +1389,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("La Paz");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Kazakstan");
             country.setCountryCode("KZ");
@@ -1400,7 +1400,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Almaty");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Turkmenistan");
             country.setCountryCode("TX");
@@ -1411,7 +1411,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Ashgabat");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Yemen");
             country.setCountryCode("YM");
@@ -1422,7 +1422,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Sanaa");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Egypt");
             country.setCountryCode("EG");
@@ -1433,7 +1433,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Cairo");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Armenia");
             country.setCountryCode("AM");
@@ -1444,7 +1444,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Yerevan");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Belize");
             country.setCountryCode("BH");
@@ -1455,7 +1455,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary democracy");
             country.setCapital("Belmopan");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Australia/Oceania");
             country.setCountryName("Solomon Islands");
             country.setCountryCode("BP");
@@ -1466,7 +1466,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary democracy");
             country.setCapital("Honiara");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Philippines");
             country.setCountryCode("RP");
@@ -1477,7 +1477,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Manila");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Dominica");
             country.setCountryCode("DO");
@@ -1488,7 +1488,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary democracy");
             country.setCapital("Roseau");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Uzbekistan");
             country.setCountryCode("UZ");
@@ -1499,7 +1499,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Tashkent");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Moldova");
             country.setCountryCode("MD");
@@ -1510,7 +1510,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Chisinau");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Papua New Guinea");
             country.setCountryCode("PP");
@@ -1521,7 +1521,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary democracy");
             country.setCapital("Port Moresby");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("South America");
             country.setCountryName("Guyana");
             country.setCountryCode("GY");
@@ -1532,7 +1532,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Georgetown");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Australia/Oceania");
             country.setCountryName("American Samoa");
             country.setCountryCode("AQ");
@@ -1542,7 +1542,7 @@ public class CountryRecordTestData {
             country.setGovernment("unincorporated and unorganized territory of the US");
             country.setCapital("Pago Pago");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Australia/Oceania");
             country.setCountryName("Tonga");
             country.setCountryCode("TN");
@@ -1553,7 +1553,7 @@ public class CountryRecordTestData {
             country.setGovernment("hereditary constitutional monarchy");
             country.setCapital("Nukualofa");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Pakistan");
             country.setCountryCode("PK");
@@ -1564,7 +1564,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Islamabad");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Saint Vincent and the Grenadines");
             country.setCountryCode("VC");
@@ -1575,7 +1575,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional monarchy");
             country.setCapital("Kingstown");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Mongolia");
             country.setCountryCode("MG");
@@ -1586,7 +1586,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Ulaanbaatar");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Australia/Oceania");
             country.setCountryName("Wallis and Futuna");
             country.setCountryCode("WF");
@@ -1596,7 +1596,7 @@ public class CountryRecordTestData {
             country.setGovernment("overseas territory of France");
             country.setCapital("Mata Utu");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("El Salvador");
             country.setCountryCode("ES");
@@ -1607,7 +1607,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("San Salvador");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Serbia and Montenegro");
             country.setCountryCode("YI");
@@ -1618,7 +1618,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Belgrade");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Australia/Oceania");
             country.setCountryName("Western Samoa");
             country.setCountryCode("WS");
@@ -1629,7 +1629,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional monarchy under native chief");
             country.setCapital("Apia");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Honduras");
             country.setCountryCode("HO");
@@ -1640,7 +1640,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Tegucigalpa");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Iraq");
             country.setCountryCode("IZ");
@@ -1651,7 +1651,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Baghdad");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Nicaragua");
             country.setCountryCode("NU");
@@ -1662,7 +1662,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Managua");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Australia/Oceania");
             country.setCountryName("Micronesia");
             country.setCountryCode("FM");
@@ -1673,7 +1673,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional government in free association with the US");
             country.setCapital("Kolonia");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Australia/Oceania");
             country.setCountryName("Marshall Islands");
             country.setCountryCode("RM");
@@ -1684,7 +1684,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional government in free association with the US");
             country.setCapital("Majuro");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Zimbabwe");
             country.setCountryCode("ZI");
@@ -1695,7 +1695,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary democracy");
             country.setCapital("Harare");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Senegal");
             country.setCountryCode("SG");
@@ -1706,7 +1706,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic under multiparty democratic rule");
             country.setCapital("Dakar");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Azerbaijan");
             country.setCountryCode("AJ");
@@ -1717,7 +1717,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Baku");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Cote dIvoire");
             country.setCountryCode("IV");
@@ -1728,7 +1728,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Yamoussoukro");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("India");
             country.setCountryCode("IN");
@@ -1739,7 +1739,7 @@ public class CountryRecordTestData {
             country.setGovernment("federal republic");
             country.setCapital("New Delhi");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Maldives");
             country.setCountryCode("MV");
@@ -1750,7 +1750,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Male");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Lesotho");
             country.setCountryCode("LT");
@@ -1761,7 +1761,7 @@ public class CountryRecordTestData {
             country.setGovernment("modified constitutional monarchy");
             country.setCapital("Maseru");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Ghana");
             country.setCountryCode("GH");
@@ -1772,7 +1772,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional democracy");
             country.setCapital("Accra");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Cuba");
             country.setCountryCode("CU");
@@ -1783,7 +1783,7 @@ public class CountryRecordTestData {
             country.setGovernment("Communist state");
             country.setCapital("Havana");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Benin");
             country.setCountryCode("BN");
@@ -1794,7 +1794,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic under multiparty democratic rule dropped Marxism Leninism December 1989");
             country.setCapital("Porto Novo");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Vietnam");
             country.setCountryCode("VM");
@@ -1805,7 +1805,7 @@ public class CountryRecordTestData {
             country.setGovernment("Communist state");
             country.setCapital("Hanoi");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Nigeria");
             country.setCountryCode("NI");
@@ -1816,7 +1816,7 @@ public class CountryRecordTestData {
             country.setGovernment("military government");
             country.setCapital("Abuja");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Kenya");
             country.setCountryCode("KE");
@@ -1827,7 +1827,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Nairobi");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Albania");
             country.setCountryCode("AL");
@@ -1838,7 +1838,7 @@ public class CountryRecordTestData {
             country.setGovernment("emerging democracy");
             country.setCapital("Tirane");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Mauritania");
             country.setCountryCode("MR");
@@ -1849,7 +1849,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Nouakchott");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Kyrgyzstan");
             country.setCountryCode("KG");
@@ -1860,7 +1860,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Bishkek");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Georgia");
             country.setCountryCode("GG");
@@ -1871,7 +1871,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Tbilisi");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Australia/Oceania");
             country.setCountryName("Vanuatu");
             country.setCountryCode("NH");
@@ -1882,7 +1882,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Port Vila");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Bangladesh");
             country.setCountryCode("BG");
@@ -1893,7 +1893,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Dhaka");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Djibouti");
             country.setCountryCode("DJ");
@@ -1904,7 +1904,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Djibouti");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Cameroon");
             country.setCountryCode("CM");
@@ -1915,7 +1915,7 @@ public class CountryRecordTestData {
             country.setGovernment("unitary republic");
             country.setCapital("Yaounde");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Nepal");
             country.setCountryCode("NP");
@@ -1926,7 +1926,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary democracy as of 12 May 1991");
             country.setCapital("Kathmandu");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Australia/Oceania");
             country.setCountryName("Niue");
             country.setCountryCode("NE");
@@ -1937,7 +1937,7 @@ public class CountryRecordTestData {
             country.setGovernment("self governing territory in free association with New Zealand");
             country.setCapital("Alofi");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Liberia");
             country.setCountryCode("LI");
@@ -1947,7 +1947,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Monrovia");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Tajikistan");
             country.setCountryCode("TI");
@@ -1958,7 +1958,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Dushanbe");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Laos");
             country.setCountryCode("LA");
@@ -1969,7 +1969,7 @@ public class CountryRecordTestData {
             country.setGovernment("Communist state");
             country.setCapital("Vientiane");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Burma");
             country.setCountryCode("BM");
@@ -1980,7 +1980,7 @@ public class CountryRecordTestData {
             country.setGovernment("military regime");
             country.setCapital("Rangoon");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Cape Verde");
             country.setCountryCode("CV");
@@ -1991,7 +1991,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Praia");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Zambia");
             country.setCountryCode("ZA");
@@ -2002,7 +2002,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Lusaka");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("North America");
             country.setCountryName("Haiti");
             country.setCountryCode("HA");
@@ -2013,7 +2013,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Port au Prince");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Sao Tome and Principe");
             country.setCountryCode("TP");
@@ -2024,7 +2024,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Sao Tome");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Sierra Leone");
             country.setCountryCode("SL");
@@ -2035,7 +2035,7 @@ public class CountryRecordTestData {
             country.setGovernment("constitutional democracy");
             country.setCapital("Freetown");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Gambia");
             country.setCountryCode("GA");
@@ -2046,7 +2046,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic under multiparty democratic rule");
             country.setCapital("Banjul");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Macedonia");
             country.setCountryCode("MK");
@@ -2057,7 +2057,7 @@ public class CountryRecordTestData {
             country.setGovernment("emerging democracy");
             country.setCapital("Skopje");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("North Korea");
             country.setCountryCode("KN");
@@ -2067,7 +2067,7 @@ public class CountryRecordTestData {
             country.setGovernment("Communist state");
             country.setCapital("Pyongyang");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Togo");
             country.setCountryCode("TO");
@@ -2078,7 +2078,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic under transition to multiparty democratic rule");
             country.setCapital("Lome");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Guinea");
             country.setCountryCode("GV");
@@ -2089,7 +2089,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Conakry");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Guinea-Bissau");
             country.setCountryCode("PU");
@@ -2100,7 +2100,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Bissau");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Australia/Oceania");
             country.setCountryName("Kiribati");
             country.setCountryCode("KR");
@@ -2111,7 +2111,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Tarawa");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Madagascar");
             country.setCountryCode("MA");
@@ -2122,7 +2122,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Antananarivo");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Uganda");
             country.setCountryCode("UG");
@@ -2133,7 +2133,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Kampala");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Tanzania");
             country.setCountryCode("TZ");
@@ -2144,7 +2144,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Dar es Salaam");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Sudan");
             country.setCountryCode("SU");
@@ -2155,7 +2155,7 @@ public class CountryRecordTestData {
             country.setGovernment("transitional previously ruling military junta");
             country.setCapital("Khartoum");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Australia/Oceania");
             country.setCountryName("Tuvalu");
             country.setCountryCode("TV");
@@ -2166,7 +2166,7 @@ public class CountryRecordTestData {
             country.setGovernment("democracy");
             country.setCapital("Funafuti");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Central African Republic");
             country.setCountryCode("CT");
@@ -2177,7 +2177,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Bangui");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Equatorial Guinea");
             country.setCountryCode("EK");
@@ -2188,7 +2188,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic in transition to multiparty democracy");
             country.setCapital("Malabo");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Malawi");
             country.setCountryCode("MI");
@@ -2199,7 +2199,7 @@ public class CountryRecordTestData {
             country.setGovernment("multiparty democracy");
             country.setCapital("Lilongwe");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Angola");
             country.setCountryCode("AO");
@@ -2210,7 +2210,7 @@ public class CountryRecordTestData {
             country.setGovernment("transitional government nominally a multiparty democracy with a strong presidential system");
             country.setCapital("Luanda");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Bhutan");
             country.setCountryCode("BT");
@@ -2221,7 +2221,7 @@ public class CountryRecordTestData {
             country.setGovernment("monarchy");
             country.setCapital("Thimphu");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Burkina Faso");
             country.setCountryCode("UV");
@@ -2232,7 +2232,7 @@ public class CountryRecordTestData {
             country.setGovernment("parliamentary");
             country.setCapital("Ouagadougou");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Mozambique");
             country.setCountryCode("MZ");
@@ -2243,7 +2243,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Maputo");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Burundi");
             country.setCountryCode("BY");
@@ -2254,7 +2254,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Bujumbura");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Comoros");
             country.setCountryCode("CN");
@@ -2265,7 +2265,7 @@ public class CountryRecordTestData {
             country.setGovernment("independent republic");
             country.setCapital("Moroni");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Cambodia");
             country.setCountryCode("CB");
@@ -2276,7 +2276,7 @@ public class CountryRecordTestData {
             country.setGovernment("multiparty liberal democracy under a constitutional monarchy established in September 1993");
             country.setCapital("Phnom Penh");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Niger");
             country.setCountryCode("NG");
@@ -2287,7 +2287,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Niamey");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Eritrea");
             country.setCountryCode("ER");
@@ -2298,7 +2298,7 @@ public class CountryRecordTestData {
             country.setGovernment("transitional government");
             country.setCapital("Asmara");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Asia");
             country.setCountryName("Afghanistan");
             country.setCountryCode("AF");
@@ -2309,7 +2309,7 @@ public class CountryRecordTestData {
             country.setGovernment("transitional government");
             country.setCapital("Kabul");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Mali");
             country.setCountryCode("ML");
@@ -2320,7 +2320,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Bamako");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Rwanda");
             country.setCountryCode("RW");
@@ -2331,7 +2331,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("Kigali");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Chad");
             country.setCountryCode("CD");
@@ -2342,7 +2342,7 @@ public class CountryRecordTestData {
             country.setGovernment("republic");
             country.setCapital("NDjamena");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Ethiopia");
             country.setCountryCode("ET");
@@ -2352,7 +2352,7 @@ public class CountryRecordTestData {
             country.setGovernment("federal republic");
             country.setCapital("Addis Ababa");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Europe");
             country.setCountryName("Bosnia and Herzegovina");
             country.setCountryCode("BK");
@@ -2363,7 +2363,7 @@ public class CountryRecordTestData {
             country.setGovernment("emerging democracy");
             country.setCapital("Sarajevo");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Somalia");
             country.setCountryCode("SO");
@@ -2374,7 +2374,7 @@ public class CountryRecordTestData {
             country.setGovernment("none");
             country.setCapital("Mogadishu");
         list.add(country);
-        country = new CountryRecord(id++);
+        country = new CountryDto(id++);
             country.setContinent("Africa");
             country.setCountryName("Zaire");
             country.setCountryCode("CG");

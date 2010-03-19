@@ -90,18 +90,14 @@ public class CriteriaUtil {
         String operator = JSOHelper.getAttribute(jsObj, "operator");
         // The fields are listed in the properties
         if(operator == null) {
-            List<SimpleCriteriaDto> list = new ArrayList<SimpleCriteriaDto>();
+            List<CriteriaDto> list = new ArrayList<CriteriaDto>();
             for (String p : properties) {
                 String v = getTypedValue(dataSource, jsObj, p, p);
                 if (v != null) {
                     list.add(new SimpleCriteriaDto(CriteriaTypeDto.CONTAINS, p, v));
                 }
             }
-            SimpleCriteriaDto arr[] = new SimpleCriteriaDto[list.size()];
-            for (int i = 0, arrLength = arr.length; i < arrLength; i++) {
-                arr[i] = list.get(i);
-            }
-            return new AdvancedCriteriaDto(CriteriaTypeDto.AND, arr);
+            return new AdvancedCriteriaDto(CriteriaTypeDto.AND, list);
         }
         operator = operator.toLowerCase();
         Map<String, CriteriaTypeDto> operatorMap = getOperatorMap();
@@ -125,9 +121,9 @@ public class CriteriaUtil {
             if (criteria == null) {
                 throw new CriteriaException("No criteria provided for Advanced Criteria");
             }
-            CriteriaDto[] criteriaDtoArray = new CriteriaDto[criteria.length];
-            for (int i = 0; i < criteriaDtoArray.length; i++) {
-                criteriaDtoArray[i] = createCriteriaDto(dataSource, criteria[i]);
+            List<CriteriaDto> criteriaDtoArray = new ArrayList<CriteriaDto>(criteria.length);
+            for (int i = 0; i < criteria.length; i++) {
+                criteriaDtoArray.add(createCriteriaDto(dataSource, criteria[i]));
             }
             return new AdvancedCriteriaDto(operatorTypeDto, criteriaDtoArray);
         }
