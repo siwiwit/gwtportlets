@@ -24,12 +24,16 @@ import org.gwtportlets.portlet.server.PageRequest;
 import org.gwtportlets.portlet.server.WidgetDataProvider;
 import org.gwtportlets.portlet.smartgwt.client.SmartPortletFactory;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * The Data Provider which must be used for Smart Portlets.
  *
  * @param <T> The Smart Portlet Factory class
  */
 public abstract class SmartWidgetDataProvider<T extends SmartPortletFactory> implements WidgetDataProvider<T> {
+    private Map<String, DataProviderObject> map = new HashMap<String, DataProviderObject>();
 
     public void refresh(T f, PageRequest req) {
         switch (f.getOperationType()) {
@@ -49,6 +53,27 @@ public abstract class SmartWidgetDataProvider<T extends SmartPortletFactory> imp
     }
 
     /**
+     * Adds a data provider object to this data provider with the default data source id.
+     *
+     * Every data provider object will be called when a request with the mapped data source is received.
+     * @param provider The provider to add.
+     */
+    public void addDataProviderObject(DataProviderObject provider) {
+        addDataProviderObject(provider.getDataSourceId(), provider);
+    }
+
+    /**
+     * Adds a data provider object to this data provider with the given data source id.
+     *
+     * Every data provider object will be called when a request with the mapped data source is received.
+     * @param dataSourceId The data source id to map to the data provider object.
+     * @param provider The provider to add.
+     */
+    public void addDataProviderObject(String dataSourceId, DataProviderObject provider) {
+        map.put(dataSourceId, provider);
+    }
+
+    /**
      * Performs a data fetch operation.
      *
      * This method is called when the associated SmartPortlet sends a FETCH DSRequest.
@@ -59,7 +84,15 @@ public abstract class SmartWidgetDataProvider<T extends SmartPortletFactory> imp
      *
      * @param f The portlet factory which is to transfer the data for the request.
      */
-    public abstract void executeFetch(T f);
+    public void executeFetch(T f) {
+        String dataSourceId = f.getDataSourceId();
+        if (dataSourceId != null) {
+            DataProviderObject dataSourceProvider = map.get(dataSourceId);
+            if (dataSourceProvider != null) {
+                f.setData(dataSourceProvider.fetchData(f));
+            }
+        }
+    }
 
     /**
      * Performs a data add operation.
@@ -71,7 +104,15 @@ public abstract class SmartWidgetDataProvider<T extends SmartPortletFactory> imp
      *
      * @param f The portlet factory which is to transfer the data for the request.
      */
-    public abstract void executeAdd(T f);
+    public void executeAdd(T f) {
+        String dataSourceId = f.getDataSourceId();
+        if (dataSourceId != null) {
+            DataProviderObject dataSourceProvider = map.get(dataSourceId);
+            if (dataSourceProvider != null) {
+                f.setSingleDto(dataSourceProvider.addData(f));
+            }
+        }
+    }
 
     /**
      * Performs a data update operation.
@@ -84,7 +125,15 @@ public abstract class SmartWidgetDataProvider<T extends SmartPortletFactory> imp
      * multiple sources attempt to update the same entry.
      * @param f The portlet factory which is to transfer the data for the request.
      */
-    public abstract void executeUpdate(T f);
+    public void executeUpdate(T f) {
+        String dataSourceId = f.getDataSourceId();
+        if (dataSourceId != null) {
+            DataProviderObject dataSourceProvider = map.get(dataSourceId);
+            if (dataSourceProvider != null) {
+                f.setSingleDto(dataSourceProvider.updateData(f));
+            }
+        }
+    }
 
     /**
      * Performs a data remove operation.
@@ -95,6 +144,14 @@ public abstract class SmartWidgetDataProvider<T extends SmartPortletFactory> imp
      * was removed. 
      * @param f The portlet factory which is to transfer the data for the request.
      */
-    public abstract void executeRemove(T f);
+    public void executeRemove(T f) {
+        String dataSourceId = f.getDataSourceId();
+        if (dataSourceId != null) {
+            DataProviderObject dataSourceProvider = map.get(dataSourceId);
+            if (dataSourceProvider != null) {
+                f.setSingleDto(dataSourceProvider.removeData(f));
+            }
+        }
+    }
 
 }

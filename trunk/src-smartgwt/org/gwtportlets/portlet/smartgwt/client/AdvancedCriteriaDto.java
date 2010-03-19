@@ -22,6 +22,9 @@ package org.gwtportlets.portlet.smartgwt.client;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A DTO to represent advanced filters.
  *
@@ -33,27 +36,27 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public class AdvancedCriteriaDto extends CriteriaDto implements IsSerializable {
 
-    protected CriteriaDto criteriaArray[];
+    protected List<CriteriaDto> criteriaList;
 
     public AdvancedCriteriaDto() {
     }
 
-    public AdvancedCriteriaDto(CriteriaTypeDto type, CriteriaDto[] criteriaArray) {
+    public AdvancedCriteriaDto(CriteriaTypeDto type, List<CriteriaDto> criteriaList) {
         this.type = type;
-        this.criteriaArray = criteriaArray;
+        this.criteriaList = criteriaList;
     }
 
     public AdvancedCriteriaDto(CriteriaTypeDto type, CriteriaDto dto) {
         this.type = type;
-        this.criteriaArray = new CriteriaDto[1];
-        this.criteriaArray[0] = dto;
+        this.criteriaList = new ArrayList<CriteriaDto>(1);
+        this.criteriaList.add(dto);
     }
 
-    public CriteriaDto[] getCriteriaArray() {
-        return criteriaArray;
+    public List<CriteriaDto> getCriteriaList() {
+        return criteriaList;
     }
 
-    public void setCriteriaArray(CriteriaDto[] criteriaArray) {
-        this.criteriaArray = criteriaArray;
+    public void setCriteriaList(List<CriteriaDto> criteriaList) {
+        this.criteriaList = criteriaList;
     }
 }

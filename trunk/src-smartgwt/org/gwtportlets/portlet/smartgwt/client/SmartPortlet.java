@@ -23,7 +23,10 @@ package org.gwtportlets.portlet.smartgwt.client;
 import com.google.gwt.user.client.ui.Widget;
 import com.smartgwt.client.data.DSRequest;
 import com.smartgwt.client.data.DSResponse;
+import com.smartgwt.client.data.DataSource;
+import com.smartgwt.client.data.Record;
 import com.smartgwt.client.widgets.Canvas;
+import com.smartgwt.client.widgets.grid.ListGridRecord;
 import org.gwtportlets.portlet.client.ui.Portlet;
 
 import java.util.ArrayList;
@@ -39,11 +42,16 @@ public abstract class SmartPortlet extends Portlet {
     protected List<DSRequest> requestList = new ArrayList<DSRequest>();
     /** If the child widget should be automatically re-sized. */
     protected boolean autoSizeChild = true;
+    /** The prefix to add to data source IDs. */
+    protected String dataSourceIdPrefix;
     
     protected SmartPortlet() {
+        dataSourceIdPrefix = getClass().getName();
+        dataSourceIdPrefix = dataSourceIdPrefix.substring(dataSourceIdPrefix.lastIndexOf('.') + 1);
     }
 
     protected SmartPortlet(boolean autoSizeChild) {
+        this();
         this.autoSizeChild = autoSizeChild;
     }
 
@@ -141,7 +149,89 @@ public abstract class SmartPortlet extends Portlet {
      */
     public static DSResponse createResponse(DSRequest request, SmartPortletFactory f) {
         DSResponse response = createResponse(request);
-        response.setTotalRows(f.getTotalRows());
+        if (f.getTotalRows() != 0) {
+            response.setTotalRows(f.getTotalRows());
+        }
         return response;
+    }
+
+    /**
+     * Converts a list of DTOs into an array of records for the widget framework.
+     * @param dtoList The list of DTOs to convert.
+     * @return The array of records created from the DTO list.
+     */
+    public static Record[] getRecordList(List<DataTransferObject> dtoList) {
+        if (dtoList == null) {
+            return null;
+        }
+        Record[] list = new Record[dtoList.size()];
+        for (int i = 0; i < list.length; i++) {
+            list[i] = new ListGridRecord();
+            dtoList.get(i).copyToRecord(list[i]);
+        }
+        return list;
+    }
+
+    /**
+     * Returns a single entry record array from a DTO.
+     * @param dto The DTO to convert into a record.
+     * @return The single entry array created from the DTO.
+     */
+    public static Record[] getRecordList(DataTransferObject dto) {
+        if (dto == null) {
+            return null;
+        }
+        Record[] list = new Record[1];
+        dto.copyToRecord(list[0]);
+        return list;
+    }
+
+    /**
+     * Returns the prefix this portlet adds to its data source ids.
+     * @return The prefix.
+     */
+    public String getDataSourceIdPrefix() {
+        return dataSourceIdPrefix;
+    }
+
+    /**
+     * Sets the prefix this portlet adds to its data source ids.
+     * @param dataSourceIdPrefix The prefix.
+     */
+    public void setDataSourceIdPrefix(String dataSourceIdPrefix) {
+        this.dataSourceIdPrefix = dataSourceIdPrefix;
+    }
+
+    /**
+     * Returns the given id added to the portlet prefix.
+     * @param id The id to add the prefix to.
+     * @return The given id added to the portlet prefix.
+     */
+    public String getDataSourceId(String id) {
+        return dataSourceIdPrefix + "_" + id;
+    }
+
+    /**
+     * Returns the data source with given id added to the portlet prefix.
+     * @param id The id to add the prefix to.
+     * @return The portlet with the given id added to the portlet prefix.
+     */
+    public DataSource getDataSource(String id) {
+        return DataSource.get(getDataSourceId(id));
+    }
+
+
+    /**
+     * Returns the original id from the given id which has been added to the porlet's prefix.
+     * @param id The id which has been added to the portlet's prefix.
+     * @return The original id.
+     */
+    public String getBaseDataSourceId(String id) {
+        int len = dataSourceIdPrefix.length() + 1;
+        if (id == null || id.length() <= len) {
+            throw new RuntimeException("The data source id " + id + " does not contain the portlet prefix " +
+                    dataSourceIdPrefix);
+        }
+        return id.substring(len);
     }
 }

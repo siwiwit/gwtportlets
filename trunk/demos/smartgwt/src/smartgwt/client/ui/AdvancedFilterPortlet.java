@@ -21,9 +21,6 @@
 package smartgwt.client.ui;
 
 import com.google.gwt.i18n.client.NumberFormat;
-import com.smartgwt.client.data.DSRequest;
-import com.smartgwt.client.data.DSResponse;
-import com.smartgwt.client.data.Record;
 import com.smartgwt.client.types.ListGridFieldType;
 import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.events.ClickEvent;
@@ -34,16 +31,13 @@ import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
 import com.smartgwt.client.widgets.layout.VStack;
-import org.gwtportlets.portlet.client.DoNotSendToServer;
 import org.gwtportlets.portlet.client.WidgetFactory;
 import org.gwtportlets.portlet.client.ui.Portlet;
+import org.gwtportlets.portlet.smartgwt.client.DataTransferObject;
 import org.gwtportlets.portlet.smartgwt.client.SmartPortlet;
 import org.gwtportlets.portlet.smartgwt.client.SmartPortletDataSource;
 import org.gwtportlets.portlet.smartgwt.client.SmartPortletFactory;
-import smartgwt.client.data.CountryDataSource;
-import smartgwt.client.data.CountryRecord;
-
-import java.util.List;
+import smartgwt.client.data.CountryDto;
 
 /**
  * A portlet which demonstrates Advanced filtering.
@@ -56,7 +50,7 @@ public class AdvancedFilterPortlet extends SmartPortlet {
         VStack vStack = new VStack(10);
         initWidget(vStack);
              
-        dataSource = new CountryDataSource(this);
+        dataSource = CountryDto.getDataSource(this);
         dataSource.setPortlet(this);
 
         final FilterBuilder filterBuilder = new FilterBuilder();
@@ -104,32 +98,7 @@ public class AdvancedFilterPortlet extends SmartPortlet {
         return new Factory(this);
     }
 
-    private void restore(Factory f) {
-        DSRequest request = removeRequest(f);
-        if (request != null) {
-            switch (request.getOperationType()) {
-                case FETCH:
-                    fetchResponse(request, f);
-                    break;
-            }
-        }
-    }
-
-    private void fetchResponse(DSRequest request, Factory f) {
-        DSResponse response = SmartPortlet.createResponse(request, f);
-        Record[] list = new Record[f.data.size()];
-        for (int i = 0; i < list.length; i++) {
-            list[i] = CountryDataSource.createRecord(f.data.get(i));
-        }
-        response.setData(list);
-        dataSource.processResponse(request.getRequestId(), response);
-    }
-
-
     public static class Factory extends SmartPortletFactory<AdvancedFilterPortlet> {
-        @DoNotSendToServer
-        public List<CountryRecord> data;
-
         public Factory() {
         }
 
@@ -142,9 +111,8 @@ public class AdvancedFilterPortlet extends SmartPortlet {
         }
 
         @Override
-        public void refresh(AdvancedFilterPortlet p) {
-            super.refresh(p);
-            p.restore(this);
+        public DataTransferObject createDto() {
+            return new CountryDto();
         }
     }
 }

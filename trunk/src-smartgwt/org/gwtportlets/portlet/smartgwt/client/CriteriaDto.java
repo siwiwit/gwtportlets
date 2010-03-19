@@ -57,7 +57,7 @@ public class CriteriaDto implements IsSerializable {
         prefix += " ";
         if (this instanceof AdvancedCriteriaDto) {
             AdvancedCriteriaDto advancedCriteriaDto = (AdvancedCriteriaDto)this;
-            for (CriteriaDto s : advancedCriteriaDto.criteriaArray) {
+            for (CriteriaDto s : advancedCriteriaDto.criteriaList) {
                 s.toString(b, prefix);
             }
         } else if (this instanceof SimpleCriteriaDto) {

@@ -82,4 +82,30 @@ public class SmartComparator<T> implements Comparator<T> {
         }
         return 0;
     }
+
+    /**
+     * Returns an order by string which is the comma separated list of sort fields including
+     * the words "asc" or "desc" after each field.
+     * @param sort The sort specifier to use.
+     * @return The order by string for the given sort specifier.
+     */
+    public static String getOrderBy(SortSpecifierDto[] sort) {
+        if (sort == null || sort.length == 0) {
+            return null;
+        }
+        StringBuilder orderBy = new StringBuilder();
+        for (int i = 0; i < sort.length; i++) {
+            SortSpecifierDto dto = sort[i];
+            if (i > 0) {
+                orderBy.append(",");
+            }
+            orderBy.append(dto.field);
+            if (dto.isAscending) {
+                orderBy.append("asc");
+            } else {
+                orderBy.append("desc");
+            }
+        }
+        return orderBy.toString();
+    }
 }
