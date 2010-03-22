@@ -263,7 +263,11 @@ public class Dialog extends PopupPanel implements AsyncCallback<WidgetFactory> {
         super.onDetach();
         if (blocker != null) {
             blockerSync.stopListening();
-            RootPanel.get().remove(blocker);
+            // If the root panel is detaching all its children, the blocker
+            // could be detached before the dialog. 
+            if (blocker.isAttached()) {
+                RootPanel.get().remove(blocker);
+            }
             blocker = null;
             blockerSync = null;
         }
