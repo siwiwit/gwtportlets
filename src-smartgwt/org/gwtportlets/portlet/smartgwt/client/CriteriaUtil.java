@@ -151,6 +151,9 @@ public class CriteriaUtil {
 
     protected static String getTypedValue(DataSource dataSource, JavaScriptObject jsObj, String fieldName,
                                           String valueFieldName) {
+        if (fieldName.startsWith("__")) {
+            return null;
+        }
     	DataSourceField[] fields = dataSource.getFields();
     	for (DataSourceField field : fields) {
     		if(field.getName().equalsIgnoreCase(fieldName)) {
@@ -171,14 +174,14 @@ public class CriteriaUtil {
 	    				if(object instanceof Date) {
                             return getDateFormat().format((Date)object);
                         }
-                        break;
+                        return null;
                     default:
-                        return JSOHelper.getAttribute(jsObj, valueFieldName);
+                        break;
 	    		}
-	    		return null;
     		}
 		}
-    	return null;
+        // The default for general types and unknown fields.
+    	return JSOHelper.getAttribute(jsObj, valueFieldName);
     }
 
     public static class CriteriaException extends Exception {

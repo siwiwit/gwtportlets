@@ -87,6 +87,9 @@ public abstract class SmartPortletFactory<T extends SmartPortlet> extends Portle
      * @return The limited list.
      */
     public <T extends DataTransferObject> List<T> limitList(List<T> list) {
+        if (startRow < 0 || endRow < 0) {
+            return list;
+        }
         totalRows = list.size();
         return new ArrayList<T>(list.subList(
                 Math.min(startRow, list.size()),
