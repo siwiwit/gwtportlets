@@ -22,9 +22,7 @@ package org.gwtportlets.portlet.client.layout;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
-import org.gwtportlets.portlet.client.WidgetFactory;
-import org.gwtportlets.portlet.client.WidgetFactoryMetaData;
-import org.gwtportlets.portlet.client.WidgetFactoryVisitor;
+import org.gwtportlets.portlet.client.*;
 import org.gwtportlets.portlet.client.impl.WidgetFactoryHelper;
 import org.gwtportlets.portlet.client.ui.BadWidgetPlaceholder;
 import org.gwtportlets.portlet.client.ui.Portlet;
@@ -161,15 +159,21 @@ public class LayoutUtil {
      * there are errors.
      */
     public static Widget createWidget(WidgetFactory wf) {
-        Widget w;
         try {
-            w = wf.createWidget();
+            WidgetRefreshHook rh = WidgetRefreshHook.App.get();
+            if (rh != null && rh instanceof HasWidgetFactoryEnabled) {
+                String s = ((HasWidgetFactoryEnabled)rh).getWidgetFactoryDisabledMessage(wf);
+                if (s != null) {
+                    return new BadWidgetPlaceholder(wf, s);
+                }
+            }
+            Widget w = wf.createWidget();
             wf.refresh(w);
+            return w;
         } catch (Exception e) {
             GWT.log(e.toString(), e);
-            w = new BadWidgetPlaceholder(wf, e);
+            return new BadWidgetPlaceholder(wf, e);
         }
-        return w;
     }
 
     /**
@@ -177,8 +181,19 @@ public class LayoutUtil {
      * is created with each call.
      */
     public static List<WidgetFactoryMetaData> getWidgetFactoryList() {
-        return new ArrayList<WidgetFactoryMetaData>(
-                Arrays.asList(widgetFactoryHelper.getWidgetFactoryList()));
+        WidgetFactoryMetaData[] arr = widgetFactoryHelper.getWidgetFactoryList();
+        WidgetRefreshHook rh = WidgetRefreshHook.App.get();
+        if (rh != null && rh instanceof HasWidgetFactoryEnabled) {
+            ArrayList<WidgetFactoryMetaData> list = new ArrayList<WidgetFactoryMetaData>();
+            HasWidgetFactoryEnabled c = (HasWidgetFactoryEnabled)rh;
+            for (WidgetFactoryMetaData d : arr) {
+                if (c.isWidgetFactoryEnabled(d.getCls())) {
+                    list.add(d);
+                }
+            }
+            return list;
+        }
+        return new ArrayList<WidgetFactoryMetaData>(Arrays.asList(arr));
     }
 
     /**

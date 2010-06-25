@@ -23,12 +23,13 @@ package org.gwtportlets.portlet.client.ui;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
+import org.gwtportlets.portlet.client.HasWidgetFactoryEnabled;
+import org.gwtportlets.portlet.client.WidgetFactory;
+import org.gwtportlets.portlet.client.WidgetFactoryProvider;
+import org.gwtportlets.portlet.client.WidgetRefreshHook;
 import org.gwtportlets.portlet.client.event.BroadcastManager;
 import org.gwtportlets.portlet.client.event.WidgetChangeEvent;
 import org.gwtportlets.portlet.client.layout.LayoutUtil;
-import org.gwtportlets.portlet.client.WidgetFactoryProvider;
-import org.gwtportlets.portlet.client.WidgetFactory;
-import org.gwtportlets.portlet.client.WidgetRefreshHook;
 
 /**
  * Support class to refresh widgets.
@@ -105,7 +106,11 @@ public class RefreshHelper {
 
     public void onRefreshCallSuccess(Widget w, WidgetFactory wf) {
         try {
-            wf.refresh(w);
+            WidgetRefreshHook rh = WidgetRefreshHook.App.get();
+            if (rh == null || !(rh instanceof HasWidgetFactoryEnabled) ||
+                    ((HasWidgetFactoryEnabled)rh).isWidgetFactoryEnabled(wf)) {
+                wf.refresh(w);
+            }
         } catch (Exception e) {
             onRefreshFailed(w, wf, e);
         }
