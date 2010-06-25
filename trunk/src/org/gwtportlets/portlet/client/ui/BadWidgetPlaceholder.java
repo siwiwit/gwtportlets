@@ -31,16 +31,24 @@ public class BadWidgetPlaceholder extends Portlet {
 
     private WidgetFactory badFactory;
 
-    public BadWidgetPlaceholder(WidgetFactory badFactory, Exception e) {
-        this.badFactory = badFactory;
+    public BadWidgetPlaceholder(WidgetFactory badFactory, String message) {
+        init(badFactory, message);
+    }
 
+    public BadWidgetPlaceholder(WidgetFactory badFactory, Exception e) {
         StringBuffer s = new StringBuffer();
         s.append(badFactory.getClass().getName()).append('\n');
         s.append(tos(badFactory)).append('\n');
         s.append(e.getClass().getName()).append(":\n");
         s.append(e.getMessage());
-        
-        initWidget(new Label(s.toString()));
+
+        init(badFactory, s.toString());
+    }
+
+    private void init(WidgetFactory badFactory, String message) {
+        this.badFactory = badFactory;
+
+        initWidget(new Label(message));
         setStyleName("portlet-badwidget");
     }
 

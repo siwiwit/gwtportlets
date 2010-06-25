@@ -33,6 +33,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
+import org.gwtportlets.portlet.client.HasWidgetFactoryEnabled;
 import org.gwtportlets.portlet.client.WidgetFactory;
 import org.gwtportlets.portlet.client.WidgetFactoryProvider;
 import org.gwtportlets.portlet.client.WidgetRefreshHook;
@@ -1400,7 +1401,11 @@ public abstract class PageEditor implements Event.NativePreviewHandler, LayoutHa
                 // what to do here?
             }
             public void onSuccess(WidgetFactory wf) {
-                wf.refresh(w);
+                WidgetRefreshHook rh = WidgetRefreshHook.App.get();
+                if (rh == null || !(rh instanceof HasWidgetFactoryEnabled) ||
+                        ((HasWidgetFactoryEnabled)rh).isWidgetFactoryEnabled(wf)) {
+                    wf.refresh(w);
+                }
             }
         });
     }

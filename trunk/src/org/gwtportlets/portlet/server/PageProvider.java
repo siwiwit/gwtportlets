@@ -20,11 +20,12 @@
 
 package org.gwtportlets.portlet.server;
 
+import org.gwtportlets.portlet.client.HasWidgetFactoryEnabled;
 import org.gwtportlets.portlet.client.WidgetFactory;
 import org.gwtportlets.portlet.client.WidgetFactoryVisitor;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Converts a history token (i.e. page) into a WidgetFactory tree to be
@@ -79,7 +80,10 @@ public abstract class PageProvider {
                 WidgetDataProvider p = findWidgetDataProvider(wf);
                 if (p != null) {
                     try {
-                        p.refresh(wf, req);
+                        if (!(PageProvider.this instanceof HasWidgetFactoryEnabled) ||
+                                ((HasWidgetFactoryEnabled)PageProvider.this).isWidgetFactoryEnabled(wf)) {
+                            p.refresh(wf, req);
+                        }
                     } catch (Exception e) {
                         handleRefreshException(req, top, wf, e);
                     }
