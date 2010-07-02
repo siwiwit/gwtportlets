@@ -73,6 +73,15 @@ public abstract class SmartPortlet extends Portlet {
         }
     }
 
+    @Override
+    protected void onDetach() {
+        super.onDetach();
+        Widget widget = getWidget();
+        if (widget instanceof Canvas) {
+            ((Canvas)widget).destroy();
+        }
+    }
+
     /**
      * Returns the request associated with the given Smart Portlet Factory.
      * @param f The Smart Portlet Factory which owns the request.
