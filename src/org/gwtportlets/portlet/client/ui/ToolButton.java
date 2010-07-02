@@ -43,6 +43,8 @@ public class ToolButton extends PositionAwareComposite
     public static final int CLOSE = 3;
     public static final int CONFIGURE = 4;
     public static final int RESTORE = 5;
+    public static final int HIDE = 1;
+    public static final int SHOW = 2;
 
     private int imageIndex;
     private int width;

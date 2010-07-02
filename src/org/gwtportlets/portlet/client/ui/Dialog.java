@@ -67,10 +67,22 @@ public class Dialog extends PopupPanel implements AsyncCallback<WidgetFactory> {
     private boolean widthSet;
     private BroadcastListener[] broadcastListeners;
 
-    private final Label titleLabel = new Label("Dialog");
+    private final HTML titleHTML = new HTML("Dialog");
     private Widget blocker;
     private SyncToClientArea blockerSync;
     private SyncToClientArea maxSync;
+
+    private boolean hidden = false;
+    // Indicates whether the dialog will collapse downwards when the hide button is clicked. If this is false then it
+    // will collapse upwards
+    private boolean collapseDownwards = false;
+
+    private final ToolButton hideButton = new ToolButton(ToolButton.HIDE, "Hide",
+            new ClickHandler() {
+        public void onClick(ClickEvent event) {
+            onHideClick();
+        }
+    });
 
     private final ToolButton closeButton = new ToolButton(ToolButton.CLOSE, "Close",
             new ClickHandler() {
@@ -98,22 +110,24 @@ public class Dialog extends PopupPanel implements AsyncCallback<WidgetFactory> {
         super(autoHide, modal);
         this.modal = modal;
 
-        header.add(titleLabel, LayoutConstraints.HIDDEN);
+        header.add(titleHTML, LayoutConstraints.HIDDEN);
         sidesContent.add(content);
         sidesButtonBar.add(buttonBar);
 
         main.add(header);
         main.add(sidesContent);
+
         main.add(sidesButtonBar);
         main.add(footer);
 
         super.setWidget(main);
 
+        setHideVisible(false);
         setMaximizeVisible(true);
         setCloseVisible(true);
         setStyleName("portlet-dialog");
 
-        new DragHandle(titleLabel, this){
+        new DragHandle(titleHTML, this){
             protected void onDrag(int clientX, int clientY) {
                 setPopupPosition(clientX - getOffsetX(), clientY - getOffsetY());
             }
@@ -148,7 +162,7 @@ public class Dialog extends PopupPanel implements AsyncCallback<WidgetFactory> {
             wrapperStyle = style + "-content-wrapper";
             buttonBar.setStyleName(style + "-buttonbar");
             footer.setStyleName(style + "-footer");
-            titleLabel.setStyleName(style + "-title");
+            titleHTML.setStyleName(style + "-title");
             Theme.get().updateDialog(this);
             main.setLayoutConstraints(header, new RowLayout.Constraints(
                     header.getHeight()));
@@ -306,11 +320,41 @@ public class Dialog extends PopupPanel implements AsyncCallback<WidgetFactory> {
     }
 
     public String getText() {
-        return titleLabel.getText();
+        return titleHTML.getText();
     }
 
     public void setText(String text) {
-        titleLabel.setText(text);
+        titleHTML.setText(text);
+    }
+
+    public void setHTML(String html) {
+        titleHTML.setHTML(html);
+    }
+
+    public void setCollapseDownwards(boolean on) {
+        collapseDownwards = on;
+    }
+
+    public boolean isHideVisible() {
+        return hideButton.getParent() != null;
+    }
+
+    public void setHideVisible(boolean on) {
+        if (on != isHideVisible()) {
+            if (on) {
+                RowLayout.Constraints c = new RowLayout.Constraints(
+                        hideButton.getMaxWidth());
+                if (isMaximizeVisible()) {
+                    header.insert(hideButton, header.getWidgetIndex(maxButton), c);
+                } else if (isCloseVisible()) {
+                    header.insert(hideButton, header.getWidgetIndex(closeButton), c);
+                } else {
+                    header.add(hideButton, c);
+                }
+            } else {
+                header.remove(hideButton);
+            }
+        }
     }
 
     public boolean isCloseVisible() {
@@ -361,6 +405,71 @@ public class Dialog extends PopupPanel implements AsyncCallback<WidgetFactory> {
                 main.remove(sidesButtonBar);
             }
         }
+        main.layout();
+    }
+
+    /**
+     * The hide / show button has been clicked
+     */
+    public void onHideClick() {
+        toggleHide();
+    }
+
+    /**
+     * Hides / shows the dialog
+     */
+    private void toggleHide() {
+        if (isHidden()) {
+            updateHideButton(true);
+
+            Rectangle headerBounds = LDOM.getBounds(header);
+
+            Rectangle showBounds = new Rectangle(originalBounds);
+            showBounds.x = headerBounds.x;
+            showBounds.y = collapseDownwards ?
+                    headerBounds.y - originalBounds.height + headerBounds.height :
+                    headerBounds.y;
+            
+            setBounds(showBounds);
+            originalBounds = null;
+
+            hidden = false;
+        } else {
+            updateHideButton(false);
+
+            // LDOM.getBounds(this) and LDOM.getBounds(main) return 0 height
+            // so add up the sections manually
+            originalBounds = LDOM.getBounds(header);
+            originalBounds.height = getHeight();
+
+            Rectangle hiddenBounds = new Rectangle(LDOM.getBounds(header));
+            hiddenBounds.height = LDOM.getHeight(header.getElement());
+
+            if (collapseDownwards) {
+                hiddenBounds.y += (LDOM.getHeight(sidesContent.getElement())
+                     + LDOM.getHeight(sidesButtonBar.getElement())
+                     + LDOM.getHeight(footer.getElement()));
+            }
+            setBounds(hiddenBounds);
+
+            hidden = true;
+        }
+    }
+
+    private int getHeight() {
+        return LDOM.getHeight(header.getElement())
+                + LDOM.getHeight(sidesContent.getElement())
+                + LDOM.getHeight(sidesButtonBar.getElement())
+                + LDOM.getHeight(footer.getElement());
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    protected void updateHideButton(boolean hide) {
+        hideButton.setImageIndex(hide ? ToolButton.HIDE : ToolButton.SHOW);
+        hideButton.setTitle(hide ? "Hide" : "Show");
     }
 
     public ToolButton getCloseButton() {
@@ -453,10 +562,7 @@ public class Dialog extends PopupPanel implements AsyncCallback<WidgetFactory> {
             // LDOM.getBounds(this) and LDOM.getBounds(main) return 0 height
             // so add up the sections manually
             originalBounds = LDOM.getBounds(header);
-            originalBounds.height = LDOM.getHeight(header.getElement())
-                     + LDOM.getHeight(sidesContent.getElement())
-                     + LDOM.getHeight(sidesButtonBar.getElement())
-                     + LDOM.getHeight(footer.getElement());
+            originalBounds.height = getHeight();
             maxSync = new SyncToClientArea(Dialog.this) {
                 public void resizeWidget() {
                     setBounds(getMaximizeBounds());
