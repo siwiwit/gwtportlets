@@ -20,9 +20,11 @@
 
 package org.gwtportlets.portlet.server;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletConfig;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,7 +60,12 @@ public class PageRequest {
                 if (i < 0) {
                     i = historyToken.length();
                 }
-                paramMap.put(key, historyToken.substring(q, i));
+                String value = historyToken.substring(q, i);
+                try {
+                    value = URLDecoder.decode(value, "UTF-8");
+                } catch (UnsupportedEncodingException ignored) {
+                }
+                paramMap.put(key, value);
                 q = i + 1;
             }
         } else {
