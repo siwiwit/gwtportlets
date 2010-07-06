@@ -86,7 +86,7 @@ public class SmartPortletDataSource extends DataSource {
                 wf.operationType = 0;
                 break;
         }
-        portlet.refresh(wf);
+        portlet.refresh(wf, null, true);
         return request.getData();
     }
 }
