@@ -96,7 +96,11 @@ public class CssButton extends Button {
     }
 
     public void setText(String text) {
-        super.setText(text);
+        if (text != null && text.length() > 20) {
+            super.setText(text.substring(0, 17) + "...");
+        } else {
+            super.setText(text);
+        }
         if (isAttached()) {
             updateWidth();
         }
