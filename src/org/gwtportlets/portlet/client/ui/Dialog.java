@@ -409,6 +409,24 @@ public class Dialog extends PopupPanel implements AsyncCallback<WidgetFactory> {
     }
 
     /**
+     * Hides / collapses the dialog (if it is not already hidden)
+     */
+    public void collapse() {
+        if (!isHidden()) {
+            toggleHide();
+        }
+    }
+
+    /**
+     * Un-hides / expands the dialog (if it is hidden)
+     */
+    public void uncollapse() {
+        if (isHidden()) {
+            toggleHide();
+        }
+    }
+
+    /**
      * The hide / show button has been clicked
      */
     public void onHideClick() {
