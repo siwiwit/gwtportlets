@@ -472,6 +472,7 @@ public class Dialog extends PopupPanel implements AsyncCallback<WidgetFactory> {
 
             hidden = true;
         }
+        setButtonBarVisible(!hidden);
     }
 
     private int getHeight() {
