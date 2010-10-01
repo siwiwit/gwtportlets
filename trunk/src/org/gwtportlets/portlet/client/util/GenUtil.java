@@ -69,7 +69,12 @@ public class GenUtil {
         }
         if (link != null && isLink(link)) {
             String base = getBaseUrl() + "#";
-            String href = URL.decodeComponent(DOM.getElementProperty(link, "href"));
+            String href = null;
+            if (DOM.getElementProperty(link, "tagName").equalsIgnoreCase("a")) {
+                href = URL.decodeComponent(DOM.getElementProperty(link, "href"));
+            } else if (DOM.getElementProperty(link, "tagName").equalsIgnoreCase("img")) {
+                href = URL.decodeComponent(DOM.getElementProperty(DOM.getParent(link), "href"));
+            }
             if (href != null && href.startsWith(base)) {
                 return href.substring(base.length());
             }
@@ -81,7 +86,8 @@ public class GenUtil {
      * Is element a hyperlink?
      */
     public static boolean isLink(Element element) {
-        return DOM.getElementProperty(element, "tagName").equalsIgnoreCase("a");
+        return DOM.getElementProperty(element, "tagName").equalsIgnoreCase("a") ||
+                DOM.getElementProperty(element, "tagName").equalsIgnoreCase("img");
     }
 
     /**
