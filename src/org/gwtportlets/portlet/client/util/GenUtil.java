@@ -73,7 +73,10 @@ public class GenUtil {
             if (DOM.getElementProperty(link, "tagName").equalsIgnoreCase("a")) {
                 href = URL.decodeComponent(DOM.getElementProperty(link, "href"));
             } else if (DOM.getElementProperty(link, "tagName").equalsIgnoreCase("img")) {
-                href = URL.decodeComponent(DOM.getElementProperty(DOM.getParent(link), "href"));
+                String prop = DOM.getElementProperty(DOM.getParent(link), "href");
+                if (prop != null) {
+                    href = URL.decodeComponent(prop);
+                }
             }
             if (href != null && href.startsWith(base)) {
                 return href.substring(base.length());
