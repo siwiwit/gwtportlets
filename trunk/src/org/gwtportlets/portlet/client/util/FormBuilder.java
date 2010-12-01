@@ -207,7 +207,7 @@ public class FormBuilder {
             b.endRow();
             add(b.getForm());
         } else {
-            add("&nbsp");
+            add("\u00A0");
         }
         return this;
     }
