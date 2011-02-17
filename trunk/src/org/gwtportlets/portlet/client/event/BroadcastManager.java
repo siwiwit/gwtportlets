@@ -27,6 +27,8 @@ import org.gwtportlets.portlet.client.layout.LayoutUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Singleton to broadcast objects to widget trees.
@@ -34,6 +36,7 @@ import java.util.Arrays;
 public class BroadcastManager {
 
     private static BroadcastManager instance;
+    private Set<BroadcastListener> listeners = new HashSet<BroadcastListener>();
 
     /**
      * Get the instance, creating it if not already set.
@@ -52,11 +55,9 @@ public class BroadcastManager {
     public static void set(BroadcastManager instance) {
         if (BroadcastManager.instance != null) {
             throw new IllegalStateException("BroadcastManager already set");
-        }
+        }           
         BroadcastManager.instance = instance;
     }
-
-    private BroadcastListener[] listeners = new BroadcastListener[0];
 
     public BroadcastManager() {
     }
@@ -66,15 +67,16 @@ public class BroadcastManager {
      * object is dispatched to the widget tree.
      */
     public void addBroadcastListener(BroadcastListener l) {
-        ArrayList a = new ArrayList(Arrays.asList(listeners));
-        a.add(l);
-        listeners = (BroadcastListener[])a.toArray(new BroadcastListener[a.size()]);
+        // A set by default does not override the value if it exists. We want to keep the
+        // "latest" version of a listener added.
+        if (listeners.contains(l)) {
+            listeners.remove(l);
+        }
+        listeners.add(l);
     }
 
     public void removeBroadcastListener(BroadcastListener l) {
-        ArrayList a = new ArrayList(Arrays.asList(listeners));
-        a.remove(l);
-        listeners = (BroadcastListener[])a.toArray(new BroadcastListener[a.size()]);
+        listeners.remove(l);
     }
 
     /**
@@ -83,8 +85,8 @@ public class BroadcastManager {
      * @see #broadcast(com.google.gwt.user.client.ui.Widget, Object) 
      */
     public void broadcast(Object ev) {
-        for (int i = listeners.length - 1; i >= 0; i--) {
-            listeners[i].onBroadcast(ev);
+        for (BroadcastListener listener : listeners) {
+            listener.onBroadcast(ev);
         }
         broadcast(RootPanel.get(), ev);
     }
