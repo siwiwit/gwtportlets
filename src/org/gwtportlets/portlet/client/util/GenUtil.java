@@ -303,6 +303,22 @@ public class GenUtil {
     }
 
     /**
+     * Escapes characters such as '<;', '&' etc. to '&amp;lt;', '&amp;amp;' etc
+     * @param text: Text to be escaped
+     * @param escapeAgain: If <b>true</b> then text such as '&amp;lt;' will be escaped again - resulting in '&amp;amp;lt;'
+     */
+    public static String[] escapeText(String[] texts, boolean escapeAgain) {
+        if (texts != null && texts.length > 0) {
+            String[] retText = new String[texts.length];
+            for (int i = 0; i < texts.length; i++) {
+                retText[i] = escapeText(texts[i], escapeAgain);
+            }
+            return retText;
+        }
+        return texts;
+    }
+
+    /**
      * Unescapes character sequences such as '&amp;lt;', '&amp;amp;' etc. to '<', '&' etc
      * Note: An argument such as '&amp;amp;lt;' will result in '&amp;lt;'
      */
