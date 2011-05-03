@@ -225,7 +225,7 @@ public class FormBuilder {
      */
     protected void add(String text, String styleName) {
         addCell(styleName);
-        form.setText(row, col, text);
+        form.setText(row, col, GenUtil.unescapeText(text));
     }
 
     private void addCell(String styleName) {

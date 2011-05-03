@@ -20,12 +20,12 @@
 
 package org.gwtportlets.portlet.client.ui;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.*;
 import org.gwtportlets.portlet.client.WidgetFactory;
 import org.gwtportlets.portlet.client.event.BroadcastListener;
@@ -36,6 +36,7 @@ import org.gwtportlets.portlet.client.layout.ContainerFactory;
 import org.gwtportlets.portlet.client.layout.LayoutUtil;
 import org.gwtportlets.portlet.client.layout.RowLayout;
 import org.gwtportlets.portlet.client.util.FormBuilder;
+import org.gwtportlets.portlet.client.util.GenUtil;
 
 /**
  * Container with a simple title. Delegates to a LayoutPanel to hold its
@@ -100,6 +101,7 @@ public class SectionPanel extends ContainerPortlet implements
     }
 
     private void updateTitle(String s) {
+        s = GenUtil.unescapeText(s);
         if (!titleLabel.getText().equals(s)) {
             titleLabel.setText(s);
             BroadcastManager.get().broadcastUp(this, new WidgetChangeEvent(this));
