@@ -33,6 +33,11 @@ import java.util.Comparator;
  */
 public class GenUtil {
 
+    public static final String quote = "&quot;";
+    public static final String amp = "&amp;";
+    public static final String gt = "&gt;";
+    public static final String lt = "&lt;";
+
     /**
      * Returns {@link com.google.gwt.core.client.GWT#getModuleBaseURL} but
      * using https protocol if not already https and useHttps is true.
@@ -178,4 +183,134 @@ public class GenUtil {
         x[b] = t;
     }
 
+    /**
+     * Escapes characters such as '<;', '&' etc. to '&amp;lt;', '&amp;amp;' etc
+     * Note: An argument such as '&amp;amp' will not be further escaped to '&amp;amp;amp;' - it will remain as '&amp;amp;'
+     */
+    private static String escapeText(String text) {
+        if (text == null) {
+            return null;
+        }
+        int n = text.length();
+        if (n == 0) {
+            return text;
+        }
+        StringBuffer s = new StringBuffer();
+        for (int i = 0; i < n; i++) {
+            char c = text.charAt(i);
+            switch (c)  {
+                case '&':
+                    int j = text.indexOf(';', i + 1);
+                    switch (j - i) {
+                        case 3: // check for &lt; or &gt;
+                            if (text.charAt(i + 2) == 't'
+                                    && (text.charAt(i + 1) == 'l' || text.charAt(i + 1) == 'g')) {
+                                s.append('&');
+                            } else {
+                                s.append("&amp;");
+                            }
+                            break;
+                        case 4: // check for &amp;
+                            if (text.charAt(i + 1) == 'a' && text.charAt(i + 2) == 'm'
+                                    && text.charAt(i + 3) == 'p') {
+                                s.append('&');
+                            } else {
+                                s.append("&amp;");
+                            }
+                            break;
+                        case 5: // check for &quot;
+                            if (text.charAt(i + 1) == 'q' && text.charAt(i + 2) == 'u'
+                                    && text.charAt(i + 3) == 'o' && text.charAt(i + 4) == 't') {
+                                s.append('&');
+                            } else {
+                                s.append("&amp;");
+                            }
+                            break;
+                        default:
+                            s.append("&amp;");
+                    }
+                    break;
+                case '"':
+                    s.append("&quot;");
+                    break;
+                case '<':
+                    s.append("&lt;");
+                    break;
+                case '>':
+                    s.append("&gt;");
+                    break;
+                default:
+                    s.append(c);
+            }
+        }
+
+        return s.toString();
+    }
+
+    /**
+     * Escapes the character if it's '<;', '&' etc. to '&amp;lt;', '&amp;amp;' etc
+     */
+    public static String escapeChar(char c) {
+        switch (c)  {
+            case '&':   return amp;
+            case '"':   return quote;
+            case '<':   return lt;
+            case '>':   return gt;
+        }
+        return null;
+    }
+
+    /**
+     * Escapes characters such as '<;', '&' etc. to '&amp;lt;', '&amp;amp;' etc
+     * Note: An argument such as '&amp;amp;' will be further escaped to '&amp;amp;amp;'
+     */
+    private static String escapeAllText(String s) {
+        if (s == null) {
+            return null;
+        }
+        int n = s.length();
+        if (n == 0) {
+            return s;
+        }
+        StringBuffer buf = new StringBuffer(n * 2);
+        for (int i = 0; i < n; i++) {
+            char c = s.charAt(i);
+            String e = escapeChar(c);
+            if (e == null) {
+                buf.append(c);
+            } else {
+                buf.append(e);
+            }
+        }
+        return buf.toString();
+    }
+
+    /**
+     * Escapes characters such as '<;', '&' etc. to '&amp;lt;', '&amp;amp;' etc
+     * @param text: Text to be escaped
+     * @param escapeAgain: If <b>true</b> then text such as '&amp;lt;' will be escaped again - resulting in '&amp;amp;lt;'
+     */
+    public static String escapeText(String text, boolean escapeAgain) {
+        if (text == null) {
+            return null;
+        }
+        int n = text.length();
+        if (n == 0) {
+            return text;
+        }
+        String ans = escapeAgain ? escapeAllText(text) : escapeText(text);
+        return ans == null ? ans : ans.trim();
+    }
+
+    /**
+     * Unescapes character sequences such as '&amp;lt;', '&amp;amp;' etc. to '<', '&' etc
+     * Note: An argument such as '&amp;amp;lt;' will result in '&amp;lt;'
+     */
+    public static String unescapeText(String s) {
+        if (s == null) {
+            return null;
+        }
+        return s.replace(lt, "<").replace(gt, ">")
+                .replace(quote, "\"").replace(amp, "&");
+    }
 }
