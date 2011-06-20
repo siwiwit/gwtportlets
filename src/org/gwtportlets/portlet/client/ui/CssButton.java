@@ -25,7 +25,6 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Button;
 import org.gwtportlets.portlet.client.layout.LDOM;
-import org.gwtportlets.portlet.client.util.GenUtil;
 
 /**
  * Button styled with a background image sprite. Selects different image
@@ -97,7 +96,6 @@ public class CssButton extends Button {
     }
 
     public void setText(String text) {
-        text = GenUtil.unescapeText(text);
         if (text != null && text.length() > 20) {
             super.setText(text.substring(0, 17) + "...");
         } else {

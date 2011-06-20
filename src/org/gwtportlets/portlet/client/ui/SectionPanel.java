@@ -36,7 +36,6 @@ import org.gwtportlets.portlet.client.layout.ContainerFactory;
 import org.gwtportlets.portlet.client.layout.LayoutUtil;
 import org.gwtportlets.portlet.client.layout.RowLayout;
 import org.gwtportlets.portlet.client.util.FormBuilder;
-import org.gwtportlets.portlet.client.util.GenUtil;
 
 /**
  * Container with a simple title. Delegates to a LayoutPanel to hold its
@@ -101,7 +100,6 @@ public class SectionPanel extends ContainerPortlet implements
     }
 
     private void updateTitle(String s) {
-        s = GenUtil.unescapeText(s);
         if (!titleLabel.getText().equals(s)) {
             titleLabel.setText(s);
             BroadcastManager.get().broadcastUp(this, new WidgetChangeEvent(this));
