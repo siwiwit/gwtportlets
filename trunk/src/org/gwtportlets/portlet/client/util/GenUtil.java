@@ -304,7 +304,7 @@ public class GenUtil {
 
     /**
      * Escapes characters such as '<;', '&' etc. to '&amp;lt;', '&amp;amp;' etc
-     * @param text: Text to be escaped
+     * @param texts: Text to be escaped
      * @param escapeAgain: If <b>true</b> then text such as '&amp;lt;' will be escaped again - resulting in '&amp;amp;lt;'
      */
     public static String[] escapeText(String[] texts, boolean escapeAgain) {

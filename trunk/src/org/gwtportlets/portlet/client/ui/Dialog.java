@@ -34,7 +34,6 @@ import org.gwtportlets.portlet.client.layout.LDOM;
 import org.gwtportlets.portlet.client.layout.LayoutConstraints;
 import org.gwtportlets.portlet.client.layout.RowLayout;
 import org.gwtportlets.portlet.client.util.DragHandle;
-import org.gwtportlets.portlet.client.util.GenUtil;
 import org.gwtportlets.portlet.client.util.Rectangle;
 import org.gwtportlets.portlet.client.util.SyncToClientArea;
 
@@ -325,7 +324,7 @@ public class Dialog extends PopupPanel implements AsyncCallback<WidgetFactory> {
     }
 
     public void setText(String text) {
-        titleHTML.setText(GenUtil.unescapeText(text));
+        titleHTML.setText(text);
     }
 
     public void setHTML(String html) {
