@@ -20,6 +20,7 @@
 
 package org.gwtportlets.portlet.client.ui;
 
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.DOM;
@@ -41,8 +42,18 @@ public class HTMLEx extends HTML {
         init();
     }
 
+    public HTMLEx(SafeHtml html) {
+        super(html);
+        init();
+    }
+
     public HTMLEx(String string, boolean wordWrap) {
         super(string, wordWrap);
+        init();
+    }
+
+    public HTMLEx(SafeHtml html, boolean wordWrap) {
+        super(html != null ? html.asString() : "", wordWrap);
         init();
     }
 
