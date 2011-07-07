@@ -21,6 +21,7 @@
 package org.gwtportlets.portlet.client.ui;
 
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Button;
@@ -57,12 +58,28 @@ public class CssButton extends Button {
         init();
     }
 
+    public CssButton(SafeHtml html) {
+        super(html);
+        init();
+    }
+
     public CssButton(String html, ClickHandler handler) {
         super(html, handler);
         init();
     }
 
+    public CssButton(SafeHtml html, ClickHandler handler) {
+        super(html, handler);
+        init();
+    }
+
     public CssButton(String html, ClickHandler handler, String title) {
+        super(html, handler);
+        init();
+        setTitle(title);
+    }
+
+    public CssButton(SafeHtml html, ClickHandler handler, String title) {
         super(html, handler);
         init();
         setTitle(title);
@@ -89,6 +106,13 @@ public class CssButton extends Button {
     }
 
     public void setHTML(String html) {
+        super.setHTML(html);
+        if (isAttached()) {
+            updateWidth();
+        }
+    }
+
+    public void setHTML(SafeHtml html) {
         super.setHTML(html);
         if (isAttached()) {
             updateWidth();

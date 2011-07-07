@@ -20,6 +20,7 @@
 
 package org.gwtportlets.portlet.client.util;
 
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.*;
 
@@ -115,6 +116,15 @@ public class FormBuilder {
     }
 
     /**
+     * Add a safe html label.
+     */
+    public FormBuilder htmlLabel(SafeHtml html) {
+        addCell(stylePrefix + STYLE_LABEL);
+        form.setHTML(row, col, html);
+        return this;
+    }
+
+    /**
      * Add a field.
      */
     public FormBuilder field(Widget widget) {
@@ -148,6 +158,15 @@ public class FormBuilder {
     }
 
     /**
+     * Add a safe HTML caption.
+     */
+    public FormBuilder htmlCaption(SafeHtml html) {
+        addCell(stylePrefix + STYLE_CAPTION);
+        form.setHTML(row, col, html);
+        return this;
+    }
+
+    /**
      * Add a field.
      */
     public FormBuilder field(String txt) {
@@ -159,6 +178,15 @@ public class FormBuilder {
      * Add a html field.
      */
     public FormBuilder htmlField(String html) {
+        addCell(stylePrefix + STYLE_FIELD);
+        form.setHTML(row, col, html);
+        return this;
+    }
+
+    /**
+     * Add a safe html field.
+     */
+    public FormBuilder htmlField(SafeHtml html) {
         addCell(stylePrefix + STYLE_FIELD);
         form.setHTML(row, col, html);
         return this;
@@ -184,6 +212,15 @@ public class FormBuilder {
      * Add html with no TD style.
      */
     public FormBuilder html(String html) {
+        addCell(null);
+        form.setHTML(row, col, html);
+        return this;
+    }
+
+    /**
+     * Add safe html with no TD style.
+     */
+    public FormBuilder html(SafeHtml html) {
         addCell(null);
         form.setHTML(row, col, html);
         return this;

@@ -22,6 +22,7 @@ package org.gwtportlets.portlet.client.ui;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
@@ -331,6 +332,10 @@ public class Dialog extends PopupPanel implements AsyncCallback<WidgetFactory> {
         titleHTML.setHTML(html);
     }
 
+    public void setHTML(SafeHtml html) {
+        titleHTML.setHTML(html);
+    }
+
     public void setCollapseDownwards(boolean on) {
         collapseDownwards = on;
     }
@@ -539,6 +544,16 @@ public class Dialog extends PopupPanel implements AsyncCallback<WidgetFactory> {
      * Add a button that hides the dialog when clicked.
      */
     public CssButton addCloseButton(String html) {
+        CssButton b = new CssButton(html, new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                hide();
+            }
+        });
+        addButton(b);
+        return b;
+    }
+
+    public CssButton addCloseButton(SafeHtml html) {
         CssButton b = new CssButton(html, new ClickHandler() {
             public void onClick(ClickEvent event) {
                 hide();
