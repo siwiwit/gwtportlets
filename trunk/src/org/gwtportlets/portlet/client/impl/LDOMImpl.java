@@ -148,11 +148,25 @@ public class LDOMImpl {
 
     public native String getComputedStyle(Element e, String property) /*-{
         var v = null;
-        var comp = $wnd.document.defaultView.getComputedStyle(e, '');
-        if (comp) {
-            v = comp[property];
+
+        // adapted from http://www.quirksmode.org/dom/getstyles.html
+        if (e.currentStyle)
+        {
+        // This is to cater for IE (http://www.javascriptkit.com/domref/documentmethods.shtml)
+            v = e.currentStyle[property];
         }
-        return e.style[property] || v || null;
+        else if ($wnd.document.defaultView.getComputedStyle)
+        {
+        // This does not work on IE (http://www.javascriptkit.com/domref/documentmethods.shtml)
+            var comp = $wnd.document.defaultView.getComputedStyle(e, '');
+            if (comp) {
+                v = comp[property];
+            }
+            return e.style[property] || v || null;
+        }
+        else
+            v = "unavailable";
+        return v;
     }-*/;
 
     public Widget createInputBlocker() {
