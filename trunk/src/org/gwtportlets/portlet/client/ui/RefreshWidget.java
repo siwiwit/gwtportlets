@@ -80,4 +80,8 @@ public class RefreshWidget extends SimplePanel implements BroadcastListener {
         LDOM.setBounds(loading, LDOM.getBounds(getWidget()));
     }
 
+    @Override
+    public boolean isStillListeningForBroadcasts() {
+        return isAttached();
+    }
 }

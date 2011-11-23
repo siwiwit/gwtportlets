@@ -68,4 +68,8 @@ public class CommandDemoPortlet extends Portlet implements BroadcastListener {
         }
     }
 
+    @Override
+    public boolean isStillListeningForBroadcasts() {
+        return isAttached();
+    }
 }
