@@ -37,4 +37,10 @@ public interface BroadcastListener {
      */
     public void onBroadcast(Object ev);
 
+    /**
+     * Returns true if the listener is still listening. Generally the listener will be some sort of widget and this method will just return isAttached()
+     *
+     * @return  True if the listener is still listening for broadcasted events at this point
+     */
+    public boolean isStillListeningForBroadcasts();
 }

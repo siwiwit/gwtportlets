@@ -187,6 +187,11 @@ public class PagePortlet extends ContainerPortlet implements
         dlg.showNextTo(this);
     }
 
+    @Override
+    public boolean isStillListeningForBroadcasts() {
+        return isAttached();
+    }
+
     public WidgetFactory createWidgetFactory() {
         return new Factory(this);
     }

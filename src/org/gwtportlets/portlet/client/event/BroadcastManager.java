@@ -25,8 +25,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import org.gwtportlets.portlet.client.layout.LayoutUtil;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -86,7 +84,7 @@ public class BroadcastManager {
      */
     public void broadcast(Object ev) {
         for (BroadcastListener listener : listeners) {
-            listener.onBroadcast(ev);
+            onBroadcast(listener, ev);
         }
         broadcast(RootPanel.get(), ev);
     }
@@ -105,7 +103,7 @@ public class BroadcastManager {
                 break;
             }
             if (w instanceof BroadcastListener) {
-                ((BroadcastListener)w).onBroadcast(ev);
+                onBroadcast((BroadcastListener)w, ev);
             }
         }
     }
@@ -124,7 +122,7 @@ public class BroadcastManager {
      */
     public void broadcast(Widget root, Object ev) {
         if (root instanceof BroadcastListener) {
-            ((BroadcastListener)root).onBroadcast(ev);
+            onBroadcast((BroadcastListener)root, ev);
         }
         if (root instanceof HasWidgets) {
             for (Widget w : ((HasWidgets)root)) {
@@ -133,4 +131,9 @@ public class BroadcastManager {
         }
     }
 
+    private void onBroadcast(BroadcastListener listener, Object event) {
+        if (listener.isStillListeningForBroadcasts()) {
+            listener.onBroadcast(event);
+        }
+    }
 }

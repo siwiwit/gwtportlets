@@ -524,6 +524,11 @@ public class TitlePanel extends ContainerPortlet implements
         return new Factory(this);
     }
 
+    @Override
+    public boolean isStillListeningForBroadcasts() {
+        return isAttached();
+    }
+
     @WidgetInfo(description = "Panel with caption and buttons to refresh, " +
             "maximize and so on")
     public static class Factory extends ContainerFactory<TitlePanel> {

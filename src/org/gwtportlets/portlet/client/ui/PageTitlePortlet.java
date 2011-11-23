@@ -48,6 +48,11 @@ public class PageTitlePortlet extends Portlet implements BroadcastListener {
         return new Factory();
     }
 
+    @Override
+    public boolean isStillListeningForBroadcasts() {
+        return isAttached();
+    }
+
     public static class Factory extends PortletFactory<PageTitlePortlet> {
 
         public Factory() {

@@ -122,6 +122,11 @@ public class RefreshPanel extends DelegatingContainer
         return outer.getWidgetCount() > 1;
     }
 
+    @Override
+    public boolean isStillListeningForBroadcasts() {
+        return isAttached();
+    }
+
     public WidgetFactory createWidgetFactory() {
         return new Factory(this);
     }

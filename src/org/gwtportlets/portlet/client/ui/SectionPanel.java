@@ -235,4 +235,8 @@ public class SectionPanel extends ContainerPortlet implements
         }
     }
 
+    @Override
+    public boolean isStillListeningForBroadcasts() {
+        return isAttached();
+    }
 }
